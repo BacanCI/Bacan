@@ -1,0 +1,29 @@
+{
+    "Id": "123",
+    "Jobs": [
+        {
+            "Id": "1",
+            "Description": "Integration tests",
+            "DownloadArchiveUrl": "http://example.com/package.zip",
+            "DownloadArchiveFileName": "package.zip",
+            "ProcessName": "runner.exe",
+            "ProcessArguments": "--integrationtests  --testlist=integrationtests.txt"
+        },
+        {
+            "Id": "2",
+            "Description": "UI Tests (set 1)",
+            "DownloadArchiveUrl": "http://example.com/package.zip",
+            "DownloadArchiveFileName": "package.zip",
+            "ProcessName": "runner.exe",
+            "ProcessArguments": "--uitests  --testlist=uitests-set1.txt"
+        },
+        {
+            "Id": "3",
+            "Description": "UI Tests (set 2)",
+            "DownloadArchiveUrl": "http://example.com/package.zip",
+            "DownloadArchiveFileName": "package.zip",
+            "ProcessName": "runner.exe",
+            "ProcessArguments": "--uitests  --testlist=uitests-set2.txt"
+        }
+    ]
+}

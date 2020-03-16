@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ServiceStack" Version="5.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bacan.Core\Bacan.Core.csproj" />
+    <ProjectReference Include="..\Bacan.ServiceModel\Bacan.ServiceModel.csproj" />
+  </ItemGroup>
+
+</Project>

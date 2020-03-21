@@ -1,9 +1,12 @@
-using System.Collections.Generic;
+using System;
+using Bacan.Batching;
 using Bacan.Core;
 using Bacan.ServiceInterface;
+using Bacan.WorkerLogs;
 using Funq;
 using Microsoft.Extensions.Hosting;
 using ServiceStack;
+using ServiceStack.Messaging;
 using ServiceStack.Messaging.Redis;
 using ServiceStack.Redis;
 
@@ -25,8 +28,17 @@ namespace Bacan
             var redisFactory = new PooledRedisClientManager(
                 AppSettings.GetString(AppSettingsKeys.RedisConnection));
             var mqServer = new RedisMqServer(redisFactory, retryCount:AppSettings.Get<int>(AppSettingsKeys.RedisRetries));
-            //var mqClient = mqServer.CreateMessageQueueClient();
+            var mqClient = mqServer.CreateMessageQueueClient();
+            
+            var jobStateContext = new JobStateContext("jobState");
+            container.AddSingleton<IJobStateClient>(() => new JobStateClient(mqClient, jobStateContext));
+            
+            var workerLogContext = new WorkerLogContext("workerLog");
+            container.AddSingleton<IWorkerLogClient>(() => new WorkerLogClient(mqClient, workerLogContext));
 
+            container.AddSingleton<IBatch, Batch>();
+
+            
             var jobGroupId = AppSettings.GetString(AppSettingsKeys.JobGroupId); 
             var numberOfJobs = AppSettings.Get<int>(AppSettingsKeys.NumberOfJobs);
 
@@ -34,26 +46,24 @@ namespace Bacan
             {
                 mqServer.Start();
                 
-                var batch = new CreateBatch
+                for (var i = 1; i <= numberOfJobs; i++)
                 {
-                    Id = "123",
-                    Jobs = new List<CreateBatchJob>
+                    var job = new JobRequest
                     {
-                        new CreateBatchJob
-                        {
-                            Id = "123-1",
-                            Description = "Do something"
-                        },
-                        new CreateBatchJob
-                        {
-                            Id = "123-2",
-                            Description = "Do something else"
-                        },
-                    }
-                };
+                        JobId = Guid.NewGuid().ToString(),
+                        GroupId = jobGroupId,
+                        Description = $"Job {i}"
+                    };
 
-                var serviceGateway = HostContext.AppHost.GetServiceGateway();
-                serviceGateway.Send(batch);
+                    var message = new Message<JobRequest>(job)
+                    {
+                        ReplyTo = "jobState",
+                    };
+                    mqClient.Publish(message);
+                }
+
+                // var serviceGateway = HostContext.AppHost.GetServiceGateway();
+                // serviceGateway.Send(batch);
             });
         }
     }

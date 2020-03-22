@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 
-namespace Bacan.Examples
+namespace Bakana.Examples
 {
     class Program
     {
         static async Task Main(string[] args)
         {
-            var host = BacanHostBuilder.CreateDefaultHost(args);
+            var host = BakanaHostBuilder.CreateDefaultHost(args);
             await host.RunAsync();
         }
     }

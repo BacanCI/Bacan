@@ -1,12 +1,17 @@
-# selfhost
+# Bakana
 
-.NET Core 3.1 self-hosting Kestrel Console App
+Distributed batch job runner for Continuous Integration systems
 
-[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/selfhost.png)](http://selfhost.web-templates.io/)
+## Components
 
-> Browse [source code](https://github.com/NetCoreTemplates/selfhost), view live demo [selfhost.web-templates.io](http://selfhost.web-templates.io) and install with [dotnet-new](http://docs.servicestack.net/dotnet-new):
+### Loader
+Submitting batch jobs
 
-    $ dotnet tool install -g web
+### Producer
+Co-ordinating batches
 
-    $ web new selfhost ProjectName
+### Worker
+Running individual jobs
 
+### Collector
+Monitoring state of batch

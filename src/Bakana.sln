@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{3EA38B24-1BEB-450E-9C75-D659B70B7761}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example1", "Examples\Example1\Example1.csproj", "{93A5A4C9-57A6-4780-A3FB-76E5966AB2AE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana", "Bakana\Bakana.csproj", "{C888BC74-6C91-412D-890C-1370E0AE96F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.Core", "Bakana.Core\Bakana.Core.csproj", "{B3467284-8805-4DBE-ACC9-AABD6C7B8489}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.ServiceInterface", "Bakana.ServiceInterface\Bakana.ServiceInterface.csproj", "{34F7C5E0-8B78-4CB2-AA61-C6A1C3BBE6F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.ServiceModels", "Bakana.ServiceModels\Bakana.ServiceModels.csproj", "{F6F1A13F-D26A-4D47-897A-AF15210A2C80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{93A5A4C9-57A6-4780-A3FB-76E5966AB2AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93A5A4C9-57A6-4780-A3FB-76E5966AB2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93A5A4C9-57A6-4780-A3FB-76E5966AB2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93A5A4C9-57A6-4780-A3FB-76E5966AB2AE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C888BC74-6C91-412D-890C-1370E0AE96F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C888BC74-6C91-412D-890C-1370E0AE96F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C888BC74-6C91-412D-890C-1370E0AE96F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,6 +31,10 @@ Global
 		{34F7C5E0-8B78-4CB2-AA61-C6A1C3BBE6F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34F7C5E0-8B78-4CB2-AA61-C6A1C3BBE6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34F7C5E0-8B78-4CB2-AA61-C6A1C3BBE6F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6F1A13F-D26A-4D47-897A-AF15210A2C80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6F1A13F-D26A-4D47-897A-AF15210A2C80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6F1A13F-D26A-4D47-897A-AF15210A2C80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6F1A13F-D26A-4D47-897A-AF15210A2C80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +43,5 @@ Global
 		SolutionGuid = {02854F2A-8EF4-468E-80A3-CD64BBAF5D15}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{93A5A4C9-57A6-4780-A3FB-76E5966AB2AE} = {3EA38B24-1BEB-450E-9C75-D659B70B7761}
 	EndGlobalSection
 EndGlobal

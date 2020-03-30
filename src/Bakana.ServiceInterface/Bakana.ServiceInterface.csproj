@@ -6,10 +6,12 @@
 
     <ItemGroup>
       <PackageReference Include="ServiceStack" Version="5.*" />
+      <PackageReference Include="ServiceStack.OrmLite" Version="5.8.0" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Bakana.Core\Bakana.Core.csproj" />
+        <ProjectReference Include="..\Bakana.ServiceModels\Bakana.ServiceModels.csproj" />
     </ItemGroup>
 
 </Project>

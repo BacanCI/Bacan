@@ -6,7 +6,7 @@
 
     <ItemGroup>
         <PackageReference Include="ServiceStack.Interfaces" Version="5.*" />
-        <PackageReference Include="ServiceStack.OrmLite" Version="5.*" />
+        <PackageReference Include="ServiceStack.Text" Version="5.*" />
     </ItemGroup>
 
 </Project>

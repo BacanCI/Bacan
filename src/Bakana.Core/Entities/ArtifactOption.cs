@@ -1,6 +1,6 @@
 using ServiceStack.DataAnnotations;
 
-namespace Bakana.Core.Models
+namespace Bakana.Core.Entities
 {
     [UniqueConstraint(nameof(ArtifactId), nameof(Name))]
     public class ArtifactOption : Option

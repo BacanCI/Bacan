@@ -1,6 +1,6 @@
 using ServiceStack.DataAnnotations;
 
-namespace Bakana.Core.Models
+namespace Bakana.Core.Entities
 {
     [UniqueConstraint(nameof(BatchId), nameof(FileName))]
     public class BatchArtifact : Artifact

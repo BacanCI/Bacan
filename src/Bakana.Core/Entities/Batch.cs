@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ServiceStack.DataAnnotations;
 using ServiceStack.OrmLite;
 
-namespace Bakana.Core.Models
+namespace Bakana.Core.Entities
 {
     public class Batch
     {

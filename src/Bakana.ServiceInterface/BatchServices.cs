@@ -1,54 +1,36 @@
-﻿using Bakana.Core;
-using Bakana.Core.Models;
+﻿using System.Threading.Tasks;
+using Bakana.Core;
+using Bakana.Core.Entities;
+using Bakana.Core.Repositories;
 using Bakana.ServiceModels;
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using ServiceStack.Text;
-using Command = Bakana.Core.Models.Command;
+using Command = Bakana.Core.Entities.Command;
 
 namespace Bakana.ServiceInterface
 {
     public class BatchServices : Service
     {
         private readonly IShortIdGenerator idGenerator;
-        private readonly IDbConnectionFactory dbConnectionFactory;
+        private readonly IBatchRepository batchRepository;
 
         public BatchServices(
             IShortIdGenerator idGenerator, 
-            IDbConnectionFactory dbConnectionFactory)
+            IBatchRepository batchRepository)
         {
             this.idGenerator = idGenerator;
-            this.dbConnectionFactory = dbConnectionFactory;
+            this.batchRepository = batchRepository;
         }
         
-        public CreateBatchResponse Post(CreateBatchRequest request)
+        public async Task<CreateBatchResponse> Post(CreateBatchRequest request)
         {
             var batch = request.ConvertTo<Batch>();
             batch.Id = idGenerator.Generate();
-            
-            using (var db = dbConnectionFactory.Open())
-            {
-                db.CreateTable<CommandOption>();
-                db.CreateTable<CommandVariable>();
-                db.CreateTable<Command>();
-                
-                db.CreateTable<ArtifactOption>();
-                db.CreateTable<StepArtifact>();
-                db.CreateTable<StepVariable>();
-                db.CreateTable<StepOption>();
-                db.CreateTable<Step>();
-                
-                db.CreateTable<BatchVariable>();
-                db.CreateTable<BatchOption>();
-                db.CreateTable<BatchArtifact>();
-                db.CreateTable<Batch>();
 
-                db.Insert(batch);
-                
-                var result = db.SingleById<Batch>(batch.Id);
-                result.PrintDump(); //= {Id: 1, Name:Seed Data}
-            }
+            await batchRepository.Create(batch);
+            
             return new CreateBatchResponse
             {
                 Id = batch.Id

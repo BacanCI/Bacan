@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Bakana.Core;
+using Bakana.Core.Repositories;
 using Bakana.ServiceInterface;
 using Bakana.ServiceModels;
 using Funq;
@@ -37,6 +38,7 @@ namespace Bakana
         public new void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IShortIdGenerator, ShortIdGenerator>();
+            services.AddSingleton<IBatchRepository, BatchRepository>();
             
             services.AddSingleton<IDbConnectionFactory>(c => 
                 new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider)); //InMemory Sqlite DB

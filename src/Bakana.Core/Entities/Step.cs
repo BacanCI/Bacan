@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using ServiceStack.DataAnnotations;
 
-namespace Bakana.Core.Models
+namespace Bakana.Core.Entities
 {
     public class Step
     {

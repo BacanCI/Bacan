@@ -1,8 +1,8 @@
 using ServiceStack.DataAnnotations;
 
-namespace Bakana.Core.Models
+namespace Bakana.Core.Entities
 {
-    public class Option
+    public class Variable
     {
         [AutoIncrement]
         public ulong Id { get; set; }
@@ -12,5 +12,7 @@ namespace Bakana.Core.Models
         public string Description { get; set; }
 
         public string Value { get; set; }
+
+        public bool Sensitive { get; set; }
     }
 }

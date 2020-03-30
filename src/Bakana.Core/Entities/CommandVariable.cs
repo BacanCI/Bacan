@@ -1,11 +1,11 @@
 using ServiceStack.DataAnnotations;
 
-namespace Bakana.Core.Models
+namespace Bakana.Core.Entities
 {
     [UniqueConstraint(nameof(CommandId), nameof(Name))]
-    public class CommandOption : Option
+    public class CommandVariable : Variable
     {
-        [References(typeof(Command))]
+        [References(typeof(Step))]
         public string CommandId { get; set; }
     }
 }

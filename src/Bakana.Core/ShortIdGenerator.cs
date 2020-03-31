@@ -1,7 +1,6 @@
-using Bakana.Core;
 using CSharpVitamins;
 
-namespace Bakana
+namespace Bakana.Core
 {
     public class ShortIdGenerator : IShortIdGenerator
     {

@@ -1,32 +1,68 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Bakana.Core;
 using Bakana.Core.Entities;
-using Bakana.Core.Repositories;
-using Bakana.ServiceModels;
-using ServiceStack;
-using Command = Bakana.Core.Entities.Command;
 
-namespace Bakana.ServiceInterface
+namespace Bakana.IntegrationTests
 {
-    public class BatchServices : Service
+    public static class TestData
     {
-        private readonly IShortIdGenerator idGenerator;
-        private readonly IBatchRepository batchRepository;
-
-        public BatchServices(
-            IShortIdGenerator idGenerator, 
-            IBatchRepository batchRepository)
+        public static class Commands
         {
-            this.idGenerator = idGenerator;
-            this.batchRepository = batchRepository;
+            public static Command DotNetRestore = new Command
+            {
+                Id = "CMD1",
+                Description = "Command1",
+                Item = "dot net restore",
+                Variables = new List<CommandVariable>
+                {
+                    new CommandVariable
+                    {
+                        Description = "Command var 1",
+                        Name = "C1",
+                        Value = "C1V1"
+                    }
+                },
+                Options = new List<CommandOption>
+                {
+                    new CommandOption
+                    {
+                        Description = "C1 Option",
+                        Name = "C1OPT",
+                        Value = "C1OPTVAL"
+                    }
+                }
+            };
+
+            public static Command DotNetBuild = new Command
+            {
+                Id = "CMD2",
+                Description = "Command2",
+                Item = "dot net build",
+                Variables = new List<CommandVariable>
+                {
+                    new CommandVariable
+                    {
+                        Description = "Command var 2",
+                        Name = "C2",
+                        Value = "C2V1"
+                    }
+                },
+                Options = new List<CommandOption>
+                {
+                    new CommandOption
+                    {
+                        Description = "C2 Option",
+                        Name = "C2OPT",
+                        Value = "C2OPTVAL"
+                    }
+                }
+            };
+
         }
         
-        public async Task<CreateBatchResponse> Post(CreateBatchRequest request)
+        public static class Batches
         {
-            //var batch = request.ConvertTo<Batch>();
-            var batch = new Batch
+            public static Batch FullyPopulated = new Batch
             {
                 Description = "First",
                 UserBatchId = "Test",
@@ -137,70 +173,11 @@ namespace Bakana.ServiceInterface
                         },
                         Commands = new List<Command>
                         {
-                            new Command
-                            {
-                                Id = "CMD1",
-                                Description = "Command1",
-                                Item = "dot net restore",
-                                Variables = new List<CommandVariable>
-                                {
-                                    new CommandVariable
-                                    {
-                                        Description = "Command var 1",
-                                        Name = "C1",
-                                        Value = "C1V1"
-                                    }
-                                },
-                                Options = new List<CommandOption>
-                                {
-                                    new CommandOption
-                                    {
-                                        Description = "C1 Option",
-                                        Name = "C1OPT",
-                                        Value = "C1OPTVAL"
-                                    }
-                                }
-                            },
-                            new Command
-                            {
-                                Id = "CMD2",
-                                Description = "Command2",
-                                Item = "dot net build",
-                                Variables = new List<CommandVariable>
-                                {
-                                    new CommandVariable
-                                    {
-                                        Description = "Command var 2",
-                                        Name = "C2",
-                                        Value = "C2V1"
-                                    }
-                                },
-                                Options = new List<CommandOption>
-                                {
-                                    new CommandOption
-                                    {
-                                        Description = "C2 Option",
-                                        Name = "C2OPT",
-                                        Value = "C2OPTVAL"
-                                    }
-                                }
-                            }
+                            Commands.DotNetRestore,
+                            Commands.DotNetBuild,
                         },
                     }
                 }
-            };
-
-            batch.Id = idGenerator.Generate();
-
-            await batchRepository.CreateOrUpdate(batch);
-
-            var result = await batchRepository.Get(batch.Id);
-
-            //var json = result.ToJson();
-            
-            return new CreateBatchResponse
-            {
-                Id = batch.Id
             };
         }
     }

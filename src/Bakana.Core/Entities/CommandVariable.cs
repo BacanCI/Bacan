@@ -5,7 +5,7 @@ namespace Bakana.Core.Entities
     [UniqueConstraint(nameof(CommandId), nameof(Name))]
     public class CommandVariable : Variable
     {
-        [References(typeof(Step))]
+        [References(typeof(Command))]
         public string CommandId { get; set; }
     }
 }

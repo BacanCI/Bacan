@@ -8,6 +8,9 @@ namespace Bakana.Core.Entities
         [PrimaryKey]
         public string Id { get; set; }
 
+        [References(typeof(Step))]
+        public string StepId { get; set; }
+
         public string Description { get; set; }
 
         public string Item { get; set; }

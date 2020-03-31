@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bakana.Core.Entities;
 using ServiceStack.Data;
@@ -5,65 +6,73 @@ using ServiceStack.OrmLite;
 
 namespace Bakana.Core.Repositories
 {
-    public class BatchRepository : IBatchRepository
+    public class StepRepository : IStepRepository
     {
         private readonly IDbConnectionFactory dbConnectionFactory;
 
-        public BatchRepository(IDbConnectionFactory dbConnectionFactory)
+        public StepRepository(IDbConnectionFactory dbConnectionFactory)
         {
             this.dbConnectionFactory = dbConnectionFactory;
         }
-        
-        public async Task CreateOrUpdate(Batch batch)
+
+        public async Task CreateOrUpdate(Step step)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
                 using (var tx = db.OpenTransaction())
                 {
-                    await db.CreateOrUpdateBatch(batch);
+                    await db.CreateOrUpdateStep(step);
 
                     tx.Commit();
                 }
             }
         }
-        
-        public async Task Delete(string batchId)
+
+        public async Task Delete(string stepId)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
-                await db.DeleteAsync(new Batch { Id = batchId});
+                await db.DeleteAsync(new Step { Id = stepId});
             }
         }
 
-        public async Task<Batch> Get(string batchId)
+        public async Task<Step> Get(string stepId)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
-                return await db.GetBatch(batchId);
+                return await db.GetStep(stepId);
             }
         }
         
-        public async Task CreateOrUpdateBatchArtifact(BatchArtifact artifact)
+        public async Task<List<Step>> GetAll(string batchId)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
-                await db.CreateOrUpdateBatchArtifact(artifact);
+                return await db.GetAllSteps(batchId);
             }
         }
 
-        public async Task CreateOrUpdateBatchVariable(BatchVariable variable)
+        public async Task CreateOrUpdateStepArtifact(StepArtifact artifact)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
-                await db.CreateOrUpdateBatchVariable(variable);
+                await db.CreateOrUpdateStepArtifact(artifact);
+            }
+        }
+
+        public async Task CreateOrUpdateStepVariable(StepVariable variable)
+        {
+            using (var db = await dbConnectionFactory.OpenAsync())
+            {
+                await db.CreateOrUpdateStepVariable(variable);
             }
         }
         
-        public async Task CreateOrUpdateBatchOption(BatchOption option)
+        public async Task CreateOrUpdateStepOption(StepOption option)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
-                await db.CreateOrUpdateBatchOption(option);
+                await db.CreateOrUpdateStepOption(option);
             }
         }
     }

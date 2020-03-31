@@ -33,18 +33,14 @@ namespace Bakana
 
     public class Startup : ModularStartup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public new void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IShortIdGenerator, ShortIdGenerator>();
             services.AddSingleton<IBatchRepository, BatchRepository>();
-            
-            services.AddSingleton<IDbConnectionFactory>(c => 
-                new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider)); //InMemory Sqlite DB
+            services.AddSingleton<IStepRepository, StepRepository>();
+            services.AddSingleton<ICommandRepository, CommandRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseServiceStack(new AppHost());
@@ -64,13 +60,7 @@ namespace Bakana
 
         public override void Configure(Container container)
         {
-            Plugins.Add(new OpenApiFeature { 
-                OperationFilter = (verb, op) =>
-                {  
-                    // if (op.OperationId.StartsWith(nameof(CreateBatchRequest)))
-                    //     op.Parameters.RemoveAll(p => p.In != "body");
-                }
-            });
+            Plugins.Add(new OpenApiFeature());
         }
     }
 }

@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4351668C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{251F00E3-12C0-4213-8AFB-0C0AD043C7CD}"
 ProjectSection(SolutionItems) = preProject
-	..\.github\workflows\dotnetcore.yml = ..\.github\workflows\dotnetcore.yml
+	..\.github\workflows\bakana.yml = ..\.github\workflows\bakana.yml
 EndProjectSection
 EndProject
 Global

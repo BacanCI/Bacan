@@ -19,6 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.UnitTests", "Bakana.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4351668C-222B-406B-9B6F-FDED698A923A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{251F00E3-12C0-4213-8AFB-0C0AD043C7CD}"
+ProjectSection(SolutionItems) = preProject
+	..\.github\workflows\dotnetcore.yml = ..\.github\workflows\dotnetcore.yml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

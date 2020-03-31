@@ -197,7 +197,7 @@ namespace Bakana.ServiceInterface
 
             var result = await batchRepository.Get(batch.Id);
 
-            var json = result.ToJson();
+            //var json = result.ToJson();
             
             return new CreateBatchResponse
             {

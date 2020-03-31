@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.Text;
 
 namespace Bakana
 {
@@ -11,8 +10,8 @@ namespace Bakana
     {
         public void Configure(IServiceCollection services)
         {
-            //var dbConnectionFactory = new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider);
-            var dbConnectionFactory = new OrmLiteConnectionFactory("Data Source=c:/temp/bakana.sqlite;Read Only=false", SqliteDialect.Provider);
+            var dbConnectionFactory = new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider);
+            //var dbConnectionFactory = new OrmLiteConnectionFactory("Data Source=c:/temp/bakana.sqlite;Read Only=false", SqliteDialect.Provider);
             using (var db = dbConnectionFactory.Open())
             {
                 db.DropTable<CommandOption>();

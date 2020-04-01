@@ -164,7 +164,7 @@ namespace Bakana.ServiceInterface
                 Id = idGenerator.Generate()
             };
 
-            await batchRepository.CreateOrUpdate(batch);
+            await batchRepository.Create(batch);
 
             var result = await batchRepository.Get(batch.Id);
 

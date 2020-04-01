@@ -9,16 +9,21 @@ namespace Bakana.Core.Repositories
 {
     public static class BatchExtensions
     {
-        internal static async Task CreateOrUpdateBatch(this IDbConnection db, Batch batch)
+        internal static async Task CreateBatch(this IDbConnection db, Batch batch)
         {
             await db.SaveAsync(batch, true);
 
             await db.CreateOrUpdateBatchArtifacts(batch.InputArtifacts);
             await db.CreateOrUpdateBatchVariables(batch.Variables);
             await db.CreateOrUpdateBatchOptions(batch.Options);
-            await db.CreateOrUpdateSteps(batch.Steps);
+            await db.CreateSteps(batch.Steps);
         }
         
+        internal static async Task UpdateBatch(this IDbConnection db, Batch batch)
+        {
+            await db.UpdateAsync(batch);
+        }
+
         internal static async Task CreateOrUpdateBatchArtifacts(this IDbConnection db, IEnumerable<BatchArtifact> artifacts)
         {
             if (artifacts == null) return;

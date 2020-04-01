@@ -14,19 +14,27 @@ namespace Bakana.Core.Repositories
             this.dbConnectionFactory = dbConnectionFactory;
         }
         
-        public async Task CreateOrUpdate(Batch batch)
+        public async Task Create(Batch batch)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
                 using (var tx = db.OpenTransaction())
                 {
-                    await db.CreateOrUpdateBatch(batch);
+                    await db.CreateBatch(batch);
 
                     tx.Commit();
                 }
             }
         }
-        
+
+        public async Task Update(Batch batch)
+        {
+            using (var db = await dbConnectionFactory.OpenAsync())
+            {
+                await db.UpdateBatch(batch);
+            }
+        }
+
         public async Task Delete(string batchId)
         {
             using (var db = await dbConnectionFactory.OpenAsync())

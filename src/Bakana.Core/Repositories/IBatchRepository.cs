@@ -5,7 +5,8 @@ namespace Bakana.Core.Repositories
 {
     public interface IBatchRepository
     {
-        Task CreateOrUpdate(Batch batch);
+        Task Create(Batch batch);
+        Task Update(Batch batch);
         Task Delete(string batchId);
         Task<Batch> Get(string batchId);
         Task CreateOrUpdateBatchArtifact(BatchArtifact artifact);

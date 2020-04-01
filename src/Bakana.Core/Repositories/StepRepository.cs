@@ -15,13 +15,13 @@ namespace Bakana.Core.Repositories
             this.dbConnectionFactory = dbConnectionFactory;
         }
 
-        public async Task<ulong> CreateOrUpdate(Step step)
+        public async Task<ulong> Create(Step step)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
                 using (var tx = db.OpenTransaction())
                 {
-                    await db.CreateOrUpdateStep(step);
+                    await db.CreateStep(step);
 
                     tx.Commit();
 

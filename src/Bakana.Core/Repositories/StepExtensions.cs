@@ -9,14 +9,14 @@ namespace Bakana.Core.Repositories
 {
     public static class StepExtensions
     {
-        internal static async Task CreateOrUpdateSteps(this IDbConnection db, IEnumerable<Step> steps)
+        internal static async Task CreateSteps(this IDbConnection db, IEnumerable<Step> steps)
         {
             if (steps == null) return;
 
-            await steps.Iter(db.CreateOrUpdateStep);
+            await steps.Iter(db.CreateStep);
         }
 
-        internal static async Task<ulong> CreateOrUpdateStep(this IDbConnection db, Step step)
+        internal static async Task<ulong> CreateStep(this IDbConnection db, Step step)
         {
             await db.SaveAsync(step, true);
 
@@ -24,11 +24,24 @@ namespace Bakana.Core.Repositories
             await db.CreateOrUpdateStepArtifacts(step.OutputArtifacts);
             await db.CreateOrUpdateStepVariables(step.Variables);
             await db.CreateOrUpdateStepOptions(step.Options);
-            await db.CreateOrUpdateCommands(step.Commands);
+            await db.CreateCommands(step.Commands);
 
             return step.Id;
         }
         
+        internal static async Task<ulong> UpdateStep(this IDbConnection db, Step step)
+        {
+            await db.SaveAsync(step, true);
+
+            await db.CreateOrUpdateStepArtifacts(step.InputArtifacts);
+            await db.CreateOrUpdateStepArtifacts(step.OutputArtifacts);
+            await db.CreateOrUpdateStepVariables(step.Variables);
+            await db.CreateOrUpdateStepOptions(step.Options);
+            await db.CreateCommands(step.Commands);
+
+            return step.Id;
+        }
+
         internal static async Task CreateOrUpdateStepArtifacts(this IDbConnection db, IEnumerable<StepArtifact> artifacts)
         {
             if (artifacts == null) return;

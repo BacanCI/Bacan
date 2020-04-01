@@ -28,7 +28,7 @@ namespace Bakana.IntegrationTests
             restoreCommand.StepId = 1;
 
             // Act
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             // Assert
             id.Should().BeGreaterThan(0);
@@ -44,7 +44,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             var fetchedRestoreCommand = await Sut.Get(id);
 
@@ -52,7 +52,7 @@ namespace Bakana.IntegrationTests
             fetchedRestoreCommand.Description = "Updated1";
             fetchedRestoreCommand.Options[0].Description = "Updated2";
             fetchedRestoreCommand.Variables[0].Description = "Updated3";
-            await Sut.CreateOrUpdate(fetchedRestoreCommand);
+            await Sut.Create(fetchedRestoreCommand);
 
             // Assert
             var updatedRestoreCommand = await Sut.Get(id);
@@ -72,7 +72,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
             
             // Act
             await Sut.Delete(id);
@@ -89,7 +89,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             // Act
             var fetchedRestoreCommand = await Sut.Get(id);
@@ -107,8 +107,8 @@ namespace Bakana.IntegrationTests
             var buildCommand = TestData.Commands.DotNetBuild;
             buildCommand.StepId = 1;
 
-            await Sut.CreateOrUpdate(restoreCommand);
-            await Sut.CreateOrUpdate(buildCommand);
+            await Sut.Create(restoreCommand);
+            await Sut.Create(buildCommand);
 
             // Act
             var all = await Sut.GetAll(1);
@@ -132,7 +132,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             // Act
             await Sut.UpdateState(id, CommandState.Stopped);
@@ -150,7 +150,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             var productionOption = TestData.CommandOptions.Production;
             productionOption.CommandId = id;
@@ -175,7 +175,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             var option1 = restoreCommand.Options.Single(o => o.Name == TestData.CommandOptions.Optional1.Name);
             option1.Description = "Updated";
@@ -200,7 +200,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             var fetchedRestoreCommand = await Sut.Get(id);
             var option1 =
@@ -221,7 +221,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             var connectionStringVariable = TestData.CommandVariables.ConnectionString;
             connectionStringVariable.CommandId = id;
@@ -246,7 +246,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             var demoVariable = restoreCommand.Variables.Single(o => o.Name == TestData.CommandVariables.DemoArg.Name);
             demoVariable.Description = "Updated";
@@ -271,7 +271,7 @@ namespace Bakana.IntegrationTests
             var restoreCommand = TestData.Commands.DotNetRestore;
             restoreCommand.StepId = 1;
 
-            var id = await Sut.CreateOrUpdate(restoreCommand);
+            var id = await Sut.Create(restoreCommand);
 
             var fetchedRestoreCommand = await Sut.Get(id);
             var demoVariable =

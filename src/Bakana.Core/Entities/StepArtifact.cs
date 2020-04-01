@@ -9,6 +9,9 @@ namespace Bakana.Core.Entities
         [AutoIncrement]
         public ulong Id { get; set; }
         
+        [ForeignKey(typeof(Step), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
+        public ulong StepId { get; set; }
+
         public string Description { get; set; }
 
         public string FileName { get; set; }
@@ -17,8 +20,5 @@ namespace Bakana.Core.Entities
         
         [Reference]
         public List<StepArtifactOption> Options { get; set; }
-
-        [References(typeof(Step))]
-        public string StepId { get; set; }
     }
 }

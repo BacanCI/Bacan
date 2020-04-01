@@ -16,12 +16,14 @@ namespace Bakana.Core.Repositories
             await commands.Iter(db.CreateOrUpdateCommand);
         }
 
-        internal static async Task CreateOrUpdateCommand(this IDbConnection db, Command command)
+        internal static async Task<ulong> CreateOrUpdateCommand(this IDbConnection db, Command command)
         {
             await db.SaveAsync(command, true);
 
             await db.CreateOrUpdateCommandOptions(command.Options);
             await db.CreateOrUpdateCommandVariables(command.Variables);
+
+            return command.Id;
         }
 
         internal static async Task CreateOrUpdateCommandOptions(this IDbConnection db, IEnumerable<CommandOption> options)
@@ -48,9 +50,19 @@ namespace Bakana.Core.Repositories
             await db.SaveAsync(variable, true);
         }
         
-        internal static async Task<List<Command>> GetAllCommands(this IDbConnection db, string stepId)
+        internal static async Task<Command> GetCommand(this IDbConnection db, ulong id)
+        {
+            return await db.LoadSingleByIdAsync<Command>(id);
+        }
+
+        internal static async Task<List<Command>> GetAllCommands(this IDbConnection db, ulong stepId)
         {
             return await db.LoadSelectAsync<Command>(c => c.StepId == stepId);
+        }
+        
+        internal static async Task UpdateCommandState(this IDbConnection db, ulong id, CommandState state)
+        {
+            await db.UpdateOnlyAsync(() => new Command { State = state }, where: p => p.Id == id);
         }
     }
 }

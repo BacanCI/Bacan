@@ -16,7 +16,7 @@ namespace Bakana.Core.Repositories
             await steps.Iter(db.CreateOrUpdateStep);
         }
 
-        internal static async Task CreateOrUpdateStep(this IDbConnection db, Step step)
+        internal static async Task<ulong> CreateOrUpdateStep(this IDbConnection db, Step step)
         {
             await db.SaveAsync(step, true);
 
@@ -25,6 +25,8 @@ namespace Bakana.Core.Repositories
             await db.CreateOrUpdateStepVariables(step.Variables);
             await db.CreateOrUpdateStepOptions(step.Options);
             await db.CreateOrUpdateCommands(step.Commands);
+
+            return step.Id;
         }
         
         internal static async Task CreateOrUpdateStepArtifacts(this IDbConnection db, IEnumerable<StepArtifact> artifacts)
@@ -63,9 +65,9 @@ namespace Bakana.Core.Repositories
             await db.SaveAsync(variable, true);
         }
         
-        internal static async Task<Step> GetStep(this IDbConnection db, string stepId)
+        internal static async Task<Step> GetStep(this IDbConnection db, ulong id)
         {
-            var step = await db.LoadSingleByIdAsync<Step>(stepId, 
+            var step = await db.LoadSingleByIdAsync<Step>(id, 
                 new []{ nameof(Step.Options), nameof(Step.Variables)});
             
             step.InputArtifacts = await db.GetAllInputStepArtifacts(step.Id);

@@ -29,7 +29,7 @@ namespace Bakana.ServiceInterface
             var batch = new Batch
             {
                 Description = "First",
-                UserBatchId = "Test",
+                BatchId = "Test",
                 ExpiresOn = DateTime.Now,
                 InputArtifacts = new List<BatchArtifact>
                 {
@@ -77,7 +77,7 @@ namespace Bakana.ServiceInterface
                 {
                     new Step
                     {
-                        Id = "STEP1",
+                        StepId = "STEP1",
                         Description = "First step",
                         Dependencies = new[] {"0", "1"},
                         Tags = new[] {"Tag1", "Tag2"},
@@ -139,7 +139,7 @@ namespace Bakana.ServiceInterface
                         {
                             new Command
                             {
-                                Id = "CMD1",
+                                CommandId = "CMD1",
                                 Description = "Command1",
                                 Item = "dot net restore",
                                 Variables = new List<CommandVariable>
@@ -163,7 +163,7 @@ namespace Bakana.ServiceInterface
                             },
                             new Command
                             {
-                                Id = "CMD2",
+                                CommandId = "CMD2",
                                 Description = "Command2",
                                 Item = "dot net build",
                                 Variables = new List<CommandVariable>

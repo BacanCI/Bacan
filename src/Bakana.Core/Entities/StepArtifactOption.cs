@@ -5,7 +5,7 @@ namespace Bakana.Core.Entities
     [UniqueConstraint(nameof(StepArtifactId), nameof(Name))]
     public class StepArtifactOption : Option
     {
-        [References(typeof(StepArtifact))]
+        [ForeignKey(typeof(StepArtifact), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
         public ulong StepArtifactId { get; set; }
     }
 }

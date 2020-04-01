@@ -1,6 +1,6 @@
 namespace Bakana.Core
 {
-    public enum JobState
+    public enum BatchState
     {
         Created,
         Queued,

@@ -9,14 +9,14 @@ namespace Bakana.Core.Entities
         [AutoIncrement]
         public ulong Id { get; set; }
         
+        [ForeignKey(typeof(Batch), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
+        public string BatchId { get; set; }
+
         public string Description { get; set; }
 
         public string FileName { get; set; }
         
         [Reference]
         public List<BatchArtifactOption> Options { get; set; }
-
-        [References(typeof(Batch))]
-        public string BatchId { get; set; }
     }
 }

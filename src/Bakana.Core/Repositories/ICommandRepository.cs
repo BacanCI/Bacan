@@ -6,12 +6,15 @@ namespace Bakana.Core.Repositories
 {
     public interface ICommandRepository
     {
-        Task CreateOrUpdate(Command command);
-        Task Delete(string commandId);
-        Task<Command> Get(string commandId);
+        Task<ulong> CreateOrUpdate(Command command);
+        Task Delete(ulong id);
+        Task<Command> Get(ulong id);
+        Task<IList<Command>> GetAll(ulong stepId);
+        Task UpdateState(ulong id, CommandState state);
 
         Task CreateOrUpdateCommandVariable(CommandVariable variable);
+        Task DeleteCommandVariable(ulong id);
         Task CreateOrUpdateCommandOption(CommandOption option);
-        Task<IList<Command>> GetAll(string stepId);
+        Task DeleteCommandOption(ulong id);
     }
 }

@@ -15,7 +15,7 @@ namespace Bakana.Core.Repositories
             this.dbConnectionFactory = dbConnectionFactory;
         }
 
-        public async Task CreateOrUpdate(Step step)
+        public async Task<ulong> CreateOrUpdate(Step step)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
@@ -24,11 +24,13 @@ namespace Bakana.Core.Repositories
                     await db.CreateOrUpdateStep(step);
 
                     tx.Commit();
+
+                    return step.Id;
                 }
             }
         }
 
-        public async Task Delete(string stepId)
+        public async Task Delete(ulong stepId)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {
@@ -36,7 +38,7 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<Step> Get(string stepId)
+        public async Task<Step> Get(ulong stepId)
         {
             using (var db = await dbConnectionFactory.OpenAsync())
             {

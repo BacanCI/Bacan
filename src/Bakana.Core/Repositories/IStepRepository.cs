@@ -6,9 +6,9 @@ namespace Bakana.Core.Repositories
 {
     public interface IStepRepository
     {
-        Task CreateOrUpdate(Step step);
-        Task Delete(string stepId);
-        Task<Step> Get(string stepId);
+        Task<ulong> CreateOrUpdate(Step step);
+        Task Delete(ulong stepId);
+        Task<Step> Get(ulong stepId);
 
         Task CreateOrUpdateStepArtifact(StepArtifact artifact);
         Task CreateOrUpdateStepVariable(StepVariable variable);

@@ -6,66 +6,80 @@ using ServiceStack.OrmLite;
 
 namespace Bakana.Core.Repositories
 {
-    public class CommandRepository : ICommandRepository
+    public class CommandRepository : RepositoryBase, ICommandRepository
     {
-        private readonly IDbConnectionFactory dbConnectionFactory;
-
-        public CommandRepository(IDbConnectionFactory dbConnectionFactory)
+        public CommandRepository(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
         {
-            this.dbConnectionFactory = dbConnectionFactory;
         }
 
-        public async Task CreateOrUpdate(Command command)
+        public async Task<ulong> CreateOrUpdate(Command command)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
+            using (var db = await DbConnectionFactory.OpenAsync())
             {
                 using (var tx = db.OpenTransaction())
                 {
                     await db.CreateOrUpdateCommand(command);
 
                     tx.Commit();
+
+                    return command.Id;
                 }
             }
         }
 
-        public async Task Delete(string commandId)
+        public async Task Delete(ulong id)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
-            {
-                await db.DeleteAsync(new Command { Id = commandId});
-            }
+            await DeleteByIdAsync<Command>(id);
         }
 
-        public async Task<Command> Get(string commandId)
+        public async Task<Command> Get(ulong id)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
+            using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.LoadSingleByIdAsync<Command>(commandId);
+                return await db.GetCommand(id);
             }
         }
         
-        public async Task<IList<Command>> GetAll(string stepId)
+        public async Task<IList<Command>> GetAll(ulong stepId)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
+            using (var db = await DbConnectionFactory.OpenAsync())
             {
                 return await db.GetAllCommands(stepId);
             }
         }
 
+        public async Task UpdateState(ulong id, CommandState state)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                await db.UpdateCommandState(id, state);
+            }
+        }
+
         public async Task CreateOrUpdateCommandVariable(CommandVariable variable)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
+            using (var db = await DbConnectionFactory.OpenAsync())
             {
                 await db.CreateOrUpdateCommandVariable(variable);
             }
         }
-        
+
+        public async Task DeleteCommandVariable(ulong id)
+        {
+            await DeleteByIdAsync<CommandVariable>(id);
+        }
+
         public async Task CreateOrUpdateCommandOption(CommandOption option)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
+            using (var db = await DbConnectionFactory.OpenAsync())
             {
                 await db.CreateOrUpdateCommandOption(option);
             }
+        }
+
+        public async Task DeleteCommandOption(ulong id)
+        {
+            await DeleteByIdAsync<CommandOption>(id);
         }
     }
 }

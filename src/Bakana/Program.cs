@@ -4,15 +4,12 @@ using System.Threading.Tasks;
 using Bakana.Core;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface;
-using Bakana.ServiceModels;
 using Funq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
 using ServiceStack.Api.OpenApi;
-using ServiceStack.Data;
-using ServiceStack.OrmLite;
 
 namespace Bakana
 {

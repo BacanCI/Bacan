@@ -5,7 +5,7 @@ namespace Bakana.Core.Entities
     [UniqueConstraint(nameof(BatchId), nameof(Name))]
     public class BatchOption : Option
     {
-        [References(typeof(Batch))]
+        [ForeignKey(typeof(Batch), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
         public string BatchId { get; set; }
     }
 }

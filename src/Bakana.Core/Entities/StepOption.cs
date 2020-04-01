@@ -5,7 +5,7 @@ namespace Bakana.Core.Entities
     [UniqueConstraint(nameof(StepId), nameof(Name))]
     public class StepOption : Option
     {
-        [References(typeof(Step))]
-        public string StepId { get; set; }
+        [ForeignKey(typeof(Step), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
+        public ulong StepId { get; set; }
     }
 }

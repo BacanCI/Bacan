@@ -3,17 +3,22 @@ using ServiceStack.DataAnnotations;
 
 namespace Bakana.Core.Entities
 {
+    [UniqueConstraint(nameof(StepId), nameof(CommandId))]
     public class Command
     {
-        [PrimaryKey]
-        public string Id { get; set; }
+        [AutoIncrement]
+        public ulong Id { get; set; }
 
-        [References(typeof(Step))]
-        public string StepId { get; set; }
+        [ForeignKey(typeof(Step), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
+        public ulong StepId { get; set; }
+
+        public string CommandId { get; set; }
 
         public string Description { get; set; }
 
         public string Item { get; set; }
+
+        public CommandState State { get; set; }
 
         [Reference]
         public List<CommandOption> Options { get; set; }

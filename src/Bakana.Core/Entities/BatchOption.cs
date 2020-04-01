@@ -2,7 +2,7 @@ using ServiceStack.DataAnnotations;
 
 namespace Bakana.Core.Entities
 {
-    [UniqueConstraint(nameof(BatchId), nameof(Name))]
+    [UniqueConstraint(nameof(BatchId), nameof(OptionId))]
     public class BatchOption : Option
     {
         [ForeignKey(typeof(Batch), OnDelete = "CASCADE", OnUpdate = "CASCADE")]

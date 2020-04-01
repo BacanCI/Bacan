@@ -50,19 +50,11 @@ namespace Bakana.IntegrationTests
 
             // Act
             fetchedRestoreCommand.Description = "Updated1";
-            fetchedRestoreCommand.Options[0].Description = "Updated2";
-            fetchedRestoreCommand.Variables[0].Description = "Updated3";
-            await Sut.Create(fetchedRestoreCommand);
+            await Sut.Update(fetchedRestoreCommand);
 
             // Assert
             var updatedRestoreCommand = await Sut.Get(id);
-            updatedRestoreCommand.Description.Should().Be("Updated1");
-            updatedRestoreCommand.Options[0].Description.Should().Be("Updated2");
-            updatedRestoreCommand.Variables[0].Description.Should().Be("Updated3");
-            updatedRestoreCommand.Should().BeEquivalentTo(restoreCommand, o => o
-                .Excluding(c => c.Description)
-                .Excluding(c => c.Options[0].Description)
-                .Excluding(c => c.Variables[0].Description));
+            updatedRestoreCommand.Should().BeEquivalentTo(fetchedRestoreCommand);
         }
 
         [Test]
@@ -163,7 +155,7 @@ namespace Bakana.IntegrationTests
             fetchedRestoreCommand.Options.Count.Should().Be(3);
 
             var fetchedProductionOption =
-                fetchedRestoreCommand.Options.SingleOrDefault(o => o.Name == productionOption.Name);
+                fetchedRestoreCommand.Options.SingleOrDefault(o => o.OptionId == productionOption.OptionId);
             fetchedProductionOption.Should().NotBeNull();
             fetchedProductionOption.Should().BeEquivalentTo(productionOption);
         }
@@ -177,7 +169,7 @@ namespace Bakana.IntegrationTests
 
             var id = await Sut.Create(restoreCommand);
 
-            var option1 = restoreCommand.Options.Single(o => o.Name == TestData.CommandOptions.Optional1.Name);
+            var option1 = restoreCommand.Options.Single(o => o.OptionId == TestData.CommandOptions.Optional1.OptionId);
             option1.Description = "Updated";
 
             // Act
@@ -188,7 +180,7 @@ namespace Bakana.IntegrationTests
             fetchedRestoreCommand.Options.Count.Should().Be(2);
 
             var fetchedOption1 =
-                fetchedRestoreCommand.Options.SingleOrDefault(o => o.Name == TestData.CommandOptions.Optional1.Name);
+                fetchedRestoreCommand.Options.SingleOrDefault(o => o.OptionId == TestData.CommandOptions.Optional1.OptionId);
             fetchedOption1.Should().NotBeNull();
             fetchedOption1.Should().BeEquivalentTo(option1);
         }
@@ -204,7 +196,7 @@ namespace Bakana.IntegrationTests
 
             var fetchedRestoreCommand = await Sut.Get(id);
             var option1 =
-                fetchedRestoreCommand.Options.Single(v => v.Name == TestData.CommandOptions.Optional1.Name);
+                fetchedRestoreCommand.Options.Single(v => v.OptionId == TestData.CommandOptions.Optional1.OptionId);
 
             // Act
             await Sut.DeleteCommandOption(option1.Id);
@@ -234,7 +226,7 @@ namespace Bakana.IntegrationTests
             fetchedRestoreCommand.Variables.Count.Should().Be(3);
 
             var fetchedConnectionStringVariable =
-                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.Name == connectionStringVariable.Name);
+                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.VariableId == connectionStringVariable.VariableId);
             fetchedConnectionStringVariable.Should().NotBeNull();
             fetchedConnectionStringVariable.Should().BeEquivalentTo(connectionStringVariable);
         }
@@ -248,7 +240,7 @@ namespace Bakana.IntegrationTests
 
             var id = await Sut.Create(restoreCommand);
 
-            var demoVariable = restoreCommand.Variables.Single(o => o.Name == TestData.CommandVariables.DemoArg.Name);
+            var demoVariable = restoreCommand.Variables.Single(o => o.VariableId == TestData.CommandVariables.DemoArg.VariableId);
             demoVariable.Description = "Updated";
 
             // Act
@@ -259,7 +251,7 @@ namespace Bakana.IntegrationTests
             fetchedRestoreCommand.Variables.Count.Should().Be(2);
 
             var fetchedDemoVariable =
-                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.Name == TestData.CommandVariables.DemoArg.Name);
+                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.VariableId == TestData.CommandVariables.DemoArg.VariableId);
             fetchedDemoVariable.Should().NotBeNull();
             fetchedDemoVariable.Should().BeEquivalentTo(demoVariable);
         }
@@ -275,7 +267,7 @@ namespace Bakana.IntegrationTests
 
             var fetchedRestoreCommand = await Sut.Get(id);
             var demoVariable =
-                fetchedRestoreCommand.Variables.Single(v => v.Name == TestData.CommandVariables.DemoArg.Name);
+                fetchedRestoreCommand.Variables.Single(v => v.VariableId == TestData.CommandVariables.DemoArg.VariableId);
 
             // Act
             await Sut.DeleteCommandVariable(demoVariable.Id);

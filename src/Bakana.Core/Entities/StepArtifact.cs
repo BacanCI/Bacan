@@ -3,7 +3,7 @@ using ServiceStack.DataAnnotations;
 
 namespace Bakana.Core.Entities
 {
-    [UniqueConstraint(nameof(StepId), nameof(FileName))]
+    [UniqueConstraint(nameof(StepId), nameof(ArtifactId))]
     public class StepArtifact
     {
         [AutoIncrement]
@@ -11,6 +11,8 @@ namespace Bakana.Core.Entities
         
         [ForeignKey(typeof(Step), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
         public ulong StepId { get; set; }
+        
+        public string ArtifactId { get; set; }
 
         public string Description { get; set; }
 

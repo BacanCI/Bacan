@@ -8,36 +8,36 @@ namespace Bakana.IntegrationTests.TestData
     {
         public static CommandVariable DemoArg => new CommandVariable
         {
+            VariableId = "DemoArg",
             Description = "Demo Arg",
-            Name = "DemoArg",
             Value = "--demo"
         };
         
         public static CommandVariable HelpArg => new CommandVariable
         {
+            VariableId = "HelpArg",
             Description = "Help Arg",
-            Name = "HelpArg",
             Value = "--help"
         };
 
         public static CommandVariable OverrideArg => new CommandVariable
         {
+            VariableId = "OverrideArg",
             Description = "Override Arg",
-            Name = "OverrideArg",
             Value = "--override"
         };
 
         public static CommandVariable OutArg => new CommandVariable
         {
+            VariableId = "OutArg",
             Description = "Out Arg",
-            Name = "OutArg",
             Value = "--out"
         };
 
         public static CommandVariable ConnectionString => new CommandVariable
         {
+            VariableId = "ConnectionString",
             Description = "Connection String",
-            Name = "ConnectionString",
             Value = "localhost:8000"
         };
     }
@@ -46,29 +46,29 @@ namespace Bakana.IntegrationTests.TestData
     {
         public static CommandOption Optional1 => new CommandOption
         {
+            OptionId = "CMDOPT1",
             Description = "Optional1",
-            Name = "CMDOPT1",
             Value = "CMDOPT1VAL"
         };
 
         public static CommandOption Optional2 => new CommandOption
         {
+            OptionId = "CMDOPT2",
             Description = "Optional2",
-            Name = "CMDOPT2",
             Value = "CMDOPT2VAL"
         };
 
         public static CommandOption Debug => new CommandOption
         {
+            OptionId = "Debug",
             Description = "Debug Mode",
-            Name = "Debug",
             Value = "True"
         };
 
         public static CommandOption Production => new CommandOption
         {
+            OptionId = "Production",
             Description = "Production Mode",
-            Name = "Production",
             Value = "True"
         };
     }

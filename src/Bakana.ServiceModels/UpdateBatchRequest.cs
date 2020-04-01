@@ -3,14 +3,14 @@ using ServiceStack;
 namespace Bakana.ServiceModels
 {
     [Tag("Batch")]
-    [Route("/batch", HttpMethods.Put, Summary = "Update batch")]
+    [Route("/batch/{BatchId}", HttpMethods.Put, Summary = "Update batch")]
     public class UpdateBatchRequest : IReturn<CreateBatchResponse>
     {
         [ApiMember(Name = "Batch Id", 
             Description = "A user-defined value associated with the batch",
             ParameterType = "model", 
             DataType = "string", 
-            IsRequired = false)]
+            IsRequired = true)]
         public string BatchId { get; set; }
 
         [ApiMember(Name = "Description", 

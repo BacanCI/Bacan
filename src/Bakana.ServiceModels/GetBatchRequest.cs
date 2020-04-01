@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace Bakana.ServiceModels
 {
     [Tag("Batch")]
-    [Route("/batch", HttpMethods.Get, Summary = "Get batch")]
+    [Route("/batch/{BatchId}", HttpMethods.Get, Summary = "Get batch")]
     public class GetBatchRequest : IReturn<GetBatchResponse>
     {
         [ApiMember(Name = "Batch Id",
             Description = "A user-defined value associated with the batch",
             ParameterType = "model",
             DataType = "string",
-            IsRequired = false)]
+            IsRequired = true)]
         public string BatchId { get; set; }
     }
     public class GetBatchResponse : IHasResponseStatus

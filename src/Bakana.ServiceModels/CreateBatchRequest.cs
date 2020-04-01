@@ -1,4 +1,4 @@
-using ServiceStack;
+    using ServiceStack;
 using System.Collections.Generic;
 
 namespace Bakana.ServiceModels

@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Bakana.Core;
+﻿using Bakana.Core;
 using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
 using Bakana.ServiceModels;
 using ServiceStack;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BatchArtifact = Bakana.Core.Entities.BatchArtifact;
 using Command = Bakana.Core.Entities.Command;
+using Step = Bakana.Core.Entities.Step;
+using StepArtifact = Bakana.Core.Entities.StepArtifact;
 
 namespace Bakana.ServiceInterface
 {
@@ -31,48 +34,36 @@ namespace Bakana.ServiceInterface
                 Description = "First",
                 BatchId = "Test",
                 ExpiresOn = DateTime.Now,
-                InputArtifacts = new List<BatchArtifact>
-                {
-                    new BatchArtifact
+                InputArtifacts =
+                    new List<BatchArtifact>
                     {
-                        Description = "First artifact",
-                        FileName = "package.zip",
-                        Options = new List<BatchArtifactOption>
+                        new BatchArtifact
                         {
-                            new BatchArtifactOption
+                            Description = "First artifact",
+                            FileName = "package.zip",
+                            Options = new List<BatchArtifactOption>
                             {
-                                Description = "First option",
-                                Name = "OPT1",
-                                Value = "OPT1VAL"
+                                new BatchArtifactOption
+                                {
+                                    Description = "First option", Name = "OPT1", Value = "OPT1VAL"
+                                }
                             }
                         }
-                    }
-                },
-                Variables = new List<BatchVariable>
-                {
-                    new BatchVariable
-                    {
-                        Description = "First var",
-                        Name = "VAR1",
-                        Value = "VAR1VAL"
                     },
-                    new BatchVariable
+                Variables =
+                    new List<BatchVariable>
                     {
-                        Description = "Second var",
-                        Name = "VAR2",
-                        Value = "VAR2VAL",
-                        Sensitive = true
+                        new BatchVariable {Description = "First var", Name = "VAR1", Value = "VAR1VAL"},
+                        new BatchVariable
+                        {
+                            Description = "Second var", Name = "VAR2", Value = "VAR2VAL", Sensitive = true
+                        },
                     },
-                },
-                Options = new List<BatchOption>
-                {
-                    new BatchOption
+                Options =
+                    new List<BatchOption>
                     {
-                        Description = "Batch option 1",
-                        Name = "BOPT",
-                        Value = "BOPTVAL"
-                    }
-                },
+                        new BatchOption {Description = "Batch option 1", Name = "BOPT", Value = "BOPTVAL"}
+                    },
                 Steps = new List<Step>
                 {
                     new Step
@@ -110,31 +101,21 @@ namespace Bakana.ServiceInterface
                                 {
                                     new StepArtifactOption
                                     {
-                                        Description = "First result option",
-                                        Name = "Res1",
-                                        Value = "Res1Val"
+                                        Description = "First result option", Name = "Res1", Value = "Res1Val"
                                     }
                                 },
                             }
                         },
-                        Options = new List<StepOption>
-                        {
-                            new StepOption
+                        Options =
+                            new List<StepOption>
                             {
-                                Description = "Step1 option",
-                                Name = "S1OPT",
-                                Value = "S1OPTVAL"
-                            }
-                        },
-                        Variables = new List<StepVariable>
-                        {
-                            new StepVariable
+                                new StepOption {Description = "Step1 option", Name = "S1OPT", Value = "S1OPTVAL"}
+                            },
+                        Variables =
+                            new List<StepVariable>
                             {
-                                Description = "Step1 var1",
-                                Name = "S1V1",
-                                Value = "S1V1VAL"
-                            }
-                        },
+                                new StepVariable {Description = "Step1 var1", Name = "S1V1", Value = "S1V1VAL"}
+                            },
                         Commands = new List<Command>
                         {
                             new Command
@@ -146,18 +127,14 @@ namespace Bakana.ServiceInterface
                                 {
                                     new CommandVariable
                                     {
-                                        Description = "Command var 1",
-                                        Name = "C1",
-                                        Value = "C1V1"
+                                        Description = "Command var 1", Name = "C1", Value = "C1V1"
                                     }
                                 },
                                 Options = new List<CommandOption>
                                 {
                                     new CommandOption
                                     {
-                                        Description = "C1 Option",
-                                        Name = "C1OPT",
-                                        Value = "C1OPTVAL"
+                                        Description = "C1 Option", Name = "C1OPT", Value = "C1OPTVAL"
                                     }
                                 }
                             },
@@ -170,27 +147,22 @@ namespace Bakana.ServiceInterface
                                 {
                                     new CommandVariable
                                     {
-                                        Description = "Command var 2",
-                                        Name = "C2",
-                                        Value = "C2V1"
+                                        Description = "Command var 2", Name = "C2", Value = "C2V1"
                                     }
                                 },
                                 Options = new List<CommandOption>
                                 {
                                     new CommandOption
                                     {
-                                        Description = "C2 Option",
-                                        Name = "C2OPT",
-                                        Value = "C2OPTVAL"
+                                        Description = "C2 Option", Name = "C2OPT", Value = "C2OPTVAL"
                                     }
                                 }
                             }
                         },
                     }
-                }
+                },
+                Id = idGenerator.Generate()
             };
-
-            batch.Id = idGenerator.Generate();
 
             await batchRepository.CreateOrUpdate(batch);
 
@@ -200,7 +172,7 @@ namespace Bakana.ServiceInterface
             
             return new CreateBatchResponse
             {
-                Id = batch.Id
+                Id = result.Id
             };
         }
     }

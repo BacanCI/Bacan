@@ -4,9 +4,16 @@ using System.Collections.Generic;
 namespace Bakana.ServiceModels
 {
     [Tag("Batch")]
-    [Route("/batch", HttpMethods.Post, Summary = "Create new batch")]
-    public class CreateBatchRequest : IReturn<CreateBatchResponse>
+    [Route("/batch", HttpMethods.Put, Summary = "Update batch")]
+    public class UpdateBatchRequest : IReturn<CreateBatchResponse>
     {
+        [ApiMember(Name = "Batch Id",
+            Description = "A system generated value associated with the batch",
+            ParameterType = "model",
+            DataType = "string",
+            IsRequired = false)]
+        public string Id { get; set; }
+
         [ApiMember(Name = "Batch Id", 
             Description = "A user-defined value associated with the batch",
             ParameterType = "model", 
@@ -40,11 +47,8 @@ namespace Bakana.ServiceModels
         public List<BatchArtifact> InputArtifacts { get; set; }
     }
 
-    public class CreateBatchResponse : IHasResponseStatus
+    public class UpdateBatchResponse : IHasResponseStatus
     {
-        [ApiMember(Name="Id", Description = "Auto-generated batch id")]
-        public string Id { get; set; }
-        
         public ResponseStatus ResponseStatus { get; set; }
     }
 }

@@ -6,6 +6,25 @@ namespace Bakana.IntegrationTests.TestData
 {
     public static class Batches
     {
+        public static class BatchVariables
+        {
+            
+        }
+        
+        public static class BatchOptions
+        {
+            
+        }
+        
+        public static class BatchArtifactOptions
+        {
+            
+        }
+        
+        public static class BatchArtifacts
+        {
+            
+        }
         public static Batch FullyPopulated => new Batch
         {
             BatchId = "Test",

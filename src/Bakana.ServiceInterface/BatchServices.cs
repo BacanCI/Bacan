@@ -172,7 +172,7 @@ namespace Bakana.ServiceInterface
             
             return new CreateBatchResponse
             {
-                Id = result.Id
+                BatchId = result.Id
             };
         }
     }

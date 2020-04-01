@@ -7,29 +7,22 @@ namespace Bakana.ServiceModels
     [Route("/batch", HttpMethods.Post, Summary = "Create new batch")]
     public class CreateBatchRequest : IReturn<CreateBatchResponse>
     {
-        [ApiMember(Name = "Batch Id", 
-            Description = "A user-defined value associated with the batch",
-            ParameterType = "model", 
-            DataType = "string", 
-            IsRequired = false)]
-        public string BatchId { get; set; }
-
-        [ApiMember(Name = "Description", 
+        [ApiMember(Name = "Description",
             Description = "A description of the batch",
-            ParameterType = "model", 
-            DataType = "string", 
+            ParameterType = "model",
+            DataType = "string",
             IsRequired = false)]
         public string Description { get; set; }
 
-        [ApiMember(Name = "Options", 
+        [ApiMember(Name = "Options",
             Description = "Options to assign to batch",
-            ParameterType = "model", 
+            ParameterType = "model",
             IsRequired = false)]
         public List<Option> Options { get; set; }
 
-        [ApiMember(Name = "Variables", 
+        [ApiMember(Name = "Variables",
             Description = "Array of variables to be used by all steps in the batch",
-            ParameterType = "model", 
+            ParameterType = "model",
             IsRequired = false)]
         public List<Variable> Variables { get; set; }
 
@@ -42,9 +35,9 @@ namespace Bakana.ServiceModels
 
     public class CreateBatchResponse : IHasResponseStatus
     {
-        [ApiMember(Name="Id", Description = "Auto-generated batch id")]
-        public string Id { get; set; }
-        
+        [ApiMember(Name = "Batch Id", Description = "A user-defined value associated with the batch")]
+        public string BatchId { get; set; }
+
         public ResponseStatus ResponseStatus { get; set; }
     }
 }

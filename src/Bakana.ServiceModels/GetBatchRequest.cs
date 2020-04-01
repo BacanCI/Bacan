@@ -7,18 +7,15 @@ namespace Bakana.ServiceModels
     [Route("/batch", HttpMethods.Get, Summary = "Get batch")]
     public class GetBatchRequest : IReturn<GetBatchResponse>
     {
-        [ApiMember(Name = "Id", Description = "Auto-generated batch id")]
-        public string Id { get; set; }
-    }
-    public class GetBatchResponse : IHasResponseStatus
-    {
         [ApiMember(Name = "Batch Id",
-            Description = "A system generated value associated with the batch",
+            Description = "A user-defined value associated with the batch",
             ParameterType = "model",
             DataType = "string",
             IsRequired = false)]
-        public string Id { get; set; }
-
+        public string BatchId { get; set; }
+    }
+    public class GetBatchResponse : IHasResponseStatus
+    {
         [ApiMember(Name = "Batch Id",
             Description = "A user-defined value associated with the batch",
             ParameterType = "model",

@@ -6,7 +6,7 @@ namespace Bakana.Core.Repositories
 {
     public interface ICommandRepository
     {
-        Task<ulong> CreateOrUpdate(Command command);
+        Task<ulong> Create(Command command);
         Task Delete(ulong id);
         Task<Command> Get(ulong id);
         Task<IList<Command>> GetAll(ulong stepId);

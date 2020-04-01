@@ -12,13 +12,13 @@ namespace Bakana.Core.Repositories
         {
         }
 
-        public async Task<ulong> CreateOrUpdate(Command command)
+        public async Task<ulong> Create(Command command)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
                 using (var tx = db.OpenTransaction())
                 {
-                    await db.CreateOrUpdateCommand(command);
+                    await db.CreateCommand(command);
 
                     tx.Commit();
 

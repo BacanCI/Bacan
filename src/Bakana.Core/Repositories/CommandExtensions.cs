@@ -9,14 +9,14 @@ namespace Bakana.Core.Repositories
 {
     public static class CommandExtensions
     {
-        internal static async Task CreateOrUpdateCommands(this IDbConnection db, IEnumerable<Command> commands)
+        internal static async Task CreateCommands(this IDbConnection db, IEnumerable<Command> commands)
         {
             if (commands == null) return;
 
-            await commands.Iter(db.CreateOrUpdateCommand);
+            await commands.Iter(db.CreateCommand);
         }
 
-        internal static async Task<ulong> CreateOrUpdateCommand(this IDbConnection db, Command command)
+        internal static async Task<ulong> CreateCommand(this IDbConnection db, Command command)
         {
             await db.SaveAsync(command, true);
 

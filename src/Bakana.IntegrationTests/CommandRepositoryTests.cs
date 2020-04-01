@@ -52,7 +52,7 @@ namespace Bakana.IntegrationTests
             fetchedRestoreCommand.Description = "Updated1";
             await Sut.Update(fetchedRestoreCommand);
 
-            // Assert 1
+            // Assert
             var updatedRestoreCommand = await Sut.Get(id);
             updatedRestoreCommand.Should().BeEquivalentTo(fetchedRestoreCommand);
         }

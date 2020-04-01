@@ -30,19 +30,7 @@ namespace Bakana.Core.Repositories
         {
             await db.UpdateAsync(command);
         }
-
-        internal static async Task UpdateByCommandId(this IDbConnection db, Command command)
-        {
-            var q = db
-                .From<Command>()
-                .Where(c => c.CommandId == command.CommandId)
-                .Select(command1 => command.Id);
-
-            command.Id = await db.ScalarAsync<ulong>(q);
-            
-            await db.UpdateCommand(command);
-        }
-
+        
         internal static async Task CreateOrUpdateCommandOptions(this IDbConnection db, IEnumerable<CommandOption> options)
         {
             if (options == null) return;
@@ -77,6 +65,16 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<Command>(c => c.StepId == stepId);
         }
         
+        internal static async Task<ulong> GetCommandPkByCommandId(this IDbConnection db, string commandId)
+        {
+            var q = db
+                .From<Command>()
+                .Where(c => c.CommandId == commandId)
+                .Select(c => c.Id);
+
+            return await db.ScalarAsync<ulong>(q);
+        }
+
         internal static async Task UpdateCommandState(this IDbConnection db, ulong id, CommandState state)
         {
             await db.UpdateOnlyAsync(() => new Command { State = state }, where: p => p.Id == id);

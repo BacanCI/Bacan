@@ -39,13 +39,23 @@ namespace Bakana.Core.Repositories
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.UpdateByCommandId(command);
+                command.Id = await db.GetCommandPkByCommandId(command.CommandId);
+                await db.UpdateCommand(command);
             }
         }
 
         public async Task Delete(ulong id)
         {
             await DeleteByIdAsync<Command>(id);
+        }
+
+        public async Task Delete(string commandId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetCommandPkByCommandId(commandId);
+                await db.DeleteByIdAsync<Command>(id);
+            }
         }
 
         public async Task<Command> Get(ulong id)
@@ -56,6 +66,15 @@ namespace Bakana.Core.Repositories
             }
         }
         
+        public async Task<Command> Get(string commandId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetCommandPkByCommandId(commandId);
+                return await db.GetCommand(id);
+            }
+        }
+
         public async Task<IList<Command>> GetAll(ulong stepId)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
@@ -64,10 +83,28 @@ namespace Bakana.Core.Repositories
             }
         }
 
+        public async Task<IList<Command>> GetAll(string stepId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetCommandPkByCommandId(stepId);
+                return await db.GetAllCommands(id);
+            }
+        }
+
         public async Task UpdateState(ulong id, CommandState state)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
+                await db.UpdateCommandState(id, state);
+            }
+        }
+
+        public async Task UpdateState(string commandId, CommandState state)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetCommandPkByCommandId(commandId);
                 await db.UpdateCommandState(id, state);
             }
         }

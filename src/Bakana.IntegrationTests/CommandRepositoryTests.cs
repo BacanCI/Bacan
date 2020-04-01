@@ -58,6 +58,26 @@ namespace Bakana.IntegrationTests
         }
 
         [Test]
+        public async Task It_Should_Update_By_CommandId()
+        {
+            // Arrange
+            var restoreCommand = TestData.Commands.DotNetRestore;
+            restoreCommand.StepId = 1;
+
+            var id = await Sut.Create(restoreCommand);
+
+            var fetchedRestoreCommand = await Sut.Get(id);
+
+            // Act
+            fetchedRestoreCommand.Description = "Updated1";
+            await Sut.UpdateByCommandId(fetchedRestoreCommand);
+
+            // Assert
+            var updatedRestoreCommand = await Sut.Get(id);
+            updatedRestoreCommand.Should().BeEquivalentTo(fetchedRestoreCommand);
+        }
+
+        [Test]
         public async Task It_Should_Delete()
         {
             // Arrange

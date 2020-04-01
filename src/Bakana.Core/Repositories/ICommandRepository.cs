@@ -18,5 +18,9 @@ namespace Bakana.Core.Repositories
         Task DeleteCommandVariable(ulong id);
         Task CreateOrUpdateCommandOption(CommandOption option);
         Task DeleteCommandOption(ulong id);
+        Task Delete(string commandId);
+        Task<Command> Get(string commandId);
+        Task<IList<Command>> GetAll(string stepId);
+        Task UpdateState(string commandId, CommandState state);
     }
 }

@@ -8,6 +8,7 @@ namespace Bakana.Core.Repositories
     {
         Task<ulong> Create(Command command);
         Task Update(Command command);
+        Task UpdateByCommandId(Command command);
         Task Delete(ulong id);
         Task<Command> Get(ulong id);
         Task<IList<Command>> GetAll(ulong stepId);

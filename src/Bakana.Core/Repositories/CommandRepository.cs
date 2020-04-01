@@ -35,6 +35,14 @@ namespace Bakana.Core.Repositories
             }
         }
 
+        public async Task UpdateByCommandId(Command command)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                await db.UpdateByCommandId(command);
+            }
+        }
+
         public async Task Delete(ulong id)
         {
             await DeleteByIdAsync<Command>(id);

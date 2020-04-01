@@ -5,6 +5,105 @@ namespace Bakana.IntegrationTests.TestData
 {
     public static class Steps
     {
+        public class StepVariables
+        {
+            public static StepVariable SourcePath => new StepVariable
+            {
+                VariableId = "SourcePath",
+                Description = "Path to Source code",
+                Value = "./src"
+            };
+
+            public static StepVariable Profile => new StepVariable
+            {
+                VariableId = "Profile",
+                Description = "Build Profile ",
+                Value = "PRODUCTION"
+            };
+            
+            public static StepVariable TestPath => new StepVariable
+            {
+                VariableId = "TestPath",
+                Description = "Path to test project",
+                Value = "./tests"
+            };
+            
+            public static StepVariable TestFilter => new StepVariable
+            {
+                VariableId = "TestFilter",
+                Description = "NUnit Test Filter",
+                Value = "--category = 'agency'"
+            };
+        }
+        
+        public class StepOptions
+        {
+            public static StepOption BuildAlways = new StepOption
+            {
+                OptionId = "BuildAlways",
+                Description = "Build Always",
+                Value = "True"
+            };
+
+            public static StepOption BuildWhenNoErrors = new StepOption
+            {
+                OptionId = "BuildWhenNoErrors",
+                Description = "Build only when no previous step has errored",
+                Value = "True"
+            };
+        }
+        
+        public static class StepArtifactOptions
+        {
+            public static StepArtifactOption Extract => new StepArtifactOption
+            {
+                OptionId = "Extract",
+                Description = "Extract files",
+                Value = "True"
+            };
+
+            public static StepArtifactOption Compress => new StepArtifactOption
+            {
+                OptionId = "Compress",
+                Description = "Compress files",
+                Value = "True"
+            };
+        }
+
+        public static class StepArtifacts
+        {
+            public static StepArtifact Source => new StepArtifact
+            {
+                ArtifactId = "Source",
+                Description = "Source Code",
+                FileName = "Source.zip",
+                Options = new List<StepArtifactOption>
+                {
+                    StepArtifactOptions.Extract
+                },
+            };
+
+            public static StepArtifact Binaries => new StepArtifact
+            {
+                ArtifactId = "Binaries",
+                Description = "Binaries",
+                FileName = "Build.zip",
+                OutputArtifact = true,
+                Options = new List<StepArtifactOption>
+                {
+                    StepArtifactOptions.Compress
+                },
+            };
+
+            public static StepArtifact TestResults => new StepArtifact
+            {
+                ArtifactId = "Results",
+                Description = "Test Results",
+                FileName = "Results.zip",
+                OutputArtifact = true,
+            };
+        }
+        
         public static Step Build => new Step
         {
             StepId = "BuildStep",
@@ -13,58 +112,21 @@ namespace Bakana.IntegrationTests.TestData
             Requirements = new[] {"Docker", "Build"},
             InputArtifacts = new List<StepArtifact>
             {
-                new StepArtifact
-                {
-                    ArtifactId = "Source",
-                    Description = "Source Code",
-                    FileName = "Source.zip",
-                    Options = new List<StepArtifactOption>
-                    {
-                        new StepArtifactOption
-                        {
-                            OptionId = "Art1",
-                            Description = "First artifact option",
-                            Value = "Art1Val"
-                        }
-                    },
-                }
+                StepArtifacts.Source
             },
             OutputArtifacts = new List<StepArtifact>
             {
-                new StepArtifact
-                {
-                    ArtifactId = "Binaries",
-                    Description = "Binaries",
-                    FileName = "Build.zip",
-                    OutputArtifact = true,
-                    Options = new List<StepArtifactOption>
-                    {
-                        new StepArtifactOption
-                        {
-                            OptionId = "Res1",
-                            Description = "First result option",
-                            Value = "Res1Val"
-                        }
-                    },
-                }
+                StepArtifacts.Binaries
             },
             Options = new List<StepOption>
             {
-                new StepOption
-                {
-                    OptionId = "S1OPT",
-                    Description = "Step1 option",
-                    Value = "S1OPTVAL"
-                }
+                StepOptions.BuildAlways,
+                StepOptions.BuildWhenNoErrors
             },
             Variables = new List<StepVariable>
             {
-                new StepVariable
-                {
-                    VariableId = "S1V1",
-                    Description = "Step1 var1",
-                    Value = "S1V1VAL"
-                }
+                StepVariables.SourcePath,
+                StepVariables.Profile,
             },
             Commands = new List<Command>
             {
@@ -82,58 +144,20 @@ namespace Bakana.IntegrationTests.TestData
             Requirements = new[] {"Windows","Database"},
             InputArtifacts = new List<StepArtifact>
             {
-                new StepArtifact
-                {
-                    ArtifactId = "Binaries",
-                    Description = "Binaries",
-                    FileName = "Build.zip",
-                    Options = new List<StepArtifactOption>
-                    {
-                        new StepArtifactOption
-                        {
-                            OptionId = "Extract",
-                            Description = "Extract files",
-                            Value = "True"
-                        }
-                    },
-                }
+                StepArtifacts.Binaries
             },
             OutputArtifacts = new List<StepArtifact>
             {
-                new StepArtifact
-                {
-                    ArtifactId = "Results",
-                    Description = "Test Results",
-                    FileName = "Results.zip",
-                    OutputArtifact = true,
-                    Options = new List<StepArtifactOption>
-                    {
-                        new StepArtifactOption
-                        {
-                            OptionId = "Res1",
-                            Description = "First result option",
-                            Value = "Res1Val"
-                        }
-                    },
-                }
+                StepArtifacts.TestResults
             },
             Options = new List<StepOption>
             {
-                new StepOption
-                {
-                    OptionId = "S2OPT",
-                    Description = "Step2 option",
-                    Value = "S2OPTVAL"
-                }
+                StepOptions.BuildAlways
             },
             Variables = new List<StepVariable>
             {
-                new StepVariable
-                {
-                    VariableId = "S2V1",
-                    Description = "Step2 var1",
-                    Value = "S2V1VAL"
-                }
+                StepVariables.TestPath,
+                StepVariables.TestFilter
             },
             Commands = new List<Command>
             {
@@ -141,6 +165,5 @@ namespace Bakana.IntegrationTests.TestData
                 Commands.Test,
             },
         };
-
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Bakana.ServiceModels
 {
+    [Tag("Batch")]
+    [Route("/batch", HttpMethods.Delete, Summary = "Delete batch")]
     public class DeleteBatchRequest : IReturn<GetBatchResponse>
     {
         [ApiMember(Name = "Id", Description = "Auto-generated batch id")]

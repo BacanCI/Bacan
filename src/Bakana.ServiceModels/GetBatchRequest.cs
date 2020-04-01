@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace Bakana.ServiceModels
 {
+    [Tag("Batch")]
+    [Route("/batch", HttpMethods.Get, Summary = "Get batch")]
     public class GetBatchRequest : IReturn<GetBatchResponse>
     {
         [ApiMember(Name = "Id", Description = "Auto-generated batch id")]

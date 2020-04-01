@@ -26,6 +26,11 @@ namespace Bakana.Core.Repositories
             return command.Id;
         }
 
+        internal static async Task UpdateCommand(this IDbConnection db, Command command)
+        {
+            await db.UpdateAsync(command);
+        }
+
         internal static async Task CreateOrUpdateCommandOptions(this IDbConnection db, IEnumerable<CommandOption> options)
         {
             if (options == null) return;

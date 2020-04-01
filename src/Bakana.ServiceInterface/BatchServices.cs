@@ -45,7 +45,7 @@ namespace Bakana.ServiceInterface
                             {
                                 new BatchArtifactOption
                                 {
-                                    Description = "First option", Name = "OPT1", Value = "OPT1VAL"
+                                    Description = "First option", OptionId = "OPT1", Value = "OPT1VAL"
                                 }
                             }
                         }
@@ -53,16 +53,16 @@ namespace Bakana.ServiceInterface
                 Variables =
                     new List<BatchVariable>
                     {
-                        new BatchVariable {Description = "First var", Name = "VAR1", Value = "VAR1VAL"},
+                        new BatchVariable {Description = "First var", VariableId = "VAR1", Value = "VAR1VAL"},
                         new BatchVariable
                         {
-                            Description = "Second var", Name = "VAR2", Value = "VAR2VAL", Sensitive = true
+                            Description = "Second var", VariableId = "VAR2", Value = "VAR2VAL", Sensitive = true
                         },
                     },
                 Options =
                     new List<BatchOption>
                     {
-                        new BatchOption {Description = "Batch option 1", Name = "BOPT", Value = "BOPTVAL"}
+                        new BatchOption {Description = "Batch option 1", OptionId = "BOPT", Value = "BOPTVAL"}
                     },
                 Steps = new List<Step>
                 {
@@ -84,7 +84,7 @@ namespace Bakana.ServiceInterface
                                     new StepArtifactOption
                                     {
                                         Description = "First artifact option",
-                                        Name = "Art1",
+                                        OptionId = "Art1",
                                         Value = "Art1Val"
                                     }
                                 },
@@ -101,7 +101,7 @@ namespace Bakana.ServiceInterface
                                 {
                                     new StepArtifactOption
                                     {
-                                        Description = "First result option", Name = "Res1", Value = "Res1Val"
+                                        Description = "First result option", OptionId = "Res1", Value = "Res1Val"
                                     }
                                 },
                             }
@@ -109,12 +109,12 @@ namespace Bakana.ServiceInterface
                         Options =
                             new List<StepOption>
                             {
-                                new StepOption {Description = "Step1 option", Name = "S1OPT", Value = "S1OPTVAL"}
+                                new StepOption {Description = "Step1 option", OptionId = "S1OPT", Value = "S1OPTVAL"}
                             },
                         Variables =
                             new List<StepVariable>
                             {
-                                new StepVariable {Description = "Step1 var1", Name = "S1V1", Value = "S1V1VAL"}
+                                new StepVariable {Description = "Step1 var1", VariableId = "S1V1", Value = "S1V1VAL"}
                             },
                         Commands = new List<Command>
                         {
@@ -127,14 +127,14 @@ namespace Bakana.ServiceInterface
                                 {
                                     new CommandVariable
                                     {
-                                        Description = "Command var 1", Name = "C1", Value = "C1V1"
+                                        Description = "Command var 1", VariableId = "C1", Value = "C1V1"
                                     }
                                 },
                                 Options = new List<CommandOption>
                                 {
                                     new CommandOption
                                     {
-                                        Description = "C1 Option", Name = "C1OPT", Value = "C1OPTVAL"
+                                        Description = "C1 Option", OptionId = "C1OPT", Value = "C1OPTVAL"
                                     }
                                 }
                             },
@@ -147,14 +147,14 @@ namespace Bakana.ServiceInterface
                                 {
                                     new CommandVariable
                                     {
-                                        Description = "Command var 2", Name = "C2", Value = "C2V1"
+                                        Description = "Command var 2", VariableId = "C2", Value = "C2V1"
                                     }
                                 },
                                 Options = new List<CommandOption>
                                 {
                                     new CommandOption
                                     {
-                                        Description = "C2 Option", Name = "C2OPT", Value = "C2OPTVAL"
+                                        Description = "C2 Option", OptionId = "C2OPT", Value = "C2OPTVAL"
                                     }
                                 }
                             }

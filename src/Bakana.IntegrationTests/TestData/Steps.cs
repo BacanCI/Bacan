@@ -15,14 +15,15 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new StepArtifact
                 {
+                    ArtifactId = "Source",
                     Description = "Source Code",
                     FileName = "Source.zip",
                     Options = new List<StepArtifactOption>
                     {
                         new StepArtifactOption
                         {
+                            OptionId = "Art1",
                             Description = "First artifact option",
-                            Name = "Art1",
                             Value = "Art1Val"
                         }
                     },
@@ -32,6 +33,7 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new StepArtifact
                 {
+                    ArtifactId = "Binaries",
                     Description = "Binaries",
                     FileName = "Build.zip",
                     OutputArtifact = true,
@@ -39,8 +41,8 @@ namespace Bakana.IntegrationTests.TestData
                     {
                         new StepArtifactOption
                         {
+                            OptionId = "Res1",
                             Description = "First result option",
-                            Name = "Res1",
                             Value = "Res1Val"
                         }
                     },
@@ -50,8 +52,8 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new StepOption
                 {
+                    OptionId = "S1OPT",
                     Description = "Step1 option",
-                    Name = "S1OPT",
                     Value = "S1OPTVAL"
                 }
             },
@@ -59,8 +61,8 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new StepVariable
                 {
+                    VariableId = "S1V1",
                     Description = "Step1 var1",
-                    Name = "S1V1",
                     Value = "S1V1VAL"
                 }
             },
@@ -82,14 +84,15 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new StepArtifact
                 {
+                    ArtifactId = "Binaries",
                     Description = "Binaries",
                     FileName = "Build.zip",
                     Options = new List<StepArtifactOption>
                     {
                         new StepArtifactOption
                         {
+                            OptionId = "Extract",
                             Description = "Extract files",
-                            Name = "Extract",
                             Value = "True"
                         }
                     },
@@ -99,6 +102,7 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new StepArtifact
                 {
+                    ArtifactId = "Results",
                     Description = "Test Results",
                     FileName = "Results.zip",
                     OutputArtifact = true,
@@ -106,8 +110,8 @@ namespace Bakana.IntegrationTests.TestData
                     {
                         new StepArtifactOption
                         {
+                            OptionId = "Res1",
                             Description = "First result option",
-                            Name = "Res1",
                             Value = "Res1Val"
                         }
                     },
@@ -117,8 +121,8 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new StepOption
                 {
+                    OptionId = "S2OPT",
                     Description = "Step2 option",
-                    Name = "S2OPT",
                     Value = "S2OPTVAL"
                 }
             },
@@ -126,8 +130,8 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new StepVariable
                 {
+                    VariableId = "S2V1",
                     Description = "Step2 var1",
-                    Name = "S2V1",
                     Value = "S2V1VAL"
                 }
             },

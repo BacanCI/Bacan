@@ -8,21 +8,22 @@ namespace Bakana.IntegrationTests.TestData
     {
         public static Batch FullyPopulated => new Batch
         {
-            Description = "First",
             BatchId = "Test",
+            Description = "First",
             ExpiresOn = DateTime.Now,
             InputArtifacts = new List<BatchArtifact>
             {
                 new BatchArtifact
                 {
+                    ArtifactId = "Package",
                     Description = "First artifact",
                     FileName = "package.zip",
                     Options = new List<BatchArtifactOption>
                     {
                         new BatchArtifactOption
                         {
+                            OptionId = "OPT1",
                             Description = "First option",
-                            Name = "OPT1",
                             Value = "OPT1VAL"
                         }
                     }
@@ -32,14 +33,14 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new BatchVariable
                 {
+                    VariableId = "VAR1",
                     Description = "First var",
-                    Name = "VAR1",
                     Value = "VAR1VAL"
                 },
                 new BatchVariable
                 {
+                    VariableId = "VAR2",
                     Description = "Second var",
-                    Name = "VAR2",
                     Value = "VAR2VAL",
                     Sensitive = true
                 },
@@ -48,8 +49,8 @@ namespace Bakana.IntegrationTests.TestData
             {
                 new BatchOption
                 {
+                    OptionId = "BOPT",
                     Description = "Batch option 1",
-                    Name = "BOPT",
                     Value = "BOPTVAL"
                 }
             },

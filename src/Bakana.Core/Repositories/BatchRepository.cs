@@ -37,7 +37,7 @@ namespace Bakana.Core.Repositories
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.DeleteAsync(new Batch { Id = batchId});
+                await db.DeleteByIdAsync<Batch>(batchId);
             }
         }
 
@@ -180,7 +180,7 @@ namespace Bakana.Core.Repositories
 
         public async Task DeleteBatchArtifact(ulong id)
         {
-            await DeleteByIdAsync<StepArtifact>(id);
+            await DeleteByIdAsync<BatchArtifact>(id);
         }
 
         public async Task<ulong> CreateOrUpdateBatchArtifactOption(BatchArtifactOption option)

@@ -31,30 +31,6 @@ namespace Bakana.Core.Repositories
             await db.UpdateAsync(command);
         }
         
-        internal static async Task CreateOrUpdateCommandOptions(this IDbConnection db, IEnumerable<CommandOption> options)
-        {
-            if (options == null) return;
-
-            await options.Iter(db.CreateOrUpdateCommandOption);
-        }
-
-        internal static async Task CreateOrUpdateCommandOption(this IDbConnection db, CommandOption option)
-        {
-            await db.SaveAsync(option, true);
-        }
-        
-        internal static async Task CreateOrUpdateCommandVariables(this IDbConnection db, IEnumerable<CommandVariable> variables)
-        {
-            if (variables == null) return;
-
-            await variables.Iter(db.CreateOrUpdateCommandVariable);
-        }
-
-        internal static async Task CreateOrUpdateCommandVariable(this IDbConnection db, CommandVariable variable)
-        {
-            await db.SaveAsync(variable, true);
-        }
-        
         internal static async Task<Command> GetCommand(this IDbConnection db, ulong id)
         {
             return await db.LoadSingleByIdAsync<Command>(id);
@@ -65,19 +41,87 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<Command>(c => c.StepId == stepId);
         }
         
-        internal static async Task<ulong> GetCommandPkByCommandId(this IDbConnection db, string commandId)
+        internal static async Task UpdateCommandState(this IDbConnection db, ulong id, CommandState state)
+        {
+            await db.UpdateOnlyAsync(() => new Command { State = state }, where: p => p.Id == id);
+        }
+
+        internal static async Task<ulong> GetCommandPkByCommandId(this IDbConnection db, ulong stepId, string commandId)
         {
             var q = db
                 .From<Command>()
-                .Where(c => c.CommandId == commandId)
+                .Where(c => c.CommandId == commandId && c.StepId == stepId)
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
         }
 
-        internal static async Task UpdateCommandState(this IDbConnection db, ulong id, CommandState state)
+        internal static async Task CreateOrUpdateCommandOptions(this IDbConnection db, IEnumerable<CommandOption> options)
         {
-            await db.UpdateOnlyAsync(() => new Command { State = state }, where: p => p.Id == id);
+            if (options == null) return;
+
+            await options.Iter(db.CreateOrUpdateCommandOption);
+        }
+
+        internal static async Task<ulong> CreateOrUpdateCommandOption(this IDbConnection db, CommandOption option)
+        {
+            await db.SaveAsync(option, true);
+            
+            return option.Id;
+        }
+
+        internal static async Task<CommandOption> GetCommandOption(this IDbConnection db, ulong id)
+        {
+            return await db.LoadSingleByIdAsync<CommandOption>(id);
+        }
+
+        internal static async Task<List<CommandOption>> GetAllCommandOptions(this IDbConnection db, ulong commandId)
+        {
+            return await db.LoadSelectAsync<CommandOption>(c => c.CommandId == commandId);
+        }
+
+        internal static async Task<ulong> GetCommandOptionPkByOptionId(this IDbConnection db, ulong commandId, string optionId)
+        {
+            var q = db
+                .From<CommandOption>()
+                .Where(c => c.OptionId == optionId && c.CommandId == commandId)
+                .Select(c => c.Id);
+
+            return await db.ScalarAsync<ulong>(q);
+        }
+
+        internal static async Task CreateOrUpdateCommandVariables(this IDbConnection db, IEnumerable<CommandVariable> variables)
+        {
+            if (variables == null) return;
+
+            await variables.Iter(db.CreateOrUpdateCommandVariable);
+        }
+
+        internal static async Task<ulong> CreateOrUpdateCommandVariable(this IDbConnection db, CommandVariable variable)
+        {
+            await db.SaveAsync(variable, true);
+            
+            return variable.Id;
+        }
+
+        internal static async Task<CommandVariable> GetCommandVariable(this IDbConnection db, ulong id)
+        {
+            return await db.LoadSingleByIdAsync<CommandVariable>(id);
+        }
+
+        internal static async Task<List<CommandVariable>> GetAllCommandVariables(this IDbConnection db, ulong commandId)
+        {
+            return await db.LoadSelectAsync<CommandVariable>(c => c.CommandId == commandId);
+        }
+
+        internal static async Task<ulong> GetCommandVariablePkByVariableId(this IDbConnection db, ulong commandId, string variableId)
+        {
+            var q = db
+                .From<CommandVariable>()
+                .Where(c => c.VariableId == variableId && c.CommandId == commandId)
+                .Select(c => c.Id);
+
+            return await db.ScalarAsync<ulong>(q);
         }
     }
 }

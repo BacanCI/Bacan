@@ -8,19 +8,22 @@ namespace Bakana.Core.Repositories
     {
         Task<ulong> Create(Command command);
         Task Update(Command command);
-        Task UpdateByCommandId(Command command);
         Task Delete(ulong id);
         Task<Command> Get(ulong id);
-        Task<IList<Command>> GetAll(ulong stepId);
+        Task<Command> Get(ulong stepId, string commandId);
+        Task<List<Command>> GetAll(ulong stepId);
         Task UpdateState(ulong id, CommandState state);
-
-        Task CreateOrUpdateCommandVariable(CommandVariable variable);
+        
+        Task<ulong> CreateOrUpdateCommandVariable(CommandVariable variable);
+        Task<CommandVariable> GetCommandVariable(ulong id);
+        Task<CommandVariable> GetCommandVariable(ulong commandId, string variableId);
+        Task<List<CommandVariable>> GetAllCommandVariables(ulong commandId);
         Task DeleteCommandVariable(ulong id);
-        Task CreateOrUpdateCommandOption(CommandOption option);
+        
+        Task<ulong> CreateOrUpdateCommandOption(CommandOption option);
+        Task<CommandOption> GetCommandOption(ulong id);
+        Task<CommandOption> GetCommandOption(ulong commandId, string optionId);
+        Task<List<CommandOption>> GetAllCommandOptions(ulong commandId);
         Task DeleteCommandOption(ulong id);
-        Task Delete(string commandId);
-        Task<Command> Get(string commandId);
-        Task<IList<Command>> GetAll(string stepId);
-        Task UpdateState(string commandId, CommandState state);
     }
 }

@@ -41,6 +41,17 @@ namespace Bakana.Core.Repositories
 
             return step.Id;
         }
+        
+        internal static async Task<ulong> GetStepPkByStepId(this IDbConnection db, string batchId, string stepId)
+        {
+            var q = db
+                .From<Step>()
+                .Where(c => c.StepId == stepId && c.BatchId == batchId)
+                .Select(c => c.Id);
+
+            return await db.ScalarAsync<ulong>(q);
+        }
+
 
         internal static async Task CreateOrUpdateStepArtifacts(this IDbConnection db, IEnumerable<StepArtifact> artifacts)
         {

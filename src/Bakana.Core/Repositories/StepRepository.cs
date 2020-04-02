@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bakana.Core.Entities;
 using ServiceStack.Data;
-using ServiceStack.OrmLite;
 
 namespace Bakana.Core.Repositories
 {
@@ -15,67 +14,144 @@ namespace Bakana.Core.Repositories
             this.dbConnectionFactory = dbConnectionFactory;
         }
 
-        public async Task<ulong> Create(Step step)
+        public Task<ulong> Create(Step step)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
-            {
-                using (var tx = db.OpenTransaction())
-                {
-                    await db.CreateStep(step);
-
-                    tx.Commit();
-
-                    return step.Id;
-                }
-            }
+            throw new System.NotImplementedException();
         }
 
-        public async Task Delete(ulong stepId)
+        public Task Update(Step step)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
-            {
-                await db.DeleteAsync(new Step { Id = stepId});
-            }
+            throw new System.NotImplementedException();
         }
 
-        public async Task<Step> Get(ulong stepId)
+        public Task Delete(ulong stepId)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
-            {
-                return await db.GetStep(stepId);
-            }
-        }
-        
-        public async Task<List<Step>> GetAll(string batchId)
-        {
-            using (var db = await dbConnectionFactory.OpenAsync())
-            {
-                return await db.GetAllSteps(batchId);
-            }
+            throw new System.NotImplementedException();
         }
 
-        public async Task CreateOrUpdateStepArtifact(StepArtifact artifact)
+        public Task<Step> Get(ulong stepId)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
-            {
-                await db.CreateOrUpdateStepArtifact(artifact);
-            }
+            throw new System.NotImplementedException();
         }
 
-        public async Task CreateOrUpdateStepVariable(StepVariable variable)
+        public Task<Step> Get(string batchId, string stepId)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
-            {
-                await db.CreateOrUpdateStepVariable(variable);
-            }
+            throw new System.NotImplementedException();
         }
-        
-        public async Task CreateOrUpdateStepOption(StepOption option)
+
+        public Task<List<Step>> GetAll(string batchId)
         {
-            using (var db = await dbConnectionFactory.OpenAsync())
-            {
-                await db.CreateOrUpdateStepOption(option);
-            }
+            throw new System.NotImplementedException();
+        }
+
+        public Task UpdateState(ulong id, StepState state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<ulong> CreateOrUpdateStepVariable(StepVariable variable)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<StepVariable> GetStepVariable(ulong id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<StepVariable> GetStepVariable(ulong stepId, string variableId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<StepVariable>> GetAllStepVariables(ulong stepId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task DeleteStepVariable(ulong id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<ulong> CreateOrUpdateStepOption(StepOption option)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<StepOption> GetStepOption(ulong id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<StepOption> GetStepOption(ulong stepId, string optionId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<StepOption>> GetAllStepOptions(ulong stepId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task DeleteStepOption(ulong id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<ulong> CreateStepArtifact(StepArtifact stepArtifact)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<ulong> UpdateStepArtifact(StepArtifact stepArtifact)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<StepArtifact> GetStepArtifact(ulong id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<StepArtifact> GetStepArtifact(ulong stepId, string artifactId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<StepArtifact>> GetAllStepArtifacts(ulong stepId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task DeleteStepArtifact(ulong id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<ulong> CreateOrUpdateStepArtifactOption(StepArtifactOption option)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<StepArtifactOption> GetStepArtifactOption(ulong id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<StepArtifactOption> GetStepArtifactOption(ulong artifactId, string optionId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<StepArtifactOption>> GetAllStepArtifactOptions(ulong artifactId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task DeleteStepArtifactOption(ulong id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

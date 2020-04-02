@@ -35,27 +35,9 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task UpdateByCommandId(Command command)
-        {
-            using (var db = await DbConnectionFactory.OpenAsync())
-            {
-                command.Id = await db.GetCommandPkByCommandId(command.CommandId);
-                await db.UpdateCommand(command);
-            }
-        }
-
         public async Task Delete(ulong id)
         {
             await DeleteByIdAsync<Command>(id);
-        }
-
-        public async Task Delete(string commandId)
-        {
-            using (var db = await DbConnectionFactory.OpenAsync())
-            {
-                var id = await db.GetCommandPkByCommandId(commandId);
-                await db.DeleteByIdAsync<Command>(id);
-            }
         }
 
         public async Task<Command> Get(ulong id)
@@ -66,29 +48,20 @@ namespace Bakana.Core.Repositories
             }
         }
         
-        public async Task<Command> Get(string commandId)
+        public async Task<Command> Get(ulong stepId, string commandId)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetCommandPkByCommandId(commandId);
+                var id = await db.GetCommandPkByCommandId(stepId, commandId);
                 return await db.GetCommand(id);
             }
         }
 
-        public async Task<IList<Command>> GetAll(ulong stepId)
+        public async Task<List<Command>> GetAll(ulong stepId)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
                 return await db.GetAllCommands(stepId);
-            }
-        }
-
-        public async Task<IList<Command>> GetAll(string stepId)
-        {
-            using (var db = await DbConnectionFactory.OpenAsync())
-            {
-                var id = await db.GetCommandPkByCommandId(stepId);
-                return await db.GetAllCommands(id);
             }
         }
 
@@ -100,20 +73,36 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task UpdateState(string commandId, CommandState state)
+        public async Task<ulong> CreateOrUpdateCommandVariable(CommandVariable variable)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetCommandPkByCommandId(commandId);
-                await db.UpdateCommandState(id, state);
+                return await db.CreateOrUpdateCommandVariable(variable);
             }
         }
 
-        public async Task CreateOrUpdateCommandVariable(CommandVariable variable)
+        public async Task<CommandVariable> GetCommandVariable(ulong id)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.CreateOrUpdateCommandVariable(variable);
+                return await db.GetCommandVariable(id);
+            }
+        }
+
+        public async Task<CommandVariable> GetCommandVariable(ulong commandId, string variableId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetCommandVariablePkByVariableId(commandId, variableId);
+                return await db.GetCommandVariable(id);
+            }
+        }
+
+        public async Task<List<CommandVariable>> GetAllCommandVariables(ulong commandId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetAllCommandVariables(commandId);
             }
         }
 
@@ -122,11 +111,36 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<CommandVariable>(id);
         }
 
-        public async Task CreateOrUpdateCommandOption(CommandOption option)
+        public async Task<ulong> CreateOrUpdateCommandOption(CommandOption option)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.CreateOrUpdateCommandOption(option);
+                return await db.CreateOrUpdateCommandOption(option);
+            }
+        }
+
+        public async Task<CommandOption> GetCommandOption(ulong id)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetCommandOption(id);
+            }
+        }
+
+        public async Task<CommandOption> GetCommandOption(ulong commandId, string optionId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetCommandOptionPkByOptionId(commandId, optionId);
+                return await db.GetCommandOption(id);
+            }
+        }
+
+        public async Task<List<CommandOption>> GetAllCommandOptions(ulong commandId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetAllCommandOptions(commandId);
             }
         }
 

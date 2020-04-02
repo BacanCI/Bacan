@@ -31,6 +31,12 @@ namespace Bakana.ServiceModels
             ParameterType = "model",
             IsRequired = false)]
         public List<BatchArtifact> InputArtifacts { get; set; }
+        
+        [ApiMember(Name = "Steps",
+            Description = "An array of steps associated with batch",
+            ParameterType = "model",
+            IsRequired = false)]
+        public List<Step> Steps { get; set; }
     }
 
     public class CreateBatchResponse : IHasResponseStatus

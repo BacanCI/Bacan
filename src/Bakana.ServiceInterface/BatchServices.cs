@@ -32,7 +32,6 @@ namespace Bakana.ServiceInterface
             var batch = new Batch
             {
                 Description = "First",
-                BatchId = "Test",
                 ExpiresOn = DateTime.Now,
                 InputArtifacts =
                     new List<BatchArtifact>

@@ -84,7 +84,6 @@ namespace Bakana.IntegrationTests.TestData
     {
         public static Batch FullyPopulated => new Batch
         {
-            BatchId = "Test",
             Description = "First",
             ExpiresOn = DateTime.Now,
             InputArtifacts = new List<BatchArtifact>

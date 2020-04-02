@@ -2,7 +2,7 @@ namespace Bakana.ServiceModels
 {
     public class Variable
     {
-        public string Name { get; set; }
+        public string VariableId { get; set; }
 
         public string Description { get; set; }
 

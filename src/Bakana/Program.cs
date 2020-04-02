@@ -59,5 +59,12 @@ namespace Bakana
         {
             Plugins.Add(new OpenApiFeature());
         }
+
+        public override void OnAfterInit()
+        {
+            base.OnAfterInit();
+            
+            Mappers.Register();
+        }
     }
 }

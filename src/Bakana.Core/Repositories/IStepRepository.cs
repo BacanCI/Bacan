@@ -27,7 +27,7 @@ namespace Bakana.Core.Repositories
         Task DeleteStepOption(ulong id);
         
         Task<ulong> CreateStepArtifact(StepArtifact stepArtifact);
-        Task<ulong> UpdateStepArtifact(StepArtifact stepArtifact);
+        Task UpdateStepArtifact(StepArtifact stepArtifact);
         Task<StepArtifact> GetStepArtifact(ulong id);
         Task<StepArtifact> GetStepArtifact(ulong stepId, string artifactId);
         Task<List<StepArtifact>> GetAllStepArtifacts(ulong stepId);

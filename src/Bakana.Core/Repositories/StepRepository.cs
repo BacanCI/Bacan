@@ -2,156 +2,235 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bakana.Core.Entities;
 using ServiceStack.Data;
+using ServiceStack.OrmLite;
 
 namespace Bakana.Core.Repositories
 {
-    public class StepRepository : IStepRepository
+    public class StepRepository : RepositoryBase, IStepRepository
     {
-        private readonly IDbConnectionFactory dbConnectionFactory;
-
-        public StepRepository(IDbConnectionFactory dbConnectionFactory)
+        public StepRepository(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
         {
-            this.dbConnectionFactory = dbConnectionFactory;
         }
 
-        public Task<ulong> Create(Step step)
+        public async Task<ulong> Create(Step step)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                using (var tx = db.OpenTransaction())
+                {
+                    await db.CreateStep(step);
+
+                    tx.Commit();
+
+                    return step.Id;
+                }
+            }
         }
 
-        public Task Update(Step step)
+        public async Task Update(Step step)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                await db.UpdateStep(step);
+            }
         }
 
-        public Task Delete(ulong stepId)
+        public async Task Delete(ulong stepId)
         {
-            throw new System.NotImplementedException();
+            await DeleteByIdAsync<Step>(stepId);
         }
 
-        public Task<Step> Get(ulong stepId)
+        public async Task<Step> Get(ulong stepId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetStep(stepId);
+            }
         }
 
-        public Task<Step> Get(string batchId, string stepId)
+        public async Task<Step> Get(string batchId, string stepId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetStepPkByStepId(batchId, stepId);
+                return await db.GetStep(id);
+            }
         }
 
-        public Task<List<Step>> GetAll(string batchId)
+        public async Task<List<Step>> GetAll(string batchId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetAllSteps(batchId);
+            }
         }
 
-        public Task UpdateState(ulong id, StepState state)
+        public async Task UpdateState(ulong id, StepState state)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                await db.UpdateStepState(id, state);
+            }
         }
 
-        public Task<ulong> CreateOrUpdateStepVariable(StepVariable variable)
+        public async Task<ulong> CreateOrUpdateStepVariable(StepVariable variable)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.CreateOrUpdateStepVariable(variable);
+            }
         }
 
-        public Task<StepVariable> GetStepVariable(ulong id)
+        public async Task<StepVariable> GetStepVariable(ulong id)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetStepVariable(id);
+            }
         }
 
-        public Task<StepVariable> GetStepVariable(ulong stepId, string variableId)
+        public async Task<StepVariable> GetStepVariable(ulong stepId, string variableId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetStepVariablePkByVariableId(stepId, variableId);
+                return await db.GetStepVariable(id);
+            }
         }
 
-        public Task<List<StepVariable>> GetAllStepVariables(ulong stepId)
+        public async Task<List<StepVariable>> GetAllStepVariables(ulong stepId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetAllStepVariables(stepId);
+            }
         }
 
-        public Task DeleteStepVariable(ulong id)
+        public async Task DeleteStepVariable(ulong id)
         {
-            throw new System.NotImplementedException();
+            await DeleteByIdAsync<StepVariable>(id);
         }
 
-        public Task<ulong> CreateOrUpdateStepOption(StepOption option)
+        public async Task<ulong> CreateOrUpdateStepOption(StepOption option)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.CreateOrUpdateStepOption(option);
+            }
         }
 
-        public Task<StepOption> GetStepOption(ulong id)
+        public async Task<StepOption> GetStepOption(ulong id)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetStepOption(id);
+            }
         }
 
-        public Task<StepOption> GetStepOption(ulong stepId, string optionId)
+        public async Task<StepOption> GetStepOption(ulong stepId, string optionId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetStepOptionPkByOptionId(stepId, optionId);
+                return await db.GetStepOption(id);
+            }
         }
 
-        public Task<List<StepOption>> GetAllStepOptions(ulong stepId)
+        public async Task<List<StepOption>> GetAllStepOptions(ulong stepId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetAllStepOptions(stepId);
+            }
         }
 
-        public Task DeleteStepOption(ulong id)
+        public async Task DeleteStepOption(ulong id)
         {
-            throw new System.NotImplementedException();
+            await DeleteByIdAsync<StepOption>(id);
         }
 
-        public Task<ulong> CreateStepArtifact(StepArtifact stepArtifact)
+        public async Task<ulong> CreateStepArtifact(StepArtifact stepArtifact)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.CreateOrUpdateStepArtifact(stepArtifact);
+            }
         }
 
-        public Task<ulong> UpdateStepArtifact(StepArtifact stepArtifact)
+        public async Task UpdateStepArtifact(StepArtifact stepArtifact)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                await db.UpdateStepArtifact(stepArtifact);
+            }
         }
 
-        public Task<StepArtifact> GetStepArtifact(ulong id)
+        public async Task<StepArtifact> GetStepArtifact(ulong id)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetStepArtifact(id);
+            }
         }
 
-        public Task<StepArtifact> GetStepArtifact(ulong stepId, string artifactId)
+        public async Task<StepArtifact> GetStepArtifact(ulong stepId, string artifactId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetStepArtifactPkByArtifactId(stepId, artifactId);
+                return await db.GetStepArtifact(id);
+            }
         }
 
-        public Task<List<StepArtifact>> GetAllStepArtifacts(ulong stepId)
+        public async Task<List<StepArtifact>> GetAllStepArtifacts(ulong stepId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetAllStepArtifacts(stepId);
+            }
         }
 
-        public Task DeleteStepArtifact(ulong id)
+        public async Task DeleteStepArtifact(ulong id)
         {
-            throw new System.NotImplementedException();
+            await DeleteByIdAsync<StepArtifact>(id);
         }
 
-        public Task<ulong> CreateOrUpdateStepArtifactOption(StepArtifactOption option)
+        public async Task<ulong> CreateOrUpdateStepArtifactOption(StepArtifactOption option)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.CreateOrUpdateStepArtifactOption(option);
+            }
         }
 
-        public Task<StepArtifactOption> GetStepArtifactOption(ulong id)
+        public async Task<StepArtifactOption> GetStepArtifactOption(ulong id)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetStepArtifactOption(id);
+            }
         }
 
-        public Task<StepArtifactOption> GetStepArtifactOption(ulong artifactId, string optionId)
+        public async Task<StepArtifactOption> GetStepArtifactOption(ulong artifactId, string optionId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                var id = await db.GetStepArtifactOptionPkByOptionId(artifactId, optionId);
+                return await db.GetStepArtifactOption(id);
+            }
         }
 
-        public Task<List<StepArtifactOption>> GetAllStepArtifactOptions(ulong artifactId)
+        public async Task<List<StepArtifactOption>> GetAllStepArtifactOptions(ulong artifactId)
         {
-            throw new System.NotImplementedException();
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.GetAllStepArtifactOptions(artifactId);
+            }
         }
 
-        public Task DeleteStepArtifactOption(ulong id)
+        public async Task DeleteStepArtifactOption(ulong id)
         {
-            throw new System.NotImplementedException();
+            await DeleteByIdAsync<StepArtifactOption>(id);
         }
     }
 }

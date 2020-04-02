@@ -178,6 +178,21 @@ namespace Bakana.Core.Repositories
             return await db.LoadSingleByIdAsync<StepArtifact>(id);
         }
         
+        internal static async Task<List<StepArtifact>> GetAllStepArtifacts(this IDbConnection db, ulong stepId)
+        {
+            return await db.LoadSelectAsync<StepArtifact>(a => a.StepId == stepId);
+        }
+
+        internal static async Task<List<StepArtifact>> GetAllInputStepArtifacts(this IDbConnection db, ulong stepId)
+        {
+            return await db.LoadSelectAsync<StepArtifact>(a => a.StepId == stepId && !a.OutputArtifact);
+        }
+        
+        internal static async Task<List<StepArtifact>> GetAllOutputStepArtifacts(this IDbConnection db, ulong stepId)
+        {
+            return await db.LoadSelectAsync<StepArtifact>(a => a.StepId == stepId && a.OutputArtifact);
+        }
+        
         internal static async Task<ulong> CreateOrUpdateStepArtifactOption(this IDbConnection db, StepArtifactOption option)
         {
             await db.SaveAsync(option, true);

@@ -15,40 +15,40 @@ namespace Bakana.ServiceInterface
         {
             AutoMapping.RegisterConverter((CreateBatchRequest from) =>
             {
-                var to = from.ConvertTo<Batch>();
-                to.Options = from.Options.ConvertTo<List<BatchOption>>();
-                to.Variables = from.Variables.ConvertTo<List<BatchVariable>>();
-                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<BatchArtifact>>();
-                to.Steps = from.Steps.ConvertTo<List<Step>>();
+                var to = from.ConvertTo<Batch>(true);
+                to.Options = from.Options.ConvertTo<List<BatchOption>>(true);
+                to.Variables = from.Variables.ConvertTo<List<BatchVariable>>(true);
+                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<BatchArtifact>>(true);
+                to.Steps = from.Steps.ConvertTo<List<Step>>(true);
 
                 return to;
             });
             
             AutoMapping.RegisterConverter((Bakana.ServiceModels.BatchArtifact from) =>
             {
-                var to = from.ConvertTo<BatchArtifact>();
-                to.Options = from.Options.ConvertTo<List<BatchArtifactOption>>();
+                var to = from.ConvertTo<BatchArtifact>(true);
+                to.Options = from.Options.ConvertTo<List<BatchArtifactOption>>(true);
 
                 return to;
             });
             
             AutoMapping.RegisterConverter((Bakana.ServiceModels.Step from) =>
             {
-                var to = from.ConvertTo<Step>();
-                to.Options = from.Options.ConvertTo<List<StepOption>>();
-                to.Variables = from.Variables.ConvertTo<List<StepVariable>>();
-                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<StepArtifact>>();
-                to.OutputArtifacts = from.OutputArtifacts.ConvertTo<List<StepArtifact>>();
-                to.Commands = from.Commands.ConvertTo<List<Command>>();
+                var to = from.ConvertTo<Step>(true);
+                to.Options = from.Options.ConvertTo<List<StepOption>>(true);
+                to.Variables = from.Variables.ConvertTo<List<StepVariable>>(true);
+                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<StepArtifact>>(true);
+                to.OutputArtifacts = from.OutputArtifacts.ConvertTo<List<StepArtifact>>(true);
+                to.Commands = from.Commands.ConvertTo<List<Command>>(true);
 
                 return to;
             });
             
             AutoMapping.RegisterConverter((Bakana.ServiceModels.Command from) =>
             {
-                var to = from.ConvertTo<Command>();
-                to.Options = from.Options.ConvertTo<List<CommandOption>>();
-                to.Variables = from.Variables.ConvertTo<List<CommandVariable>>();
+                var to = from.ConvertTo<Command>(true);
+                to.Options = from.Options.ConvertTo<List<CommandOption>>(true);
+                to.Variables = from.Variables.ConvertTo<List<CommandVariable>>(true);
 
                 return to;
             });

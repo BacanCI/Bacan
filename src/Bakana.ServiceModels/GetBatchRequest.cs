@@ -1,12 +1,28 @@
-    using ServiceStack;
+﻿using ServiceStack;
 using System.Collections.Generic;
 
 namespace Bakana.ServiceModels
 {
     [Tag("Batch")]
-    [Route("/batch", HttpMethods.Post, Summary = "Create new batch")]
-    public class CreateBatchRequest : IReturn<CreateBatchResponse>
+    [Route("/batch/{BatchId}", HttpMethods.Get, Summary = "Get batch")]
+    public class GetBatchRequest : IReturn<GetBatchResponse>
     {
+        [ApiMember(Name = "Batch Id",
+            Description = "A user-defined value associated with the batch",
+            ParameterType = "model",
+            DataType = "string",
+            IsRequired = true)]
+        public string BatchId { get; set; }
+    }
+    public class GetBatchResponse : IHasResponseStatus
+    {
+        [ApiMember(Name = "Batch Id",
+            Description = "A user-defined value associated with the batch",
+            ParameterType = "model",
+            DataType = "string",
+            IsRequired = false)]
+        public string BatchId { get; set; }
+
         [ApiMember(Name = "Description",
             Description = "A description of the batch",
             ParameterType = "model",
@@ -31,12 +47,12 @@ namespace Bakana.ServiceModels
             ParameterType = "model",
             IsRequired = false)]
         public List<BatchArtifact> InputArtifacts { get; set; }
-    }
 
-    public class CreateBatchResponse : IHasResponseStatus
-    {
-        [ApiMember(Name = "Batch Id", Description = "A user-defined value associated with the batch")]
-        public string BatchId { get; set; }
+        [ApiMember(Name = "Steps",
+            Description = "An array of steps to append to batch",
+            ParameterType = "model",
+            IsRequired = false)]
+        public List<Step> Steps { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }
     }

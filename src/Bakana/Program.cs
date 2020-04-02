@@ -2,16 +2,14 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Bakana.Core;
+using Bakana.Core.Repositories;
 using Bakana.ServiceInterface;
-using Bakana.ServiceModels;
 using Funq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
 using ServiceStack.Api.OpenApi;
-using ServiceStack.Data;
-using ServiceStack.OrmLite;
 
 namespace Bakana
 {
@@ -32,17 +30,14 @@ namespace Bakana
 
     public class Startup : ModularStartup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public new void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IShortIdGenerator, ShortIdGenerator>();
-            
-            services.AddSingleton<IDbConnectionFactory>(c => 
-                new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider)); //InMemory Sqlite DB
+            services.AddSingleton<IBatchRepository, BatchRepository>();
+            services.AddSingleton<IStepRepository, StepRepository>();
+            services.AddSingleton<ICommandRepository, CommandRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseServiceStack(new AppHost());
@@ -62,13 +57,7 @@ namespace Bakana
 
         public override void Configure(Container container)
         {
-            Plugins.Add(new OpenApiFeature { 
-                OperationFilter = (verb, op) =>
-                {  
-                    // if (op.OperationId.StartsWith(nameof(CreateBatchRequest)))
-                    //     op.Parameters.RemoveAll(p => p.In != "body");
-                }
-            });
+            Plugins.Add(new OpenApiFeature());
         }
     }
 }

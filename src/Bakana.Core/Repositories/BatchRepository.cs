@@ -155,6 +155,14 @@ namespace Bakana.Core.Repositories
             return rowsDeleted > 0;
         }
 
+        public async Task<bool> DoesBatchOptionExist(string batchId, string optionId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesBatchOptionExist(batchId, optionId);
+            }
+        }
+
         public async Task<ulong> CreateBatchArtifact(BatchArtifact batchArtifact)
         {
             using (var db = await DbConnectionFactory.OpenAsync())

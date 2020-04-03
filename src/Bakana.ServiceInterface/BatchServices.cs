@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using Bakana.Core;
 using Bakana.Core.Entities;
@@ -6,6 +7,8 @@ using Bakana.Core.Repositories;
 using ServiceStack;
 using System.Threading.Tasks;
 using Bakana.ServiceModels.Batches;
+using Option = Bakana.ServiceModels.Option;
+using Variable = Bakana.ServiceModels.Variable;
 
 namespace Bakana.ServiceInterface
 {
@@ -71,6 +74,7 @@ namespace Bakana.ServiceInterface
             return new DeleteBatchResponse();
         }
         
+        
         public async Task<CreateBatchVariableResponse> Post(CreateBatchVariableRequest request)
         {
             if (!await batchRepository.DoesExist(request.BatchId))
@@ -89,7 +93,39 @@ namespace Bakana.ServiceInterface
 
             return new CreateBatchVariableResponse();
         }
-        
+
+        public async Task<GetBatchVariableResponse> Get(GetBatchVariableRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var batchVariable = await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
+            if (batchVariable == null)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch variable {request.BatchId} not found");
+            }
+
+            return batchVariable.ConvertTo<GetBatchVariableResponse>();
+        }
+
+        public async Task<GetAllBatchVariableResponse> Get(GetAllBatchVariableRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var batchVariables = await batchRepository.GetAllBatchVariables(request.BatchId);
+            var response = new GetAllBatchVariableResponse
+            {
+                Variables = batchVariables.ConvertTo<List<Variable>>()
+            };
+
+            return response;
+        }
+
         public async Task<UpdateBatchVariableResponse> Put(UpdateBatchVariableRequest request)
         {
             if (!await batchRepository.DoesExist(request.BatchId))
@@ -131,32 +167,98 @@ namespace Bakana.ServiceInterface
             return new DeleteBatchVariableResponse();
         }
         
-        public async Task<GetBatchVariableResponse> Get(GetBatchVariableRequest request)
+        
+        
+        public async Task<CreateBatchOptionResponse> Post(CreateBatchOptionRequest request)
         {
             if (!await batchRepository.DoesExist(request.BatchId))
             {
                 throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
             }
 
-            var batchVariable = await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
-            if (batchVariable == null)
+            if (await batchRepository.DoesBatchOptionExist(request.BatchId, request.OptionId))
             {
-                throw new HttpError(HttpStatusCode.NotFound, $"Batch variable {request.BatchId} not found");
+                throw new HttpError(HttpStatusCode.Conflict, $"Option {request.OptionId} already exists");
             }
 
-            return batchVariable.ConvertTo<GetBatchVariableResponse>();
+            var batchOption = request.ConvertTo<BatchOption>();
+
+            await batchRepository.CreateOrUpdateBatchOption(batchOption);
+
+            return new CreateBatchOptionResponse();
+        }
+
+        public async Task<GetBatchOptionResponse> Get(GetBatchOptionRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var batchOption = await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
+            if (batchOption == null)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch Option {request.BatchId} not found");
+            }
+
+            return batchOption.ConvertTo<GetBatchOptionResponse>();
+        }
+
+        public async Task<GetAllBatchOptionResponse> Get(GetAllBatchOptionRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var batchOptions = await batchRepository.GetAllBatchOptions(request.BatchId);
+            var response = new GetAllBatchOptionResponse
+            {
+                Options = batchOptions.ConvertTo<List<Option>>()
+            };
+
+            return response;
+        }
+
+        public async Task<UpdateBatchOptionResponse> Put(UpdateBatchOptionRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var existingBatchOption =
+                await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
+            if (existingBatchOption == null)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch Option {request.OptionId} not found");
+            }
+
+            var batchOption = request.ConvertTo<BatchOption>();
+            batchOption.Id = existingBatchOption.Id;
+
+            await batchRepository.CreateOrUpdateBatchOption(batchOption);
+
+            return new UpdateBatchOptionResponse();
         }
         
-        public async Task<GetAllBatchVariableResponse> Get(GetAllBatchVariableRequest request)
+        public async Task<DeleteBatchOptionResponse> Delete(DeleteBatchOptionRequest request)
         {
             if (!await batchRepository.DoesExist(request.BatchId))
             {
                 throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
             }
 
-            var batchVariables = await batchRepository.GetAllBatchVariables(request.BatchId);
+            var existingBatchOption =
+                await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
+            if (existingBatchOption == null)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch Option {request.OptionId} not found");
+            }
 
-            return batchVariables.ConvertTo<GetAllBatchVariableResponse>();
+            await batchRepository.DeleteBatchOption(existingBatchOption.Id);
+
+            return new DeleteBatchOptionResponse();
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Bakana.Core.Repositories
         Task<BatchOption> GetBatchOption(string batchId, string optionId);
         Task<List<BatchOption>> GetAllBatchOptions(string batchId);
         Task<bool> DeleteBatchOption(ulong id);
+        Task<bool> DoesBatchOptionExist(string batchId, string optionId);
         
         Task<ulong> CreateBatchArtifact(BatchArtifact batchArtifact);
         Task UpdateBatchArtifact(BatchArtifact batchArtifact);

@@ -5,9 +5,9 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/variables", HttpMethods.Get, Summary = "Get all batch Variables")]
-    [ApiResponse(HttpStatusCode.NotFound, "The batch or batch Variable was not found")]
-    public class GetAllBatchVariableRequest : IReturn<GetAllBatchVariableResponse>
+    [Route("/batch/{BatchId}/options", HttpMethods.Get, Summary = "Get all batch options")]
+    [ApiResponse(HttpStatusCode.NotFound, "The batch or batch option was not found")]
+    public class GetAllBatchOptionRequest : IReturn<GetAllBatchOptionResponse>
     {
         [ApiMember(
             Description = "A system-generated value associated with the batch",
@@ -17,9 +17,9 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
     }
 
-    public class GetAllBatchVariableResponse : IHasResponseStatus
+    public class GetAllBatchOptionResponse : IHasResponseStatus
     {
-        public List<Variable> Variables { get; set; }
+        public List<Option> Options { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }
     }

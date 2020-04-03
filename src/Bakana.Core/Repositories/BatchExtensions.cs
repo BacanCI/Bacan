@@ -81,6 +81,11 @@ namespace Bakana.Core.Repositories
             return await db.ScalarAsync<ulong>(q);
         }
 
+        internal static async Task<bool> DoesBatchOptionExist(this IDbConnection db, string batchId, string optionId)
+        {
+            return await db.ExistsAsync<BatchOption>(b => b.BatchId == batchId && b.OptionId == optionId);
+        }
+
         internal static async Task CreateOrUpdateBatchVariables(this IDbConnection db, IEnumerable<BatchVariable> variables)
         {
             if (variables == null) return;

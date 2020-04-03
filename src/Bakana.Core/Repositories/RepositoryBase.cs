@@ -13,11 +13,11 @@ namespace Bakana.Core.Repositories
             DbConnectionFactory = dbConnectionFactory;
         }
 
-        protected async Task DeleteByIdAsync<T>(ulong id)
+        protected async Task<int> DeleteByIdAsync<T>(ulong id)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.DeleteByIdAsync<T>(id);
+                return await db.DeleteByIdAsync<T>(id);
             }
         }
     }

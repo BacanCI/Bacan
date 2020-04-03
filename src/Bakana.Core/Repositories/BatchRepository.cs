@@ -25,19 +25,21 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task Update(Batch batch)
+        public async Task<bool> Update(Batch batch)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.UpdateBatch(batch);
+                var rowsUpdated = await db.UpdateBatch(batch);
+                return rowsUpdated > 0;
             }
         }
 
-        public async Task Delete(string batchId)
+        public async Task<bool> Delete(string batchId)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.DeleteByIdAsync<Batch>(batchId);
+                var rowsDeleted = await db.DeleteByIdAsync<Batch>(batchId);
+                return rowsDeleted > 0;
             }
         }
 
@@ -92,9 +94,10 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task DeleteBatchVariable(ulong id)
+        public async Task<bool> DeleteBatchVariable(ulong id)
         {
-            await DeleteByIdAsync<BatchVariable>(id);
+            var rowsDeleted = await DeleteByIdAsync<BatchVariable>(id);
+            return rowsDeleted > 0;
         }
 
         public async Task<ulong> CreateOrUpdateBatchOption(BatchOption option)
@@ -130,9 +133,10 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task DeleteBatchOption(ulong id)
+        public async Task<bool> DeleteBatchOption(ulong id)
         {
-            await DeleteByIdAsync<BatchOption>(id);
+            var rowsDeleted = await DeleteByIdAsync<BatchOption>(id);
+            return rowsDeleted > 0;
         }
 
         public async Task<ulong> CreateBatchArtifact(BatchArtifact batchArtifact)
@@ -178,9 +182,10 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task DeleteBatchArtifact(ulong id)
+        public async Task<bool> DeleteBatchArtifact(ulong id)
         {
-            await DeleteByIdAsync<BatchArtifact>(id);
+            var rowsDeleted = await DeleteByIdAsync<BatchArtifact>(id);
+            return rowsDeleted > 0;
         }
 
         public async Task<ulong> CreateOrUpdateBatchArtifactOption(BatchArtifactOption option)
@@ -216,9 +221,10 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task DeleteBatchArtifactOption(ulong id)
+        public async Task<bool> DeleteBatchArtifactOption(ulong id)
         {
-            await DeleteByIdAsync<BatchArtifactOption>(id);
+            var rowsDeleted = await DeleteByIdAsync<BatchArtifactOption>(id);
+            return rowsDeleted > 0;
         }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using ServiceStack;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Bakana.ServiceModels
 {
     [Tag("Batch")]
     [Route("/batch/{BatchId}", HttpMethods.Get, Summary = "Get batch")]
+    [ApiResponse(HttpStatusCode.NotFound, "The batch was not found")]
     public class GetBatchRequest : IReturn<GetBatchResponse>
     {
-        [ApiMember(Name = "BatchId",
+        [ApiMember(
             Description = "A system-generated value associated with the batch",
             DataType = "string",
             ParameterType = "path",
@@ -16,29 +18,29 @@ namespace Bakana.ServiceModels
     }
     public class GetBatchResponse : IHasResponseStatus
     {
-        [ApiMember(Name = "Batch Id",
+        [ApiMember(
             Description = "A system-generated value associated with the batch",
             DataType = "string")]
         public string BatchId { get; set; }
 
-        [ApiMember(Name = "Description",
+        [ApiMember(
             Description = "A description of the batch",
             DataType = "string")]
         public string Description { get; set; }
 
-        [ApiMember(Name = "Options",
+        [ApiMember(
             Description = "Options assigned to batch")]
         public List<Option> Options { get; set; }
 
-        [ApiMember(Name = "Variables",
+        [ApiMember(
             Description = "Array of variables to be used by all steps in the batch")]
         public List<Variable> Variables { get; set; }
 
-        [ApiMember(Name = "Input Artifacts",
+        [ApiMember(
             Description = "An array of artifacts associated with batch")]
         public List<BatchArtifact> InputArtifacts { get; set; }
 
-        [ApiMember(Name = "Steps",
+        [ApiMember(
             Description = "An array of steps associated with batch")]
         public List<Step> Steps { get; set; }
 

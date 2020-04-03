@@ -96,6 +96,14 @@ namespace Bakana.ServiceInterface
                 return to;
             });
 
+            
+            AutoMapping.RegisterConverter((UpdateBatchRequest from) =>
+            {
+                var to = from.ConvertTo<Batch>(true);
+                to.Id = from.BatchId;
+
+                return to;
+            });
         }
         
     }

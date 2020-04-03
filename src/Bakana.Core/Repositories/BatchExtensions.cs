@@ -19,9 +19,9 @@ namespace Bakana.Core.Repositories
             await db.CreateSteps(batch.Steps);
         }
         
-        internal static async Task UpdateBatch(this IDbConnection db, Batch batch)
+        internal static async Task<int> UpdateBatch(this IDbConnection db, Batch batch)
         {
-            await db.UpdateAsync(batch);
+            return await db.UpdateAsync(batch);
         }
 
         internal static async Task<Batch> GetBatch(this IDbConnection db, string batchId)
@@ -29,6 +29,8 @@ namespace Bakana.Core.Repositories
             var batch = await db.LoadSingleByIdAsync<Batch>(
                 batchId, include: 
                 new[] { nameof(Batch.Options), nameof(Batch.Variables) });
+
+            if (batch == null) return null;
                 
             batch.InputArtifacts = await db.LoadSelectAsync<BatchArtifact>(artifact => artifact.BatchId == batchId);
             batch.Steps = await db.GetAllSteps(batchId);
@@ -36,9 +38,9 @@ namespace Bakana.Core.Repositories
             return batch;
         }
 
-        internal static async Task UpdateBatchState(this IDbConnection db, string batchId, BatchState state)
+        internal static async Task<int> UpdateBatchState(this IDbConnection db, string batchId, BatchState state)
         {
-            await db.UpdateOnlyAsync(() => new Batch { State = state }, where: p => p.Id == batchId);
+            return await db.UpdateOnlyAsync(() => new Batch { State = state }, where: p => p.Id == batchId);
         }
         
         internal static async Task CreateOrUpdateBatchOptions(this IDbConnection db, IEnumerable<BatchOption> options)
@@ -118,9 +120,9 @@ namespace Bakana.Core.Repositories
             await db.SaveAsync(artifact, true);
         }
         
-        internal static async Task UpdateBatchArtifact(this IDbConnection db, BatchArtifact artifact)
+        internal static async Task<int> UpdateBatchArtifact(this IDbConnection db, BatchArtifact artifact)
         {
-            await db.UpdateAsync(artifact);
+            return await db.UpdateAsync(artifact);
         }
         
         internal static async Task<ulong> GetBatchArtifactPkByArtifactId(this IDbConnection db, string batchId, string artifactId)

@@ -52,6 +52,50 @@ namespace Bakana.ServiceInterface
 
                 return to;
             });
+            
+            
+            
+            AutoMapping.RegisterConverter((Batch from) =>
+            {
+                var to = from.ConvertTo<GetBatchResponse>(true);
+                to.BatchId = from.Id;
+                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
+                to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
+                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<ServiceModels.BatchArtifact>>(true);
+                to.Steps = from.Steps.ConvertTo<List<ServiceModels.Step>>(true);
+
+                return to;
+            });
+
+            AutoMapping.RegisterConverter((BatchArtifact from) =>
+            {
+                var to = from.ConvertTo<ServiceModels.BatchArtifact>(true);
+                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
+
+                return to;
+            });
+            
+            AutoMapping.RegisterConverter((Step from) =>
+            {
+                var to = from.ConvertTo<ServiceModels.Step>(true);
+                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
+                to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
+                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<ServiceModels.StepArtifact>>(true);
+                to.OutputArtifacts = from.OutputArtifacts.ConvertTo<List<ServiceModels.StepArtifact>>(true);
+                to.Commands = from.Commands.ConvertTo<List<ServiceModels.Command>>(true);
+
+                return to;
+            });
+            
+            AutoMapping.RegisterConverter((Command from) =>
+            {
+                var to = from.ConvertTo<ServiceModels.Command>(true);
+                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
+                to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
+
+                return to;
+            });
+
         }
         
     }

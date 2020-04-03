@@ -24,6 +24,8 @@ ProjectSection(SolutionItems) = preProject
 	..\.github\workflows\bakana.yml = ..\.github\workflows\bakana.yml
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.TestData", "Bakana.TestData\Bakana.TestData.csproj", "{5DFA6DF6-A955-4D2B-A014-693CC0A0D320}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{7BE787D3-82C8-40E0-A440-62E0081121A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BE787D3-82C8-40E0-A440-62E0081121A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BE787D3-82C8-40E0-A440-62E0081121A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DFA6DF6-A955-4D2B-A014-693CC0A0D320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DFA6DF6-A955-4D2B-A014-693CC0A0D320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DFA6DF6-A955-4D2B-A014-693CC0A0D320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DFA6DF6-A955-4D2B-A014-693CC0A0D320}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +70,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7BE787D3-82C8-40E0-A440-62E0081121A0} = {4351668C-222B-406B-9B6F-FDED698A923A}
 		{046451DE-1966-425E-A932-AE3D527C22EA} = {4351668C-222B-406B-9B6F-FDED698A923A}
+		{5DFA6DF6-A955-4D2B-A014-693CC0A0D320} = {4351668C-222B-406B-9B6F-FDED698A923A}
 	EndGlobalSection
 EndGlobal

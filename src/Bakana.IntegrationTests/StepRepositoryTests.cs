@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bakana.Core;
 using Bakana.Core.Repositories;
+using Bakana.TestData.Entities;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -24,7 +25,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             // Act
@@ -41,7 +42,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
@@ -61,7 +62,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
@@ -78,7 +79,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
@@ -94,7 +95,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_By_StepId()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             await Sut.Create(buildStep);
@@ -110,11 +111,11 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
             await Sut.Create(buildStep);
 
-            var testStep = TestData.Steps.Test;
+            var testStep = Steps.Test;
             testStep.BatchId = "123";
             await Sut.Create(testStep);
 
@@ -137,7 +138,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_UpdateState()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
@@ -155,12 +156,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_StepVariable()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
 
-            var testFilterVariable = TestData.StepVariables.TestFilter;
+            var testFilterVariable = StepVariables.TestFilter;
             testFilterVariable.StepId = id;
 
             // Act
@@ -180,12 +181,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_StepVariable()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
 
-            var profileVariable = buildStep.Variables.Single(o => o.VariableId == TestData.StepVariables.Profile.VariableId);
+            var profileVariable = buildStep.Variables.Single(o => o.VariableId == StepVariables.Profile.VariableId);
             profileVariable.Description = "Updated";
 
             // Act
@@ -196,7 +197,7 @@ namespace Bakana.IntegrationTests
             fetchedBuildStep.Variables.Count.Should().Be(2);
 
             var fetchedProfileVariable =
-                fetchedBuildStep.Variables.SingleOrDefault(o => o.VariableId == TestData.StepVariables.Profile.VariableId);
+                fetchedBuildStep.Variables.SingleOrDefault(o => o.VariableId == StepVariables.Profile.VariableId);
             fetchedProfileVariable.Should().NotBeNull();
             fetchedProfileVariable.Should().BeEquivalentTo(profileVariable);
         }
@@ -205,7 +206,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_StepVariable()
         {
             // Arrange
-            var profileVariable = TestData.StepVariables.Profile;
+            var profileVariable = StepVariables.Profile;
             profileVariable.StepId = 123;
 
             var id = await Sut.CreateOrUpdateStepVariable(profileVariable);
@@ -221,7 +222,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_StepVariable_By_VariableId()
         {
             // Arrange
-            var profileVariable = TestData.StepVariables.Profile;
+            var profileVariable = StepVariables.Profile;
             profileVariable.StepId = 123;
 
             await Sut.CreateOrUpdateStepVariable(profileVariable);
@@ -237,7 +238,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_StepVariables()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.StepId = "123";
 
             var id = await Sut.Create(buildStep);
@@ -254,7 +255,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_StepVariable()
         {
             // Arrange
-            var profileVariable = TestData.StepVariables.Profile;
+            var profileVariable = StepVariables.Profile;
             profileVariable.StepId = 123;
 
             var id = await Sut.CreateOrUpdateStepVariable(profileVariable);
@@ -271,12 +272,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_StepOption()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
 
-            var buildWhenNoErrorsOption = TestData.StepOptions.BuildWhenNoErrors;
+            var buildWhenNoErrorsOption = StepOptions.BuildWhenNoErrors;
             buildWhenNoErrorsOption.StepId = id;
 
             // Act
@@ -296,12 +297,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_StepOption()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
 
-            var buildAlwaysOption = buildStep.Options.Single(o => o.OptionId == TestData.StepOptions.BuildAlways.OptionId);
+            var buildAlwaysOption = buildStep.Options.Single(o => o.OptionId == StepOptions.BuildAlways.OptionId);
             buildAlwaysOption.Description = "Updated";
 
             // Act
@@ -312,7 +313,7 @@ namespace Bakana.IntegrationTests
             fetchedBuildStep.Options.Count.Should().Be(1);
 
             var fetchedBuildAlwaysOption =
-                fetchedBuildStep.Options.SingleOrDefault(o => o.OptionId == TestData.StepOptions.BuildAlways.OptionId);
+                fetchedBuildStep.Options.SingleOrDefault(o => o.OptionId == StepOptions.BuildAlways.OptionId);
             fetchedBuildAlwaysOption.Should().NotBeNull();
             fetchedBuildAlwaysOption.Should().BeEquivalentTo(buildAlwaysOption);
         }
@@ -321,7 +322,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_StepOption()
         {
             // Arrange
-            var buildAlwaysOption = TestData.StepOptions.BuildAlways;
+            var buildAlwaysOption = StepOptions.BuildAlways;
             buildAlwaysOption.StepId = 123;
 
             var id = await Sut.CreateOrUpdateStepOption(buildAlwaysOption);
@@ -337,7 +338,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_StepOption_By_OptionId()
         {
             // Arrange
-            var buildAlwaysOption = TestData.StepOptions.BuildAlways;
+            var buildAlwaysOption = StepOptions.BuildAlways;
             buildAlwaysOption.StepId = 123;
 
             await Sut.CreateOrUpdateStepOption(buildAlwaysOption);
@@ -353,7 +354,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_StepOptions()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.BatchId = "123";
 
             var id = await Sut.Create(buildStep);
@@ -370,7 +371,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_StepOption()
         {
             // Arrange
-            var buildAlwaysStep = TestData.StepOptions.BuildAlways;
+            var buildAlwaysStep = StepOptions.BuildAlways;
             buildAlwaysStep.StepId = 123;
 
             var id = await Sut.CreateOrUpdateStepOption(buildAlwaysStep);
@@ -387,12 +388,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_StepArtifact()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.StepId = "123";
 
             var id = await Sut.Create(buildStep);
 
-            var testResultsArtifact = TestData.StepArtifacts.TestResults;
+            var testResultsArtifact = StepArtifacts.TestResults;
             testResultsArtifact.StepId = id;
 
             // Act
@@ -412,12 +413,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_StepArtifact()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.StepId = "123";
 
             var id = await Sut.Create(buildStep);
 
-            var sourceArtifact = buildStep.InputArtifacts.Single(o => o.ArtifactId == TestData.StepArtifacts.Source.ArtifactId);
+            var sourceArtifact = buildStep.InputArtifacts.Single(o => o.ArtifactId == StepArtifacts.Source.ArtifactId);
             sourceArtifact.Description = "Updated";
 
             // Act
@@ -428,7 +429,7 @@ namespace Bakana.IntegrationTests
             fetchedBuildStep.InputArtifacts.Count.Should().Be(1);
 
             var fetchedSourceArtifact =
-                fetchedBuildStep.InputArtifacts.SingleOrDefault(o => o.ArtifactId == TestData.StepArtifacts.Source.ArtifactId);
+                fetchedBuildStep.InputArtifacts.SingleOrDefault(o => o.ArtifactId == StepArtifacts.Source.ArtifactId);
             fetchedSourceArtifact.Should().NotBeNull();
             fetchedSourceArtifact.Should().BeEquivalentTo(sourceArtifact);
         }
@@ -437,7 +438,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_StepArtifact()
         {
             // Arrange
-            var binariesArtifact = TestData.StepArtifacts.Binaries;
+            var binariesArtifact = StepArtifacts.Binaries;
             binariesArtifact.StepId = 123;
 
             var id = await Sut.CreateStepArtifact(binariesArtifact);
@@ -453,7 +454,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_StepArtifact_By_ArtifactId()
         {
             // Arrange
-            var binariesArtifact = TestData.StepArtifacts.Binaries;
+            var binariesArtifact = StepArtifacts.Binaries;
             binariesArtifact.StepId = 123;
 
             await Sut.CreateStepArtifact(binariesArtifact);
@@ -469,7 +470,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_StepArtifacts()
         {
             // Arrange
-            var buildStep = TestData.Steps.Build;
+            var buildStep = Steps.Build;
             buildStep.StepId = "123";
 
             var id = await Sut.Create(buildStep);
@@ -486,7 +487,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_StepArtifact()
         {
             // Arrange
-            var binariesArtifact = TestData.StepArtifacts.Binaries;
+            var binariesArtifact = StepArtifacts.Binaries;
             binariesArtifact.StepId = 123;
 
             var id = await Sut.CreateStepArtifact(binariesArtifact);
@@ -503,7 +504,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_StepArtifactOption()
         {
             // Arrange
-            var compressOption = TestData.StepArtifactOptions.Compress;
+            var compressOption = StepArtifactOptions.Compress;
             compressOption.StepArtifactId = 123;
 
             // Act
@@ -518,7 +519,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_StepArtifactOption()
         {
             // Arrange
-            var compressOption = TestData.StepArtifactOptions.Compress;
+            var compressOption = StepArtifactOptions.Compress;
             compressOption.StepArtifactId = 123;
 
             var id = await Sut.CreateOrUpdateStepArtifactOption(compressOption);
@@ -538,7 +539,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_StepArtifactOption()
         {
             // Arrange
-            var compressOption = TestData.StepArtifactOptions.Compress;
+            var compressOption = StepArtifactOptions.Compress;
             compressOption.StepArtifactId = 123;
 
             var id = await Sut.CreateOrUpdateStepArtifactOption(compressOption);
@@ -554,7 +555,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_StepArtifactOption_By_OptionId()
         {
             // Arrange
-            var compressOption = TestData.StepArtifactOptions.Compress;
+            var compressOption = StepArtifactOptions.Compress;
             compressOption.StepArtifactId = 123;
 
             await Sut.CreateOrUpdateStepArtifactOption(compressOption);
@@ -570,11 +571,11 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_StepArtifactOptions()
         {
             // Arrange
-            var extractOption = TestData.StepArtifactOptions.Extract;
+            var extractOption = StepArtifactOptions.Extract;
             extractOption.StepArtifactId = 123;
             await Sut.CreateOrUpdateStepArtifactOption(extractOption);
 
-            var compressOption = TestData.StepArtifactOptions.Compress;
+            var compressOption = StepArtifactOptions.Compress;
             compressOption.StepArtifactId = 123;
             await Sut.CreateOrUpdateStepArtifactOption(compressOption);
 
@@ -595,7 +596,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_StepArtifactOption()
         {
             // Arrange
-            var compressOption = TestData.StepArtifactOptions.Compress;
+            var compressOption = StepArtifactOptions.Compress;
             compressOption.StepArtifactId = 123;
 
             var id = await Sut.CreateOrUpdateStepArtifactOption(compressOption);

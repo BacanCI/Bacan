@@ -1,32 +1,32 @@
 using System.Collections.Generic;
-using Bakana.ServiceModels;
+using Bakana.Core.Entities;
 
-namespace Bakana.UnitTests.TestData
+namespace Bakana.TestData.Entities
 {
     public class StepVariables
     {
-        public static Variable SourcePath => new Variable()
+        public static StepVariable SourcePath => new StepVariable
         {
             VariableId = "SourcePath",
             Description = "Path to Source code",
             Value = "./src"
         };
 
-        public static Variable Profile => new Variable
+        public static StepVariable Profile => new StepVariable
         {
             VariableId = "Profile",
             Description = "Build Profile ",
             Value = "PRODUCTION"
         };
         
-        public static Variable TestPath => new Variable
+        public static StepVariable TestPath => new StepVariable
         {
             VariableId = "TestPath",
             Description = "Path to test project",
             Value = "./tests"
         };
         
-        public static Variable TestFilter => new Variable
+        public static StepVariable TestFilter => new StepVariable
         {
             VariableId = "TestFilter",
             Description = "NUnit Test Filter",
@@ -36,14 +36,14 @@ namespace Bakana.UnitTests.TestData
     
     public class StepOptions
     {
-        public static Option BuildAlways => new Option
+        public static StepOption BuildAlways => new StepOption
         {
             OptionId = "BuildAlways",
             Description = "Build Always",
             Value = "True"
         };
 
-        public static Option BuildWhenNoErrors => new Option
+        public static StepOption BuildWhenNoErrors => new StepOption
         {
             OptionId = "BuildWhenNoErrors",
             Description = "Build only when no previous step has errored",
@@ -53,14 +53,14 @@ namespace Bakana.UnitTests.TestData
     
     public static class StepArtifactOptions
     {
-        public static Option Extract => new Option
+        public static StepArtifactOption Extract => new StepArtifactOption
         {
             OptionId = "Extract",
             Description = "Extract files",
             Value = "True"
         };
 
-        public static Option Compress => new Option
+        public static StepArtifactOption Compress => new StepArtifactOption
         {
             OptionId = "Compress",
             Description = "Compress files",
@@ -75,7 +75,7 @@ namespace Bakana.UnitTests.TestData
             ArtifactId = "Source",
             Description = "Source Code",
             FileName = "Source.zip",
-            Options = new List<Option>
+            Options = new List<StepArtifactOption>
             {
                 StepArtifactOptions.Extract
             },
@@ -87,7 +87,7 @@ namespace Bakana.UnitTests.TestData
             Description = "Binaries",
             FileName = "Build.zip",
             OutputArtifact = true,
-            Options = new List<Option>
+            Options = new List<StepArtifactOption>
             {
                 StepArtifactOptions.Compress
             },
@@ -118,11 +118,11 @@ namespace Bakana.UnitTests.TestData
             {
                 StepArtifacts.Binaries
             },
-            Options = new List<Option>
+            Options = new List<StepOption>
             {
                 StepOptions.BuildAlways,
             },
-            Variables = new List<Variable>
+            Variables = new List<StepVariable>
             {
                 StepVariables.SourcePath,
                 StepVariables.Profile,
@@ -149,11 +149,11 @@ namespace Bakana.UnitTests.TestData
             {
                 StepArtifacts.TestResults
             },
-            Options = new List<Option>
+            Options = new List<StepOption>
             {
                 StepOptions.BuildAlways
             },
-            Variables = new List<Variable>
+            Variables = new List<StepVariable>
             {
                 StepVariables.TestPath,
                 StepVariables.TestFilter

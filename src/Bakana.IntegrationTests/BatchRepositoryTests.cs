@@ -1,9 +1,9 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Bakana.Core;
 using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
+using Bakana.TestData.Entities;
 using FluentAssertions;
 using NUnit.Framework;
 using ServiceStack.OrmLite;
@@ -27,7 +27,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             // Act
@@ -42,7 +42,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
@@ -62,7 +62,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
@@ -84,7 +84,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
@@ -100,7 +100,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_UpdateState()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
@@ -120,12 +120,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_BatchVariable()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var environmentVariable = TestData.BatchVariables.Environment;
+            var environmentVariable = BatchVariables.Environment;
             environmentVariable.BatchId = fullyPopulatedBatch.Id;
 
             // Act
@@ -145,12 +145,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_BatchVariable()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var scheduleVariable = fullyPopulatedBatch.Variables.Single(o => o.VariableId == TestData.BatchVariables.Schedule.VariableId);
+            var scheduleVariable = fullyPopulatedBatch.Variables.Single(o => o.VariableId == BatchVariables.Schedule.VariableId);
             scheduleVariable.Description = "Updated";
 
             // Act
@@ -161,7 +161,7 @@ namespace Bakana.IntegrationTests
             fetchedBatch.Variables.Count.Should().Be(1);
 
             var fetchedScheduleVariable =
-                fetchedBatch.Variables.SingleOrDefault(o => o.VariableId == TestData.BatchVariables.Schedule.VariableId);
+                fetchedBatch.Variables.SingleOrDefault(o => o.VariableId == BatchVariables.Schedule.VariableId);
             fetchedScheduleVariable.Should().NotBeNull();
             fetchedScheduleVariable.Should().BeEquivalentTo(scheduleVariable);
         }
@@ -170,7 +170,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_BatchVariable()
         {
             // Arrange
-            var scheduleVariable = TestData.BatchVariables.Schedule;
+            var scheduleVariable = BatchVariables.Schedule;
             scheduleVariable.BatchId = "123";
 
             var id = await Sut.CreateOrUpdateBatchVariable(scheduleVariable);
@@ -186,7 +186,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_BatchVariable_By_VariableId()
         {
             // Arrange
-            var scheduleVariable = TestData.BatchVariables.Schedule;
+            var scheduleVariable = BatchVariables.Schedule;
             scheduleVariable.BatchId = "123";
 
             await Sut.CreateOrUpdateBatchVariable(scheduleVariable);
@@ -202,7 +202,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_BatchVariables()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
@@ -219,7 +219,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_BatchVariable()
         {
             // Arrange
-            var scheduleVariable = TestData.BatchVariables.Schedule;
+            var scheduleVariable = BatchVariables.Schedule;
             scheduleVariable.BatchId = "123";
 
             var id = await Sut.CreateOrUpdateBatchVariable(scheduleVariable);
@@ -236,12 +236,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_BatchOption()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var logOption = TestData.BatchOptions.Log;
+            var logOption = BatchOptions.Log;
             logOption.BatchId = fullyPopulatedBatch.Id;
 
             // Act
@@ -261,12 +261,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_BatchOption()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var debugOption = fullyPopulatedBatch.Options.Single(o => o.OptionId == TestData.BatchOptions.Debug.OptionId);
+            var debugOption = fullyPopulatedBatch.Options.Single(o => o.OptionId == BatchOptions.Debug.OptionId);
             debugOption.Description = "Updated";
 
             // Act
@@ -277,7 +277,7 @@ namespace Bakana.IntegrationTests
             fetchedBatch.Options.Count.Should().Be(1);
 
             var fetchedDebugOption =
-                fetchedBatch.Options.SingleOrDefault(o => o.OptionId == TestData.BatchOptions.Debug.OptionId);
+                fetchedBatch.Options.SingleOrDefault(o => o.OptionId == BatchOptions.Debug.OptionId);
             fetchedDebugOption.Should().NotBeNull();
             fetchedDebugOption.Should().BeEquivalentTo(debugOption);
         }
@@ -286,7 +286,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_BatchOption()
         {
             // Arrange
-            var debugOption = TestData.BatchOptions.Debug;
+            var debugOption = BatchOptions.Debug;
             debugOption.BatchId = "123";
 
             var id = await Sut.CreateOrUpdateBatchOption(debugOption);
@@ -302,7 +302,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_BatchOption_By_OptionId()
         {
             // Arrange
-            var debugOption = TestData.BatchOptions.Debug;
+            var debugOption = BatchOptions.Debug;
             debugOption.BatchId = "123";
 
             await Sut.CreateOrUpdateBatchOption(debugOption);
@@ -318,7 +318,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_BatchOptions()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
@@ -335,7 +335,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_BatchOption()
         {
             // Arrange
-            var debugOption = TestData.BatchOptions.Debug;
+            var debugOption = BatchOptions.Debug;
             debugOption.BatchId = "123";
 
             var id = await Sut.CreateOrUpdateBatchOption(debugOption);
@@ -352,12 +352,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_BatchArtifact()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var dbBackupArtifact = TestData.BatchArtifacts.DbBackup;
+            var dbBackupArtifact = BatchArtifacts.DbBackup;
             dbBackupArtifact.BatchId = fullyPopulatedBatch.Id;
 
             // Act
@@ -377,12 +377,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_BatchArtifact()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var packageArtifact = fullyPopulatedBatch.InputArtifacts.Single(o => o.ArtifactId == TestData.BatchArtifacts.Package.ArtifactId);
+            var packageArtifact = fullyPopulatedBatch.InputArtifacts.Single(o => o.ArtifactId == BatchArtifacts.Package.ArtifactId);
             packageArtifact.Description = "Updated";
 
             // Act
@@ -393,7 +393,7 @@ namespace Bakana.IntegrationTests
             fetchedBuildBatch.InputArtifacts.Count.Should().Be(1);
 
             var fetchedPackageArtifact =
-                fetchedBuildBatch.InputArtifacts.SingleOrDefault(o => o.ArtifactId == TestData.BatchArtifacts.Package.ArtifactId);
+                fetchedBuildBatch.InputArtifacts.SingleOrDefault(o => o.ArtifactId == BatchArtifacts.Package.ArtifactId);
             fetchedPackageArtifact.Should().NotBeNull();
             fetchedPackageArtifact.Should().BeEquivalentTo(packageArtifact);
         }
@@ -402,7 +402,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_BatchArtifact()
         {
             // Arrange
-            var packageArtifact = TestData.BatchArtifacts.Package;
+            var packageArtifact = BatchArtifacts.Package;
             packageArtifact.BatchId = "123";
 
             var id = await Sut.CreateBatchArtifact(packageArtifact);
@@ -418,7 +418,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_BatchArtifact_By_ArtifactId()
         {
             // Arrange
-            var packageArtifact = TestData.BatchArtifacts.Package;
+            var packageArtifact = BatchArtifacts.Package;
             packageArtifact.BatchId = "123";
 
             await Sut.CreateBatchArtifact(packageArtifact);
@@ -434,7 +434,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_BatchArtifacts()
         {
             // Arrange
-            var fullyPopulatedBatch = TestData.Batches.FullyPopulated;
+            var fullyPopulatedBatch = Batches.FullyPopulated;
             fullyPopulatedBatch.Id = "123";
 
             await Sut.Create(fullyPopulatedBatch);
@@ -451,7 +451,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_BatchArtifact()
         {
             // Arrange
-            var packageArtifact = TestData.BatchArtifacts.Package;
+            var packageArtifact = BatchArtifacts.Package;
             packageArtifact.BatchId = "123";
 
             var id = await Sut.CreateBatchArtifact(packageArtifact);
@@ -468,7 +468,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_BatchArtifactOption()
         {
             // Arrange
-            var compressOption = TestData.BatchArtifactOptions.Compress;
+            var compressOption = BatchArtifactOptions.Compress;
             compressOption.BatchArtifactId = 123;
 
             // Act
@@ -483,7 +483,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_BatchArtifactOption()
         {
             // Arrange
-            var compressOption = TestData.BatchArtifactOptions.Compress;
+            var compressOption = BatchArtifactOptions.Compress;
             compressOption.BatchArtifactId = 123;
 
             var id = await Sut.CreateOrUpdateBatchArtifactOption(compressOption);
@@ -503,7 +503,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_BatchArtifactOption()
         {
             // Arrange
-            var compressOption = TestData.BatchArtifactOptions.Compress;
+            var compressOption = BatchArtifactOptions.Compress;
             compressOption.BatchArtifactId = 123;
 
             var id = await Sut.CreateOrUpdateBatchArtifactOption(compressOption);
@@ -519,7 +519,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_BatchArtifactOption_By_OptionId()
         {
             // Arrange
-            var compressOption = TestData.BatchArtifactOptions.Compress;
+            var compressOption = BatchArtifactOptions.Compress;
             compressOption.BatchArtifactId = 123;
 
             await Sut.CreateOrUpdateBatchArtifactOption(compressOption);
@@ -535,11 +535,11 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_BatchArtifactOptions()
         {
             // Arrange
-            var extractOption = TestData.BatchArtifactOptions.Extract;
+            var extractOption = BatchArtifactOptions.Extract;
             extractOption.BatchArtifactId = 123;
             await Sut.CreateOrUpdateBatchArtifactOption(extractOption);
 
-            var compressOption = TestData.BatchArtifactOptions.Compress;
+            var compressOption = BatchArtifactOptions.Compress;
             compressOption.BatchArtifactId = 123;
             await Sut.CreateOrUpdateBatchArtifactOption(compressOption);
 
@@ -560,7 +560,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_BatchArtifactOption()
         {
             // Arrange
-            var compressOption = TestData.BatchArtifactOptions.Compress;
+            var compressOption = BatchArtifactOptions.Compress;
             compressOption.BatchArtifactId = 123;
 
             var id = await Sut.CreateOrUpdateBatchArtifactOption(compressOption);

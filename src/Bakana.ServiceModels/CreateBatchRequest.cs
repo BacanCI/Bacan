@@ -41,7 +41,7 @@ namespace Bakana.ServiceModels
 
     public class CreateBatchResponse : IHasResponseStatus
     {
-        [ApiMember(Name = "Batch Id", Description = "A user-defined value associated with the batch")]
+        [ApiMember(Name = "Batch Id", Description = "A system-generated value associated with the batch")]
         public string BatchId { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }

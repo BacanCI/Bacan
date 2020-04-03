@@ -1,19 +1,18 @@
-using System;
 using System.Collections.Generic;
-using Bakana.Core.Entities;
+using Bakana.ServiceModels;
 
-namespace Bakana.IntegrationTests.TestData
+namespace Bakana.TestData.ServiceModels
 {
     public static class BatchVariables
     {
-        public static BatchVariable Schedule => new BatchVariable
+        public static Variable Schedule => new Variable
         {
             VariableId = "Schedule",
             Description = "Schedule start",
             Value = "12:30:45"
         };
         
-        public static BatchVariable Environment => new BatchVariable
+        public static Variable Environment => new Variable
         {
             VariableId = "Environment",
             Description = "Deployment Environment",
@@ -23,14 +22,14 @@ namespace Bakana.IntegrationTests.TestData
         
     public static class BatchOptions
     {
-        public static BatchOption Debug => new BatchOption
+        public static Option Debug => new Option
         {
             OptionId = "Debug",
             Description = "Debug Mode",
             Value = "True"
         };
         
-        public static BatchOption Log => new BatchOption
+        public static Option Log => new Option
         {
             OptionId = "Log",
             Description = "Verbose Logging",
@@ -40,14 +39,14 @@ namespace Bakana.IntegrationTests.TestData
         
     public static class BatchArtifactOptions
     {
-        public static BatchArtifactOption Extract => new BatchArtifactOption
+        public static Option Extract => new Option
         {
             OptionId = "Extract",
             Description = "Extract files",
             Value = "True"
         };
         
-        public static BatchArtifactOption Compress => new BatchArtifactOption
+        public static Option Compress => new Option
         {
             OptionId = "Compress",
             Description = "Compress files",
@@ -62,7 +61,7 @@ namespace Bakana.IntegrationTests.TestData
             ArtifactId = "Package",
             Description = "First artifact",
             FileName = "package.zip",
-            Options = new List<BatchArtifactOption>
+            Options = new List<Option>
             {
                 BatchArtifactOptions.Extract
             }
@@ -73,7 +72,7 @@ namespace Bakana.IntegrationTests.TestData
             ArtifactId = "DbBackup",
             Description = "Database Backup",
             FileName = "db.zip",
-            Options = new List<BatchArtifactOption>
+            Options = new List<Option>
             {
                 BatchArtifactOptions.Extract
             }
@@ -82,19 +81,18 @@ namespace Bakana.IntegrationTests.TestData
 
     public static class Batches
     {
-        public static Batch FullyPopulated => new Batch
+        public static CreateBatchRequest FullyPopulated => new CreateBatchRequest
         {
             Description = "First",
-            ExpiresOn = DateTime.Now,
             InputArtifacts = new List<BatchArtifact>
             {
                 BatchArtifacts.Package
             },
-            Variables = new List<BatchVariable>
+            Variables = new List<Variable>
             {
                 BatchVariables.Schedule
             },
-            Options = new List<BatchOption>
+            Options = new List<Option>
             {
                 BatchOptions.Debug
             },

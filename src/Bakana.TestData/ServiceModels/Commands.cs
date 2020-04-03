@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Bakana.ServiceModels;
 
-namespace Bakana.UnitTests.TestData
+namespace Bakana.TestData.ServiceModels
 {
     public static class CommandVariables
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Bakana.Core;
 using Bakana.Core.Entities;
 
-namespace Bakana.IntegrationTests.TestData
+namespace Bakana.TestData.Entities
 {
     public static class CommandVariables
     {

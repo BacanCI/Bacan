@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bakana.Core;
 using Bakana.Core.Repositories;
+using Bakana.TestData.Entities;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -24,7 +25,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             // Act
@@ -41,7 +42,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
@@ -61,7 +62,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
@@ -78,7 +79,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
@@ -94,7 +95,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_By_CommandId()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             await Sut.Create(restoreCommand);
@@ -110,9 +111,9 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_GetAll()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
-            var buildCommand = TestData.Commands.DotNetBuild;
+            var buildCommand = Commands.DotNetBuild;
             buildCommand.StepId = 123;
 
             await Sut.Create(restoreCommand);
@@ -137,7 +138,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_State()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
@@ -155,12 +156,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_CommandOption()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
 
-            var productionOption = TestData.CommandOptions.Production;
+            var productionOption = CommandOptions.Production;
             productionOption.CommandId = id;
 
             // Act
@@ -180,12 +181,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_CommandOption()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
 
-            var option1 = restoreCommand.Options.Single(o => o.OptionId == TestData.CommandOptions.Optional1.OptionId);
+            var option1 = restoreCommand.Options.Single(o => o.OptionId == CommandOptions.Optional1.OptionId);
             option1.Description = "Updated";
 
             // Act
@@ -196,7 +197,7 @@ namespace Bakana.IntegrationTests
             fetchedRestoreCommand.Options.Count.Should().Be(2);
 
             var fetchedOption1 =
-                fetchedRestoreCommand.Options.SingleOrDefault(o => o.OptionId == TestData.CommandOptions.Optional1.OptionId);
+                fetchedRestoreCommand.Options.SingleOrDefault(o => o.OptionId == CommandOptions.Optional1.OptionId);
             fetchedOption1.Should().NotBeNull();
             fetchedOption1.Should().BeEquivalentTo(option1);
         }
@@ -205,7 +206,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_CommandOption()
         {
             // Arrange
-            var option1 = TestData.CommandOptions.Optional1;
+            var option1 = CommandOptions.Optional1;
             option1.CommandId = 123;
 
             var id = await Sut.CreateOrUpdateCommandOption(option1);
@@ -221,7 +222,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_CommandOption_By_CommandId()
         {
             // Arrange
-            var option1 = TestData.CommandOptions.Optional1;
+            var option1 = CommandOptions.Optional1;
             option1.CommandId = 123;
 
             await Sut.CreateOrUpdateCommandOption(option1);
@@ -237,7 +238,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_CommandOptions()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
@@ -254,7 +255,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_CommandOption()
         {
             // Arrange
-            var option1 = TestData.CommandOptions.Optional1;
+            var option1 = CommandOptions.Optional1;
             option1.CommandId = 123;
 
             var id = await Sut.CreateOrUpdateCommandOption(option1);
@@ -271,12 +272,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Create_CommandVariable()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
 
-            var connectionStringVariable = TestData.CommandVariables.ConnectionString;
+            var connectionStringVariable = CommandVariables.ConnectionString;
             connectionStringVariable.CommandId = id;
 
             // Act
@@ -296,12 +297,12 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Update_CommandVariable()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
 
-            var demoVariable = restoreCommand.Variables.Single(o => o.VariableId == TestData.CommandVariables.DemoArg.VariableId);
+            var demoVariable = restoreCommand.Variables.Single(o => o.VariableId == CommandVariables.DemoArg.VariableId);
             demoVariable.Description = "Updated";
 
             // Act
@@ -312,7 +313,7 @@ namespace Bakana.IntegrationTests
             fetchedRestoreCommand.Variables.Count.Should().Be(2);
 
             var fetchedDemoVariable =
-                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.VariableId == TestData.CommandVariables.DemoArg.VariableId);
+                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.VariableId == CommandVariables.DemoArg.VariableId);
             fetchedDemoVariable.Should().NotBeNull();
             fetchedDemoVariable.Should().BeEquivalentTo(demoVariable);
         }
@@ -321,7 +322,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_CommandVariable()
         {
             // Arrange
-            var connectionStringVariable = TestData.CommandVariables.ConnectionString;
+            var connectionStringVariable = CommandVariables.ConnectionString;
             connectionStringVariable.CommandId = 123;
 
             var id = await Sut.CreateOrUpdateCommandVariable(connectionStringVariable);
@@ -337,7 +338,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_CommandVariable_By_CommandId()
         {
             // Arrange
-            var connectionStringVariable = TestData.CommandVariables.ConnectionString;
+            var connectionStringVariable = CommandVariables.ConnectionString;
             connectionStringVariable.CommandId = 123;
 
             await Sut.CreateOrUpdateCommandVariable(connectionStringVariable);
@@ -353,7 +354,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Get_All_CommandVariables()
         {
             // Arrange
-            var restoreCommand = TestData.Commands.DotNetRestore;
+            var restoreCommand = Commands.DotNetRestore;
             restoreCommand.StepId = 123;
 
             var id = await Sut.Create(restoreCommand);
@@ -370,7 +371,7 @@ namespace Bakana.IntegrationTests
         public async Task It_Should_Delete_CommandVariable()
         {
             // Arrange
-            var connectionStringVariable = TestData.CommandVariables.ConnectionString;
+            var connectionStringVariable = CommandVariables.ConnectionString;
             connectionStringVariable.CommandId = 123;
 
             var id = await Sut.CreateOrUpdateCommandVariable(connectionStringVariable);

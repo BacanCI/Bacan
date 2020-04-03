@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Bakana.Core.Entities;
 using Bakana.ServiceModels;
+using Bakana.ServiceModels.Batches;
 using ServiceStack;
 using BatchArtifact = Bakana.Core.Entities.BatchArtifact;
 using Command = Bakana.Core.Entities.Command;
@@ -101,6 +102,27 @@ namespace Bakana.ServiceInterface
             {
                 var to = from.ConvertTo<Batch>(true);
                 to.Id = from.BatchId;
+
+                return to;
+            });
+            
+            AutoMapping.RegisterConverter((CreateBatchVariableRequest from) =>
+            {
+                var to = from.ConvertTo<BatchVariable>(true);
+
+                return to;
+            });
+            
+            AutoMapping.RegisterConverter((UpdateBatchVariableRequest from) =>
+            {
+                var to = from.ConvertTo<BatchVariable>(true);
+
+                return to;
+            });
+            
+            AutoMapping.RegisterConverter((BatchVariable from) =>
+            {
+                var to = from.ConvertTo<GetBatchVariableResponse>(true);
 
                 return to;
             });

@@ -1,7 +1,7 @@
-    using ServiceStack;
 using System.Collections.Generic;
+using ServiceStack;
 
-namespace Bakana.ServiceModels
+namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
     [Route("/batch", HttpMethods.Post, Summary = "Create new batch")]

@@ -59,6 +59,14 @@ namespace Bakana.Core.Repositories
             }
         }
 
+        public async Task<bool> DoesExist(string batchId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesExist(batchId);
+            }
+        }
+
         public async Task<ulong> CreateOrUpdateBatchVariable(BatchVariable variable)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
@@ -98,6 +106,14 @@ namespace Bakana.Core.Repositories
         {
             var rowsDeleted = await DeleteByIdAsync<BatchVariable>(id);
             return rowsDeleted > 0;
+        }
+
+        public async Task<bool> DoesBatchVariableExist(string batchId, string variableId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesBatchVariableExist(batchId, variableId);
+            }
         }
 
         public async Task<ulong> CreateOrUpdateBatchOption(BatchOption option)

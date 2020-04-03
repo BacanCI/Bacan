@@ -1,8 +1,8 @@
-﻿using ServiceStack;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
+using ServiceStack;
 
-namespace Bakana.ServiceModels
+namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
     [Route("/batch/{BatchId}", HttpMethods.Get, Summary = "Get batch")]
@@ -19,13 +19,11 @@ namespace Bakana.ServiceModels
     public class GetBatchResponse : IHasResponseStatus
     {
         [ApiMember(
-            Description = "A system-generated value associated with the batch",
-            DataType = "string")]
+            Description = "A system-generated value associated with the batch")]
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A description of the batch",
-            DataType = "string")]
+            Description = "A description of the batch")]
         public string Description { get; set; }
 
         [ApiMember(

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using ServiceStack;
 
-namespace Bakana.ServiceModels
+namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
     [Route("/batch/{BatchId}", HttpMethods.Delete, Summary = "Delete batch")]

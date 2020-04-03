@@ -11,12 +11,14 @@ namespace Bakana.Core.Repositories
         Task<bool> Delete(string batchId);
         Task<Batch> Get(string batchId);
         Task UpdateState(string batchId, BatchState state);
+        Task<bool> DoesExist(string batchId);
         
         Task<ulong> CreateOrUpdateBatchVariable(BatchVariable variable);
         Task<BatchVariable> GetBatchVariable(ulong id);
         Task<BatchVariable> GetBatchVariable(string batchId, string variableId);
         Task<List<BatchVariable>> GetAllBatchVariables(string batchId);
         Task<bool> DeleteBatchVariable(ulong id);
+        Task<bool> DoesBatchVariableExist(string batchId, string variableId);
         
         Task<ulong> CreateOrUpdateBatchOption(BatchOption option);
         Task<BatchOption> GetBatchOption(ulong id);

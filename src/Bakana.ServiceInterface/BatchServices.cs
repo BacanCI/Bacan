@@ -3,9 +3,9 @@ using System.Net;
 using Bakana.Core;
 using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
-using Bakana.ServiceModels;
 using ServiceStack;
 using System.Threading.Tasks;
+using Bakana.ServiceModels.Batches;
 
 namespace Bakana.ServiceInterface
 {
@@ -69,6 +69,94 @@ namespace Bakana.ServiceInterface
             }
 
             return new DeleteBatchResponse();
+        }
+        
+        public async Task<CreateBatchVariableResponse> Post(CreateBatchVariableRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            if (await batchRepository.DoesBatchVariableExist(request.BatchId, request.VariableId))
+            {
+                throw new HttpError(HttpStatusCode.Conflict, $"Variable {request.VariableId} already exists");
+            }
+
+            var batchVariable = request.ConvertTo<BatchVariable>();
+
+            await batchRepository.CreateOrUpdateBatchVariable(batchVariable);
+
+            return new CreateBatchVariableResponse();
+        }
+        
+        public async Task<UpdateBatchVariableResponse> Put(UpdateBatchVariableRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var existingBatchVariable =
+                await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
+            if (existingBatchVariable == null)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch variable {request.VariableId} not found");
+            }
+
+            var batchVariable = request.ConvertTo<BatchVariable>();
+            batchVariable.Id = existingBatchVariable.Id;
+
+            await batchRepository.CreateOrUpdateBatchVariable(batchVariable);
+
+            return new UpdateBatchVariableResponse();
+        }
+        
+        public async Task<DeleteBatchVariableResponse> Delete(DeleteBatchVariableRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var existingBatchVariable =
+                await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
+            if (existingBatchVariable == null)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch variable {request.VariableId} not found");
+            }
+
+            await batchRepository.DeleteBatchVariable(existingBatchVariable.Id);
+
+            return new DeleteBatchVariableResponse();
+        }
+        
+        public async Task<GetBatchVariableResponse> Get(GetBatchVariableRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var batchVariable = await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
+            if (batchVariable == null)
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch variable {request.BatchId} not found");
+            }
+
+            return batchVariable.ConvertTo<GetBatchVariableResponse>();
+        }
+        
+        public async Task<GetAllBatchVariableResponse> Get(GetAllBatchVariableRequest request)
+        {
+            if (!await batchRepository.DoesExist(request.BatchId))
+            {
+                throw new HttpError(HttpStatusCode.NotFound, $"Batch {request.BatchId} not found");
+            }
+
+            var batchVariables = await batchRepository.GetAllBatchVariables(request.BatchId);
+
+            return batchVariables.ConvertTo<GetAllBatchVariableResponse>();
         }
     }
 }

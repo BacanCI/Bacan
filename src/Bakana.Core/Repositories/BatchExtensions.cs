@@ -43,6 +43,11 @@ namespace Bakana.Core.Repositories
             return await db.UpdateOnlyAsync(() => new Batch { State = state }, where: p => p.Id == batchId);
         }
         
+        internal static async Task<bool> DoesExist(this IDbConnection db, string batchId)
+        {
+            return await db.ExistsAsync<Batch>(b => b.Id == batchId);
+        }
+
         internal static async Task CreateOrUpdateBatchOptions(this IDbConnection db, IEnumerable<BatchOption> options)
         {
             if (options == null) return;
@@ -83,9 +88,9 @@ namespace Bakana.Core.Repositories
             await variables.Iter(db.CreateOrUpdateBatchVariable);
         }
 
-        internal static async Task CreateOrUpdateBatchVariable(this IDbConnection db, BatchVariable variable)
+        internal static async Task<bool> CreateOrUpdateBatchVariable(this IDbConnection db, BatchVariable variable)
         {
-            await db.SaveAsync(variable, true);
+            return await db.SaveAsync(variable, true);
         }
         
         internal static async Task<BatchVariable> GetBatchVariable(this IDbConnection db, ulong id)
@@ -107,7 +112,12 @@ namespace Bakana.Core.Repositories
 
             return await db.ScalarAsync<ulong>(q);
         }
-        
+
+        internal static async Task<bool> DoesBatchVariableExist(this IDbConnection db, string batchId, string variableId)
+        {
+            return await db.ExistsAsync<BatchVariable>(b => b.BatchId == batchId && b.VariableId == variableId);
+        }
+
         internal static async Task CreateOrUpdateBatchArtifacts(this IDbConnection db, IEnumerable<BatchArtifact> artifacts)
         {
             if (artifacts == null) return;

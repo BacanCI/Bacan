@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Bakana.ServiceModels;
+using Bakana.ServiceModels.Batches;
 
 namespace Bakana.TestData.ServiceModels
 {

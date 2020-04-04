@@ -4,36 +4,36 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch", HttpMethods.Post, Summary = "Create new batch")]
+    [Route("/batch", HttpMethods.Post, Summary = "Create new Batch")]
     public class CreateBatchRequest : IReturn<CreateBatchResponse>
     {
         [ApiMember(
-            Description = "A description of the batch",
+            Description = "A description of the Batch",
             ParameterType = "model",
             DataType = "string",
             IsRequired = false)]
         public string Description { get; set; }
 
         [ApiMember(
-            Description = "Options to assign to batch",
+            Description = "Options to assign to Batch",
             ParameterType = "model",
             IsRequired = false)]
         public List<Option> Options { get; set; }
 
         [ApiMember(
-            Description = "Array of variables to be used by all steps in the batch",
+            Description = "Array of variables to be used by all steps in the Batch",
             ParameterType = "model",
             IsRequired = false)]
         public List<Variable> Variables { get; set; }
 
         [ApiMember(
-            Description = "An array of artifacts associated with batch",
+            Description = "An array of artifacts associated with Batch",
             ParameterType = "model",
             IsRequired = false)]
         public List<BatchArtifact> InputArtifacts { get; set; }
         
         [ApiMember(
-            Description = "An array of steps associated with batch",
+            Description = "An array of steps associated with Batch",
             ParameterType = "model",
             IsRequired = false)]
         public List<Step> Steps { get; set; }
@@ -42,7 +42,7 @@ namespace Bakana.ServiceModels.Batches
     public class CreateBatchResponse : IHasResponseStatus
     {
         [ApiMember(
-            Description = "A system-generated value associated with the batch")]
+            Description = "A system-generated identifier associated with the Batch")]
         public string BatchId { get; set; }
 
         public ResponseStatus ResponseStatus { get; set; }

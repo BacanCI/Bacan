@@ -1,12 +1,13 @@
-﻿using System.Net;
+using System.Collections.Generic;
+using System.Net;
 using ServiceStack;
 
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}", HttpMethods.Delete, Summary = "Delete Batch")]
+    [Route("/batch/{BatchId}/artifacts", HttpMethods.Get, Summary = "Get all Batch Artifacts")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch was not found")]
-    public class DeleteBatchRequest : IReturn<GetBatchResponse>
+    public class GetAllBatchArtifactRequest : IReturn<GetAllBatchArtifactResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -16,8 +17,10 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
     }
 
-    public class DeleteBatchResponse : IHasResponseStatus
+    public class GetAllBatchArtifactResponse : IHasResponseStatus
     {
+        public List<BatchArtifact> Artifacts { get; set; }
+
         public ResponseStatus ResponseStatus { get; set; }
     }
 }

@@ -4,32 +4,32 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/option", HttpMethods.Post, Summary = "Create new batch option")]
-    [ApiResponse(HttpStatusCode.NotFound, "The batch was not found")]
-    [ApiResponse(HttpStatusCode.Conflict, "The option already exists")]
+    [Route("/batch/{BatchId}/option", HttpMethods.Post, Summary = "Create new Batch Option")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch was not found")]
+    [ApiResponse(HttpStatusCode.Conflict, "The Batch Option already exists")]
     public class CreateBatchOptionRequest : IReturn<CreateBatchOptionResponse>
     {
         [ApiMember(
-            Description = "A system-generated value associated with the batch",
+            Description = "A system-generated identifier associated with the Batch",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A user-generated identifier associated with the option",
+            Description = "A user-generated identifier associated with the Option",
             DataType = "string",
             ParameterType = "model")]
         public string OptionId { get; set; }
 
         [ApiMember(
-            Description = "A description of the option",
+            Description = "A description of the Option",
             DataType = "string",
             ParameterType = "model")]
         public string Description { get; set; }
 
         [ApiMember(
-            Description = "The value assigned to the option",
+            Description = "The value assigned to the Option",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]

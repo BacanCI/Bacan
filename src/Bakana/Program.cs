@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bakana.Core;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface;
+using Bakana.ServiceInterface.Batches;
 using Funq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,7 +54,7 @@ namespace Bakana
     public class AppHost : AppHostBase
     {
         public AppHost()
-            : base("Bakana", typeof(BatchServices).Assembly) { }
+            : base("Bakana", typeof(BatchService).Assembly) { }
 
         public override void Configure(Container container)
         {

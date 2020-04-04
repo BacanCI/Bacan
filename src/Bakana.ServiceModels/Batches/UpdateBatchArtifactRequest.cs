@@ -4,9 +4,9 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/option/{OptionId}", HttpMethods.Put, Summary = "Update Batch Option")]
-    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Option was not found")]
-    public class UpdateBatchOptionRequest : IReturn<UpdateBatchOptionResponse>
+    [Route("/batch/{BatchId}/artifact/{ArtifactId}", HttpMethods.Put, Summary = "Update Batch Artifact")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Artifact was not found")]
+    public class UpdateBatchArtifactRequest : IReturn<UpdateBatchArtifactResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -16,27 +16,26 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A user-generated identifier associated with the Option",
+            Description = "A user-generated identifier associated with the Artifact",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string OptionId { get; set; }
-
+        public string ArtifactId { get; set; }
+        
         [ApiMember(
-            Description = "A description of the Option",
+            Description = "A description of the Artifact",
             DataType = "string",
             ParameterType = "model")]
         public string Description { get; set; }
 
         [ApiMember(
-            Description = "The value assigned to the Option",
+            Description = "The Artifact's filename",
             DataType = "string",
-            ParameterType = "model",
-            IsRequired = true)]
-        public string Value { get; set; }
+            ParameterType = "model")]
+        public string FileName { get; set; }
     }
 
-    public class UpdateBatchOptionResponse : IHasResponseStatus
+    public class UpdateBatchArtifactResponse : IHasResponseStatus
     {
         public ResponseStatus ResponseStatus { get; set; }
     }

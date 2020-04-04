@@ -4,9 +4,9 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/variable/{VariableId}", HttpMethods.Delete, Summary = "Delete Batch Variable")]
-    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Variable was not found")]
-    public class DeleteBatchVariableRequest : IReturn<DeleteBatchVariableResponse>
+    [Route("/batch/{BatchId}/artifact/{ArtifactId}", HttpMethods.Delete, Summary = "Delete Batch Artifact")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Artifact was not found")]
+    public class DeleteBatchArtifactRequest : IReturn<DeleteBatchArtifactResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -16,14 +16,14 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A user-generated identifier associated with the Variable",
+            Description = "A user-generated identifier associated with the Artifact",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string VariableId { get; set; }
+        public string ArtifactId { get; set; }
     }
 
-    public class DeleteBatchVariableResponse : IHasResponseStatus
+    public class DeleteBatchArtifactResponse : IHasResponseStatus
     {
         public ResponseStatus ResponseStatus { get; set; }
     }

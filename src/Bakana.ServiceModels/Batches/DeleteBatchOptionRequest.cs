@@ -4,19 +4,19 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/option/{OptionId}", HttpMethods.Delete, Summary = "Delete batch option")]
-    [ApiResponse(HttpStatusCode.NotFound, "The batch or batch option was not found")]
+    [Route("/batch/{BatchId}/option/{OptionId}", HttpMethods.Delete, Summary = "Delete Batch Option")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Option was not found")]
     public class DeleteBatchOptionRequest : IReturn<DeleteBatchOptionResponse>
     {
         [ApiMember(
-            Description = "A system-generated value associated with the batch",
+            Description = "A system-generated identifier associated with the Batch",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A user-generated identifier associated with the option",
+            Description = "A user-generated identifier associated with the Option",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]

@@ -212,6 +212,14 @@ namespace Bakana.Core.Repositories
             return rowsDeleted > 0;
         }
 
+        public async Task<bool> DoesBatchArtifactExist(string batchId, string artifactId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesBatchArtifactExist(batchId, artifactId);
+            }
+        }
+
         public async Task<ulong> CreateOrUpdateBatchArtifactOption(BatchArtifactOption option)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
@@ -249,6 +257,14 @@ namespace Bakana.Core.Repositories
         {
             var rowsDeleted = await DeleteByIdAsync<BatchArtifactOption>(id);
             return rowsDeleted > 0;
+        }
+        
+        public async Task<bool> DoesBatchArtifactOptionExist(string batchId, string artifactId, string optionId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesBatchArtifactOptionExist(batchId, artifactId, optionId);
+            }
         }
     }
 }

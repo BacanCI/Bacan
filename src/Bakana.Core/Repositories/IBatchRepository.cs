@@ -33,11 +33,13 @@ namespace Bakana.Core.Repositories
         Task<BatchArtifact> GetBatchArtifact(string batchId, string artifactId);
         Task<List<BatchArtifact>> GetAllBatchArtifacts(string batchId);
         Task<bool> DeleteBatchArtifact(ulong id);
+        Task<bool> DoesBatchArtifactExist(string batchId, string artifactId);
         
         Task<ulong> CreateOrUpdateBatchArtifactOption(BatchArtifactOption option);
         Task<BatchArtifactOption> GetBatchArtifactOption(ulong id);
         Task<BatchArtifactOption> GetBatchArtifactOption(ulong artifactId, string optionId);
         Task<List<BatchArtifactOption>> GetAllBatchArtifactOptions(ulong artifactId);
         Task<bool> DeleteBatchArtifactOption(ulong id);
+        Task<bool> DoesBatchArtifactOptionExist(string batchId, string artifactId, string optionId);
     }
 }

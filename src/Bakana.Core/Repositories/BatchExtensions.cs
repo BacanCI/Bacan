@@ -160,6 +160,11 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<BatchArtifact>(a => a.BatchId == batchId);
         }
         
+        internal static async Task<bool> DoesBatchArtifactExist(this IDbConnection db, string batchId, string artifactId)
+        {
+            return await db.ExistsAsync<BatchArtifact>(b => b.BatchId == batchId && b.ArtifactId == artifactId);
+        }
+
         internal static async Task<ulong> CreateOrUpdateBatchArtifactOption(this IDbConnection db, BatchArtifactOption option)
         {
             await db.SaveAsync(option, true);
@@ -185,6 +190,14 @@ namespace Bakana.Core.Repositories
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
+        }
+        
+        internal static async Task<bool> DoesBatchArtifactOptionExist(this IDbConnection db, string batchId, string artifactId, string optionId)
+        {
+            var id = await db.GetBatchArtifactPkByArtifactId(batchId, artifactId);
+            var batchArtifact = await db.GetBatchArtifact(id);
+            
+            return await db.ExistsAsync<BatchArtifactOption>(o => o.BatchArtifactId == batchArtifact.Id && o.OptionId == optionId);
         }
     }
 }

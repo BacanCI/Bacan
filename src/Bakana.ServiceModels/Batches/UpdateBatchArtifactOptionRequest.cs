@@ -4,9 +4,9 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/option/{OptionId}", HttpMethods.Put, Summary = "Update Batch Option")]
-    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Option was not found")]
-    public class UpdateBatchOptionRequest : IReturn<UpdateBatchOptionResponse>
+    [Route("/batch/{BatchId}/artifact/{ArtifactId}/option/{OptionId}", HttpMethods.Put, Summary = "Update Batch Artifact Option")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Artifact or Batch Artifact Option was not found")]
+    public class UpdateBatchArtifactOptionRequest : IReturn<UpdateBatchArtifactOptionResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -16,27 +16,34 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A user-generated identifier associated with the Option",
+            Description = "A user-generated identifier associated with the Artifact",
+            DataType = "string",
+            ParameterType = "path",
+            IsRequired = true)]
+        public string ArtifactId { get; set; }
+        
+        [ApiMember(
+            Description = "A user-generated identifier associated with the Artifact Option",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
         public string OptionId { get; set; }
 
         [ApiMember(
-            Description = "A description of the Option",
+            Description = "A description of the Artifact Option",
             DataType = "string",
             ParameterType = "model")]
         public string Description { get; set; }
 
         [ApiMember(
-            Description = "The value assigned to the Option",
+            Description = "The value assigned to the Artifact Option",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
         public string Value { get; set; }
     }
 
-    public class UpdateBatchOptionResponse : IHasResponseStatus
+    public class UpdateBatchArtifactOptionResponse : IHasResponseStatus
     {
         public ResponseStatus ResponseStatus { get; set; }
     }

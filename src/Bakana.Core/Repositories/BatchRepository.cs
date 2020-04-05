@@ -59,11 +59,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<bool> DoesExist(string batchId)
+        public async Task<bool> DoesBatchExist(string batchId)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesExist(batchId);
+                return await db.DoesBatchExist(batchId);
             }
         }
 

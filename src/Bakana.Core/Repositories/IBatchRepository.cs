@@ -11,7 +11,7 @@ namespace Bakana.Core.Repositories
         Task<bool> Delete(string batchId);
         Task<Batch> Get(string batchId);
         Task UpdateState(string batchId, BatchState state);
-        Task<bool> DoesExist(string batchId);
+        Task<bool> DoesBatchExist(string batchId);
         
         Task<ulong> CreateOrUpdateBatchVariable(BatchVariable variable);
         Task<BatchVariable> GetBatchVariable(ulong id);

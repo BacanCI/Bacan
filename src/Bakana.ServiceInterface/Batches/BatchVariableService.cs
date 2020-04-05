@@ -18,7 +18,7 @@ namespace Bakana.ServiceInterface.Batches
         
         public async Task<CreateBatchVariableResponse> Post(CreateBatchVariableRequest request)
         {
-            if (!await batchRepository.DoesExist(request.BatchId)) 
+            if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw BatchNotFound(request.BatchId);
 
             if (await batchRepository.DoesBatchVariableExist(request.BatchId, request.VariableId))
@@ -33,7 +33,7 @@ namespace Bakana.ServiceInterface.Batches
 
         public async Task<GetBatchVariableResponse> Get(GetBatchVariableRequest request)
         {
-            if (!await batchRepository.DoesExist(request.BatchId)) 
+            if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw BatchNotFound(request.BatchId);
 
             var batchVariable = await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
@@ -45,7 +45,7 @@ namespace Bakana.ServiceInterface.Batches
 
         public async Task<GetAllBatchVariableResponse> Get(GetAllBatchVariableRequest request)
         {
-            if (!await batchRepository.DoesExist(request.BatchId)) 
+            if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw BatchNotFound(request.BatchId);
 
             var batchVariables = await batchRepository.GetAllBatchVariables(request.BatchId);
@@ -59,7 +59,7 @@ namespace Bakana.ServiceInterface.Batches
 
         public async Task<UpdateBatchVariableResponse> Put(UpdateBatchVariableRequest request)
         {
-            if (!await batchRepository.DoesExist(request.BatchId)) 
+            if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw BatchNotFound(request.BatchId);
 
             var existingBatchVariable =
@@ -77,7 +77,7 @@ namespace Bakana.ServiceInterface.Batches
         
         public async Task<DeleteBatchVariableResponse> Delete(DeleteBatchVariableRequest request)
         {
-            if (!await batchRepository.DoesExist(request.BatchId)) 
+            if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw BatchNotFound(request.BatchId);
 
             var existingBatchVariable =

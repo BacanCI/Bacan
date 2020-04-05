@@ -27,17 +27,19 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task Update(Step step)
+        public async Task<bool> Update(Step step)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.UpdateStep(step);
+                var rowsUpdated = await db.UpdateStep(step);
+                return rowsUpdated > 0;
             }
         }
 
-        public async Task Delete(ulong stepId)
+        public async Task<bool> Delete(ulong stepId)
         {
-            await DeleteByIdAsync<Step>(stepId);
+            var rowsDeleted = await DeleteByIdAsync<Step>(stepId);
+            return rowsDeleted > 0;
         }
 
         public async Task<Step> Get(ulong stepId)
@@ -70,6 +72,14 @@ namespace Bakana.Core.Repositories
             using (var db = await DbConnectionFactory.OpenAsync())
             {
                 await db.UpdateStepState(id, state);
+            }
+        }
+
+        public async Task<bool> DoesStepExist(string batchId, string stepId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesStepExist(batchId, stepId);
             }
         }
 
@@ -111,6 +121,14 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<StepVariable>(id);
         }
 
+        public async Task<bool> DoesStepVariableExist(string batchId, string stepId, string variableId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesStepVariableExist(batchId, stepId, variableId);
+            }
+        }
+
         public async Task<ulong> CreateOrUpdateStepOption(StepOption option)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
@@ -147,6 +165,14 @@ namespace Bakana.Core.Repositories
         public async Task DeleteStepOption(ulong id)
         {
             await DeleteByIdAsync<StepOption>(id);
+        }
+
+        public async Task<bool> DoesStepOptionExist(string batchId, string stepId, string optionId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesStepOptionExist(batchId, stepId, optionId);
+            }
         }
 
         public async Task<ulong> CreateStepArtifact(StepArtifact stepArtifact)
@@ -195,6 +221,14 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<StepArtifact>(id);
         }
 
+        public async Task<bool> DoesStepArtifactExist(string batchId, string stepId, string artifactId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesStepArtifactExist(batchId, stepId, artifactId);
+            }
+        }
+
         public async Task<ulong> CreateOrUpdateStepArtifactOption(StepArtifactOption option)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
@@ -231,6 +265,14 @@ namespace Bakana.Core.Repositories
         public async Task DeleteStepArtifactOption(ulong id)
         {
             await DeleteByIdAsync<StepArtifactOption>(id);
+        }
+
+        public async Task<bool> DoesStepArtifactOptionExist(string batchId, string stepId, string artifactId, string optionId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesStepArtifactOptionExist(batchId, stepId, artifactId, optionId);
+            }
         }
     }
 }

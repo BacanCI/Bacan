@@ -28,9 +28,9 @@ namespace Bakana.Core.Repositories
             return step.Id;
         }
         
-        internal static async Task UpdateStep(this IDbConnection db, Step step)
+        internal static async Task<int> UpdateStep(this IDbConnection db, Step step)
         {
-            await db.UpdateAsync(step);
+            return await db.UpdateAsync(step);
         }
         
         internal static async Task<ulong> GetStepPkByStepId(this IDbConnection db, string batchId, string stepId)
@@ -69,6 +69,11 @@ namespace Bakana.Core.Repositories
             return steps;
         }
         
+        internal static async Task<bool> DoesStepExist(this IDbConnection db, string batchId, string stepId)
+        {
+            return await db.ExistsAsync<Step>(b => b.BatchId == batchId && b.StepId == stepId);
+        }
+
         internal static async Task UpdateStepState(this IDbConnection db, ulong id, StepState state)
         {
             await db.UpdateOnlyAsync(() => new Step { State = state }, where: p => p.Id == id);
@@ -108,6 +113,13 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<StepVariable>(c => c.StepId == stepId);
         }
 
+        internal static async Task<bool> DoesStepVariableExist(this IDbConnection db, string batchId, string stepId, string variableId)
+        {
+            var id = await db.GetStepPkByStepId(batchId, stepId);
+            
+            return await db.ExistsAsync<StepVariable>(o => o.StepId == id && o.VariableId == variableId);
+        }
+
         internal static async Task CreateOrUpdateStepOptions(this IDbConnection db, IEnumerable<StepOption> options)
         {
             if (options == null) return;
@@ -139,6 +151,13 @@ namespace Bakana.Core.Repositories
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
+        }
+
+        internal static async Task<bool> DoesStepOptionExist(this IDbConnection db, string batchId, string stepId, string optionId)
+        {
+            var id = await db.GetStepPkByStepId(batchId, stepId);
+            
+            return await db.ExistsAsync<StepOption>(o => o.StepId == id && o.OptionId == optionId);
         }
 
         internal static async Task CreateOrUpdateStepArtifacts(this IDbConnection db, IEnumerable<StepArtifact> artifacts)
@@ -180,6 +199,13 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<StepArtifact>(a => a.StepId == stepId);
         }
 
+        internal static async Task<bool> DoesStepArtifactExist(this IDbConnection db, string batchId, string stepId, string artifactId)
+        {
+            var id = await db.GetStepPkByStepId(batchId, stepId);
+            
+            return await db.ExistsAsync<StepArtifact>(o => o.StepId == id && o.ArtifactId == artifactId);
+        }
+
         internal static async Task<ulong> CreateOrUpdateStepArtifactOption(this IDbConnection db, StepArtifactOption option)
         {
             await db.SaveAsync(option, true);
@@ -205,6 +231,14 @@ namespace Bakana.Core.Repositories
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
+        }
+        
+        internal static async Task<bool> DoesStepArtifactOptionExist(this IDbConnection db, string batchId, string stepId, string artifactId, string optionId)
+        {
+            var id = await db.GetStepPkByStepId(batchId, stepId);
+            var aId = await db.GetStepArtifactPkByArtifactId(id, artifactId);
+            
+            return await db.ExistsAsync<StepArtifactOption>(o => o.StepArtifactId == aId && o.OptionId == optionId);
         }
     }
 }

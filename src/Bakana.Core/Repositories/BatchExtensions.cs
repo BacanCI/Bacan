@@ -43,7 +43,7 @@ namespace Bakana.Core.Repositories
             return await db.UpdateOnlyAsync(() => new Batch { State = state }, where: p => p.Id == batchId);
         }
         
-        internal static async Task<bool> DoesExist(this IDbConnection db, string batchId)
+        internal static async Task<bool> DoesBatchExist(this IDbConnection db, string batchId)
         {
             return await db.ExistsAsync<Batch>(b => b.Id == batchId);
         }

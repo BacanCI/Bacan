@@ -1,13 +1,13 @@
 using System.Net;
 using ServiceStack;
 
-namespace Bakana.ServiceModels.Batches
+namespace Bakana.ServiceModels.Commands
 {
-    [Tag("Batch")]
-    [Route("/batch/{BatchId}/variable", HttpMethods.Post, Summary = "Create new Batch Variable")]
-    [ApiResponse(HttpStatusCode.NotFound, "The Batch was not found")]
-    [ApiResponse(HttpStatusCode.Conflict, "The Batch Variable already exists")]
-    public class CreateBatchVariableRequest : IReturn<CreateBatchVariableResponse>
+    [Tag("Command")]
+    [Route("/batch/{BatchId}/step/{StepId}/command/{CommandId}/variable", HttpMethods.Post, Summary = "Create new Command Variable")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Command was not found")]
+    [ApiResponse(HttpStatusCode.Conflict, "The Command Variable already exists")]
+    public class CreateCommandVariableRequest : IReturn<CreateCommandVariableResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -15,6 +15,20 @@ namespace Bakana.ServiceModels.Batches
             ParameterType = "path",
             IsRequired = true)]
         public string BatchId { get; set; }
+
+        [ApiMember(
+            Description = "A user-generated identifier associated with the Step",
+            DataType = "string",
+            ParameterType = "model",
+            IsRequired = true)]
+        public string StepId { get; set; }
+
+        [ApiMember(
+            Description = "A user-generated identifier associated with the Command",
+            DataType = "string",
+            ParameterType = "model",
+            IsRequired = true)]
+        public string CommandId { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Variable",
@@ -43,7 +57,7 @@ namespace Bakana.ServiceModels.Batches
         public bool Sensitive { get; set; }
     }
 
-    public class CreateBatchVariableResponse : IHasResponseStatus
+    public class CreateCommandVariableResponse : IHasResponseStatus
     {
         public ResponseStatus ResponseStatus { get; set; }
     }

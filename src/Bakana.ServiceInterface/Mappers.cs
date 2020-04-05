@@ -18,7 +18,7 @@ namespace Bakana.ServiceInterface
                 var to = from.ConvertTo<Batch>(true);
                 to.Options = from.Options.ConvertTo<List<BatchOption>>(true);
                 to.Variables = from.Variables.ConvertTo<List<BatchVariable>>(true);
-                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<BatchArtifact>>(true);
+                to.Artifacts = from.Artifacts.ConvertTo<List<BatchArtifact>>(true);
                 to.Steps = from.Steps.ConvertTo<List<Step>>(true);
 
                 return to;
@@ -37,8 +37,7 @@ namespace Bakana.ServiceInterface
                 var to = from.ConvertTo<Step>(true);
                 to.Options = from.Options.ConvertTo<List<StepOption>>(true);
                 to.Variables = from.Variables.ConvertTo<List<StepVariable>>(true);
-                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<StepArtifact>>(true);
-                to.OutputArtifacts = from.OutputArtifacts.ConvertTo<List<StepArtifact>>(true);
+                to.Artifacts = from.Artifacts.ConvertTo<List<StepArtifact>>(true);
                 to.Commands = from.Commands.ConvertTo<List<Command>>(true);
 
                 return to;
@@ -61,7 +60,7 @@ namespace Bakana.ServiceInterface
                 to.BatchId = from.Id;
                 to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
                 to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
-                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<ServiceModels.BatchArtifact>>(true);
+                to.InputArtifacts = from.Artifacts.ConvertTo<List<ServiceModels.BatchArtifact>>(true);
                 to.Steps = from.Steps.ConvertTo<List<ServiceModels.Step>>(true);
 
                 return to;
@@ -80,8 +79,7 @@ namespace Bakana.ServiceInterface
                 var to = from.ConvertTo<ServiceModels.Step>(true);
                 to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
                 to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
-                to.InputArtifacts = from.InputArtifacts.ConvertTo<List<ServiceModels.StepArtifact>>(true);
-                to.OutputArtifacts = from.OutputArtifacts.ConvertTo<List<ServiceModels.StepArtifact>>(true);
+                to.Artifacts = from.Artifacts.ConvertTo<List<ServiceModels.StepArtifact>>(true);
                 to.Commands = from.Commands.ConvertTo<List<ServiceModels.Command>>(true);
 
                 return to;

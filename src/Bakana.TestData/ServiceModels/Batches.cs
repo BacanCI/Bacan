@@ -85,7 +85,7 @@ namespace Bakana.TestData.ServiceModels
         public static CreateBatchRequest FullyPopulated => new CreateBatchRequest
         {
             Description = "First",
-            InputArtifacts = new List<BatchArtifact>
+            Artifacts = new List<BatchArtifact>
             {
                 BatchArtifacts.Package
             },

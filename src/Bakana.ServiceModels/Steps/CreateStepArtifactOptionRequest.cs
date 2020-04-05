@@ -1,13 +1,13 @@
 using System.Net;
 using ServiceStack;
 
-namespace Bakana.ServiceModels.Batches
+namespace Bakana.ServiceModels.Steps
 {
-    [Tag("Batch")]
-    [Route("/batch/{BatchId}/artifact/{ArtifactId}/option", HttpMethods.Post, Summary = "Create new Batch Artifact Option")]
-    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Artifact was not found")]
-    [ApiResponse(HttpStatusCode.Conflict, "The Batch Artifact Option already exists")]
-    public class CreateBatchArtifactOptionRequest : IReturn<CreateBatchArtifactOptionResponse>
+    [Tag("Step")]
+    [Route("/batch/{BatchId}/step/{StepId}/artifact/{ArtifactId}/option", HttpMethods.Post, Summary = "Create new Step Artifact Option")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Step Artifact was not found")]
+    [ApiResponse(HttpStatusCode.Conflict, "The Step Artifact Option already exists")]
+    public class CreateStepArtifactOptionRequest : IReturn<CreateStepArtifactOptionResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -17,9 +17,16 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
 
         [ApiMember(
+            Description = "A user-generated identifier associated with the Step",
+            DataType = "string",
+            ParameterType = "model",
+            IsRequired = true)]
+        public string StepId { get; set; }
+
+        [ApiMember(
             Description = "A user-generated identifier associated with the Artifact",
             DataType = "string",
-            ParameterType = "path",
+            ParameterType = "model",
             IsRequired = true)]
         public string ArtifactId { get; set; }
         
@@ -44,7 +51,7 @@ namespace Bakana.ServiceModels.Batches
         public string Value { get; set; }
     }
 
-    public class CreateBatchArtifactOptionResponse : IHasResponseStatus
+    public class CreateStepArtifactOptionResponse : IHasResponseStatus
     {
         public ResponseStatus ResponseStatus { get; set; }
     }

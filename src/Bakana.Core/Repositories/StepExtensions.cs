@@ -20,8 +20,7 @@ namespace Bakana.Core.Repositories
         {
             await db.SaveAsync(step, true);
 
-            await db.CreateOrUpdateStepArtifacts(step.InputArtifacts);
-            await db.CreateOrUpdateStepArtifacts(step.OutputArtifacts);
+            await db.CreateOrUpdateStepArtifacts(step.Artifacts);
             await db.CreateOrUpdateStepVariables(step.Variables);
             await db.CreateOrUpdateStepOptions(step.Options);
             await db.CreateCommands(step.Commands);
@@ -49,8 +48,7 @@ namespace Bakana.Core.Repositories
             var step = await db.LoadSingleByIdAsync<Step>(id, 
                 new []{ nameof(Step.Options), nameof(Step.Variables)});
             
-            step.InputArtifacts = await db.GetAllInputStepArtifacts(step.Id);
-            step.OutputArtifacts = await db.GetAllOutputStepArtifacts(step.Id);
+            step.Artifacts = await db.GetAllStepArtifacts(step.Id);
             step.Commands = await db.GetAllCommands(step.Id);
 
             return step;
@@ -64,8 +62,7 @@ namespace Bakana.Core.Repositories
             
             await steps.Iter(async step =>
             {
-                step.InputArtifacts = await db.GetAllInputStepArtifacts(step.Id);
-                step.OutputArtifacts = await db.GetAllOutputStepArtifacts(step.Id);
+                step.Artifacts = await db.GetAllStepArtifacts(step.Id);
                 step.Commands = await db.GetAllCommands(step.Id);
             });
 
@@ -183,16 +180,6 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<StepArtifact>(a => a.StepId == stepId);
         }
 
-        internal static async Task<List<StepArtifact>> GetAllInputStepArtifacts(this IDbConnection db, ulong stepId)
-        {
-            return await db.LoadSelectAsync<StepArtifact>(a => a.StepId == stepId && !a.OutputArtifact);
-        }
-        
-        internal static async Task<List<StepArtifact>> GetAllOutputStepArtifacts(this IDbConnection db, ulong stepId)
-        {
-            return await db.LoadSelectAsync<StepArtifact>(a => a.StepId == stepId && a.OutputArtifact);
-        }
-        
         internal static async Task<ulong> CreateOrUpdateStepArtifactOption(this IDbConnection db, StepArtifactOption option)
         {
             await db.SaveAsync(option, true);

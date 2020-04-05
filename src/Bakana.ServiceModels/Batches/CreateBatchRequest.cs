@@ -30,7 +30,7 @@ namespace Bakana.ServiceModels.Batches
             Description = "An array of artifacts associated with Batch",
             ParameterType = "model",
             IsRequired = false)]
-        public List<BatchArtifact> InputArtifacts { get; set; }
+        public List<BatchArtifact> Artifacts { get; set; }
         
         [ApiMember(
             Description = "An array of steps associated with Batch",

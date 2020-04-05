@@ -86,7 +86,7 @@ namespace Bakana.TestData.Entities
         {
             Description = "First",
             ExpiresOn = DateTime.Now,
-            InputArtifacts = new List<BatchArtifact>
+            Artifacts = new List<BatchArtifact>
             {
                 BatchArtifacts.Package
             },

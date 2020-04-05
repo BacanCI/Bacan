@@ -110,12 +110,9 @@ namespace Bakana.TestData.ServiceModels
             Description = "Build Step",
             Tags = new[] {"Build"},
             Requirements = new[] {"Docker", "Build"},
-            InputArtifacts = new List<StepArtifact>
+            Artifacts = new List<StepArtifact>
             {
-                StepArtifacts.Source
-            },
-            OutputArtifacts = new List<StepArtifact>
-            {
+                StepArtifacts.Source,
                 StepArtifacts.Binaries
             },
             Options = new List<Option>
@@ -141,12 +138,9 @@ namespace Bakana.TestData.ServiceModels
             Dependencies = new[] {"BuildStep"},
             Tags = new[] {"TEST"},
             Requirements = new[] {"Windows","Database"},
-            InputArtifacts = new List<StepArtifact>
+            Artifacts = new List<StepArtifact>
             {
-                StepArtifacts.Source
-            },
-            OutputArtifacts = new List<StepArtifact>
-            {
+                StepArtifacts.Source,
                 StepArtifacts.TestResults
             },
             Options = new List<Option>

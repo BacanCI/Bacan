@@ -6,7 +6,7 @@ namespace Bakana.ServiceModels.Batches
     [Tag("Batch")]
     [Route("/batch/{BatchId}", HttpMethods.Put, Summary = "Update Batch")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch was not found")]
-    public class UpdateBatchRequest : IReturn<CreateBatchResponse>
+    public class UpdateBatchRequest : IReturn<UpdateBatchResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",

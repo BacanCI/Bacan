@@ -1,13 +1,12 @@
 using System.Net;
 using ServiceStack;
 
-namespace Bakana.ServiceModels.Batches
+namespace Bakana.ServiceModels.Commands
 {
-    [Tag("Batch")]
-    [Route("/batch/{BatchId}/variable", HttpMethods.Post, Summary = "Create new Batch Variable")]
-    [ApiResponse(HttpStatusCode.NotFound, "The Batch was not found")]
-    [ApiResponse(HttpStatusCode.Conflict, "The Batch Variable already exists")]
-    public class CreateBatchVariableRequest : IReturn<CreateBatchVariableResponse>
+    [Tag("Command")]
+    [Route("/batch/{BatchId}/step/{StepId}/command/{CommandId}/variable/{VariableId}", HttpMethods.Put, Summary = "Update Command Variable")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Command or Command Variable was not found")]
+    public class UpdateCommandVariableRequest : IReturn<UpdateCommandVariableResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -17,9 +16,23 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A user-generated identifier associated with the Variable",
+            Description = "A user-generated identifier associated with the Step",
             DataType = "string",
             ParameterType = "model",
+            IsRequired = true)]
+        public string StepId { get; set; }
+
+        [ApiMember(
+            Description = "A user-generated identifier associated with the Command",
+            DataType = "string",
+            ParameterType = "model",
+            IsRequired = true)]
+        public string CommandId { get; set; }
+
+        [ApiMember(
+            Description = "A user-generated identifier associated with the Variable",
+            DataType = "string",
+            ParameterType = "path",
             IsRequired = true)]
         public string VariableId { get; set; }
 
@@ -43,7 +56,7 @@ namespace Bakana.ServiceModels.Batches
         public bool Sensitive { get; set; }
     }
 
-    public class CreateBatchVariableResponse : IHasResponseStatus
+    public class UpdateCommandVariableResponse : IHasResponseStatus
     {
         public ResponseStatus ResponseStatus { get; set; }
     }

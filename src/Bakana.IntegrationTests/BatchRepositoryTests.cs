@@ -365,10 +365,10 @@ namespace Bakana.IntegrationTests
 
             // Assert
             var fetchedBatch = await Sut.Get(fullyPopulatedBatch.Id);
-            fetchedBatch.InputArtifacts.Count.Should().Be(2);
+            fetchedBatch.Artifacts.Count.Should().Be(2);
 
             var fetchedDbBackupArtifact =
-                fetchedBatch.InputArtifacts.SingleOrDefault(o => o.ArtifactId == dbBackupArtifact.ArtifactId);
+                fetchedBatch.Artifacts.SingleOrDefault(o => o.ArtifactId == dbBackupArtifact.ArtifactId);
             fetchedDbBackupArtifact.Should().NotBeNull();
             fetchedDbBackupArtifact.Should().BeEquivalentTo(dbBackupArtifact);
         }
@@ -382,7 +382,7 @@ namespace Bakana.IntegrationTests
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var packageArtifact = fullyPopulatedBatch.InputArtifacts.Single(o => o.ArtifactId == BatchArtifacts.Package.ArtifactId);
+            var packageArtifact = fullyPopulatedBatch.Artifacts.Single(o => o.ArtifactId == BatchArtifacts.Package.ArtifactId);
             packageArtifact.Description = "Updated";
 
             // Act
@@ -390,10 +390,10 @@ namespace Bakana.IntegrationTests
 
             // Assert
             var fetchedBuildBatch = await Sut.Get(fullyPopulatedBatch.Id);
-            fetchedBuildBatch.InputArtifacts.Count.Should().Be(1);
+            fetchedBuildBatch.Artifacts.Count.Should().Be(1);
 
             var fetchedPackageArtifact =
-                fetchedBuildBatch.InputArtifacts.SingleOrDefault(o => o.ArtifactId == BatchArtifacts.Package.ArtifactId);
+                fetchedBuildBatch.Artifacts.SingleOrDefault(o => o.ArtifactId == BatchArtifacts.Package.ArtifactId);
             fetchedPackageArtifact.Should().NotBeNull();
             fetchedPackageArtifact.Should().BeEquivalentTo(packageArtifact);
         }
@@ -444,7 +444,7 @@ namespace Bakana.IntegrationTests
 
             // Assert
             fetchedArtifacts.Count.Should().Be(1);
-            fetchedArtifacts.Single().Should().BeEquivalentTo(fullyPopulatedBatch.InputArtifacts.Single());
+            fetchedArtifacts.Single().Should().BeEquivalentTo(fullyPopulatedBatch.Artifacts.Single());
         }
         
         [Test]

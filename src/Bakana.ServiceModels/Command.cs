@@ -11,10 +11,8 @@ namespace Bakana.ServiceModels
 
         public string Item { get; set; }
 
-        [Reference]
         public List<Option> Options { get; set; }
 
-        [Reference]
         public List<Variable> Variables { get; set; }
     }
 }

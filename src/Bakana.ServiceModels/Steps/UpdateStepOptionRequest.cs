@@ -1,13 +1,12 @@
 using System.Net;
 using ServiceStack;
 
-namespace Bakana.ServiceModels.Batches
+namespace Bakana.ServiceModels.Steps
 {
-    [Tag("Batch")]
-    [Route("/batch/{BatchId}/option", HttpMethods.Post, Summary = "Create new Batch Option")]
-    [ApiResponse(HttpStatusCode.NotFound, "The Batch was not found")]
-    [ApiResponse(HttpStatusCode.Conflict, "The Batch Option already exists")]
-    public class CreateBatchOptionRequest : IReturn<CreateBatchOptionResponse>
+    [Tag("Step")]
+    [Route("/batch/{BatchId}/step/{StepId}/option/{OptionId}", HttpMethods.Put, Summary = "Update Step Option")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Step Option was not found")]
+    public class UpdateStepOptionRequest : IReturn<UpdateStepOptionResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -17,9 +16,16 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A user-generated identifier associated with the Option",
+            Description = "A user-generated identifier associated with the Step",
             DataType = "string",
             ParameterType = "model",
+            IsRequired = true)]
+        public string StepId { get; set; }
+
+        [ApiMember(
+            Description = "A user-generated identifier associated with the Option",
+            DataType = "string",
+            ParameterType = "path",
             IsRequired = true)]
         public string OptionId { get; set; }
 
@@ -37,7 +43,7 @@ namespace Bakana.ServiceModels.Batches
         public string Value { get; set; }
     }
 
-    public class CreateBatchOptionResponse : IHasResponseStatus
+    public class UpdateStepOptionResponse : IHasResponseStatus
     {
         public ResponseStatus ResponseStatus { get; set; }
     }

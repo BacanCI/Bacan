@@ -18,9 +18,7 @@ namespace Bakana.ServiceModels
 
         public List<Variable> Variables { get; set; }
 
-        public List<StepArtifact> InputArtifacts { get; set; }
-
-        public List<StepArtifact> OutputArtifacts { get; set; }
+        public List<StepArtifact> Artifacts { get; set; }
 
         public List<Command> Commands { get; set; }
     }

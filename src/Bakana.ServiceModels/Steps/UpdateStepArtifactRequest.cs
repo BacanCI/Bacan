@@ -1,14 +1,12 @@
-using System.Collections.Generic;
 using System.Net;
 using ServiceStack;
 
-namespace Bakana.ServiceModels.Batches
+namespace Bakana.ServiceModels.Steps
 {
-    [Tag("Batch")]
-    [Route("/batch/{BatchId}/artifact", HttpMethods.Post, Summary = "Create new Batch Artifact")]
-    [ApiResponse(HttpStatusCode.NotFound, "The Batch was not found")]
-    [ApiResponse(HttpStatusCode.Conflict, "The Batch Artifact already exists")]
-    public class CreateBatchArtifactRequest : IReturn<CreateBatchArtifactResponse>
+    [Tag("Step")]
+    [Route("/batch/{BatchId}/step/{StepId}/artifact/{ArtifactId}", HttpMethods.Put, Summary = "Update Step Artifact")]
+    [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Step Artifact was not found")]
+    public class UpdateStepArtifactRequest : IReturn<UpdateStepArtifactResponse>
     {
         [ApiMember(
             Description = "A system-generated identifier associated with the Batch",
@@ -18,9 +16,16 @@ namespace Bakana.ServiceModels.Batches
         public string BatchId { get; set; }
 
         [ApiMember(
-            Description = "A user-generated identifier associated with the Artifact",
+            Description = "A user-generated identifier associated with the Step",
             DataType = "string",
             ParameterType = "model",
+            IsRequired = true)]
+        public string StepId { get; set; }
+
+        [ApiMember(
+            Description = "A user-generated identifier associated with the Artifact",
+            DataType = "string",
+            ParameterType = "path",
             IsRequired = true)]
         public string ArtifactId { get; set; }
         
@@ -31,20 +36,14 @@ namespace Bakana.ServiceModels.Batches
         public string Description { get; set; }
 
         [ApiMember(
-            Description = "The artifact's filename",
+            Description = "The Artifact's filename",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
         public string FileName { get; set; }
-
-        [ApiMember(
-            Description = "An array of options associated with the Artifact",
-            DataType = "string",
-            ParameterType = "model")]
-        public List<Option> Options { get; set; }
     }
 
-    public class CreateBatchArtifactResponse : IHasResponseStatus
+    public class UpdateStepArtifactResponse : IHasResponseStatus
     {
         public ResponseStatus ResponseStatus { get; set; }
     }

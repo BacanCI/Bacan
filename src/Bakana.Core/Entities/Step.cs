@@ -31,10 +31,7 @@ namespace Bakana.Core.Entities
         public List<StepVariable> Variables { get; set; }
         
         [Reference]
-        public List<StepArtifact> InputArtifacts { get; set; }
-        
-        [Reference]
-        public List<StepArtifact> OutputArtifacts { get; set; }
+        public List<StepArtifact> Artifacts { get; set; }
         
         [Reference]
         public List<Command> Commands { get; set; }

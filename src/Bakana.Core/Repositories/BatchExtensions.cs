@@ -13,7 +13,7 @@ namespace Bakana.Core.Repositories
         {
             await db.SaveAsync(batch, true);
 
-            await db.CreateOrUpdateBatchArtifacts(batch.InputArtifacts);
+            await db.CreateOrUpdateBatchArtifacts(batch.Artifacts);
             await db.CreateOrUpdateBatchVariables(batch.Variables);
             await db.CreateOrUpdateBatchOptions(batch.Options);
             await db.CreateSteps(batch.Steps);
@@ -32,7 +32,7 @@ namespace Bakana.Core.Repositories
 
             if (batch == null) return null;
                 
-            batch.InputArtifacts = await db.LoadSelectAsync<BatchArtifact>(artifact => artifact.BatchId == batchId);
+            batch.Artifacts = await db.LoadSelectAsync<BatchArtifact>(artifact => artifact.BatchId == batchId);
             batch.Steps = await db.GetAllSteps(batchId);
 
             return batch;

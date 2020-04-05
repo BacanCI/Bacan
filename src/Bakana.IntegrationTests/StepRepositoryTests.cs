@@ -401,10 +401,10 @@ namespace Bakana.IntegrationTests
 
             // Assert
             var fetchedStep = await Sut.Get(id);
-            fetchedStep.OutputArtifacts.Count.Should().Be(2);
+            fetchedStep.Artifacts.Count.Should().Be(3);
 
             var fetchedTestResultsArtifact =
-                fetchedStep.OutputArtifacts.SingleOrDefault(o => o.ArtifactId == testResultsArtifact.ArtifactId);
+                fetchedStep.Artifacts.SingleOrDefault(o => o.ArtifactId == testResultsArtifact.ArtifactId);
             fetchedTestResultsArtifact.Should().NotBeNull();
             fetchedTestResultsArtifact.Should().BeEquivalentTo(testResultsArtifact);
         }
@@ -418,7 +418,7 @@ namespace Bakana.IntegrationTests
 
             var id = await Sut.Create(buildStep);
 
-            var sourceArtifact = buildStep.InputArtifacts.Single(o => o.ArtifactId == StepArtifacts.Source.ArtifactId);
+            var sourceArtifact = buildStep.Artifacts.Single(o => o.ArtifactId == StepArtifacts.Source.ArtifactId);
             sourceArtifact.Description = "Updated";
 
             // Act
@@ -426,10 +426,10 @@ namespace Bakana.IntegrationTests
 
             // Assert
             var fetchedBuildStep = await Sut.Get(id);
-            fetchedBuildStep.InputArtifacts.Count.Should().Be(1);
+            fetchedBuildStep.Artifacts.Count.Should().Be(2);
 
             var fetchedSourceArtifact =
-                fetchedBuildStep.InputArtifacts.SingleOrDefault(o => o.ArtifactId == StepArtifacts.Source.ArtifactId);
+                fetchedBuildStep.Artifacts.SingleOrDefault(o => o.ArtifactId == StepArtifacts.Source.ArtifactId);
             fetchedSourceArtifact.Should().NotBeNull();
             fetchedSourceArtifact.Should().BeEquivalentTo(sourceArtifact);
         }

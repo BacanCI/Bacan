@@ -26,7 +26,7 @@ namespace Bakana.Core.Entities
         public List<BatchVariable> Variables { get; set; }
         
         [Reference]
-        public List<BatchArtifact> InputArtifacts { get; set; }
+        public List<BatchArtifact> Artifacts { get; set; }
         
         [Reference]
         public List<Step> Steps { get; set; }

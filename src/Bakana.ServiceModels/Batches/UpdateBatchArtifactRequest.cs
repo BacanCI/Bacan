@@ -31,7 +31,8 @@ namespace Bakana.ServiceModels.Batches
         [ApiMember(
             Description = "The Artifact's filename",
             DataType = "string",
-            ParameterType = "model")]
+            ParameterType = "model",
+            IsRequired = true)]
         public string FileName { get; set; }
     }
 

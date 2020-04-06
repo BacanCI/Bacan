@@ -6,7 +6,7 @@ using Bakana.TestData.Entities;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Bakana.IntegrationTests
+namespace Bakana.IntegrationTests.Repositories
 {
     [TestFixture]
     public class StepRepositoryTests : RepositoryTestFixtureBase

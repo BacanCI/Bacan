@@ -1,61 +1,61 @@
-using System.Net;
+using System;
 using ServiceStack;
 
 namespace Bakana.ServiceInterface
 {
     public abstract class BakanaService : Service
     {
-        public static HttpError BatchNotFound(string batchId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.BatchNotFound(batchId));
-        public static HttpError BatchVariableAlreadyExists(string variableId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.BatchVariableAlreadyExists(variableId));
-        public static HttpError BatchVariableNotFound(string variableId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.BatchVariableNotFound(variableId));
-        public static HttpError BatchOptionAlreadyExists(string optionId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.BatchOptionAlreadyExists(optionId));
-        public static HttpError BatchOptionNotFound(string optionId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.BatchOptionNotFound(optionId));
-        public static HttpError BatchArtifactAlreadyExists(string artifactId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.BatchArtifactAlreadyExists(artifactId));
-        public static HttpError BatchArtifactNotFound(string artifactId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.BatchArtifactNotFound(artifactId));
-        public static HttpError BatchArtifactOptionAlreadyExists(string optionId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.BatchArtifactOptionAlreadyExists(optionId));
-        public static HttpError BatchArtifactOptionNotFound(string optionId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.BatchArtifactOptionNotFound(optionId));
+        public static Exception BatchNotFound(string batchId) =>
+            HttpError.NotFound(ErrMsg.BatchNotFound(batchId));
+        public static Exception BatchVariableAlreadyExists(string variableId) =>
+            HttpError.Conflict(ErrMsg.BatchVariableAlreadyExists(variableId));
+        public static Exception BatchVariableNotFound(string variableId) =>
+            HttpError.NotFound(ErrMsg.BatchVariableNotFound(variableId));
+        public static Exception BatchOptionAlreadyExists(string optionId) =>
+            HttpError.Conflict(ErrMsg.BatchOptionAlreadyExists(optionId));
+        public static Exception BatchOptionNotFound(string optionId) =>
+            HttpError.NotFound(ErrMsg.BatchOptionNotFound(optionId));
+        public static Exception BatchArtifactAlreadyExists(string artifactId) =>
+            HttpError.Conflict(ErrMsg.BatchArtifactAlreadyExists(artifactId));
+        public static Exception BatchArtifactNotFound(string artifactId) =>
+            HttpError.NotFound(ErrMsg.BatchArtifactNotFound(artifactId));
+        public static Exception BatchArtifactOptionAlreadyExists(string optionId) =>
+            HttpError.Conflict(ErrMsg.BatchArtifactOptionAlreadyExists(optionId));
+        public static Exception BatchArtifactOptionNotFound(string optionId) =>
+            HttpError.NotFound(ErrMsg.BatchArtifactOptionNotFound(optionId));
         
-        public static HttpError StepAlreadyExists(string stepId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.StepAlreadyExists(stepId));
-        public static HttpError StepNotFound(string stepId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.StepNotFound(stepId));
-        public static HttpError StepVariableAlreadyExists(string variableId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.StepVariableAlreadyExists(variableId));
-        public static HttpError StepVariableNotFound(string variableId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.StepVariableNotFound(variableId));
-        public static HttpError StepOptionAlreadyExists(string optionId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.StepOptionAlreadyExists(optionId));
-        public static HttpError StepOptionNotFound(string optionId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.StepOptionNotFound(optionId));
-        public static HttpError StepArtifactAlreadyExists(string artifactId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.StepArtifactAlreadyExists(artifactId));
-        public static HttpError StepArtifactNotFound(string artifactId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.StepArtifactNotFound(artifactId));
-        public static HttpError StepArtifactOptionAlreadyExists(string optionId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.StepArtifactOptionAlreadyExists(optionId));
-        public static HttpError StepArtifactOptionNotFound(string optionId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.StepArtifactOptionNotFound(optionId));
+        public static Exception StepAlreadyExists(string stepId) =>
+            HttpError.Conflict(ErrMsg.StepAlreadyExists(stepId));
+        public static Exception StepNotFound(string stepId) =>
+            HttpError.NotFound(ErrMsg.StepNotFound(stepId));
+        public static Exception StepVariableAlreadyExists(string variableId) =>
+            HttpError.Conflict(ErrMsg.StepVariableAlreadyExists(variableId));
+        public static Exception StepVariableNotFound(string variableId) =>
+            HttpError.NotFound(ErrMsg.StepVariableNotFound(variableId));
+        public static Exception StepOptionAlreadyExists(string optionId) =>
+            HttpError.Conflict(ErrMsg.StepOptionAlreadyExists(optionId));
+        public static Exception StepOptionNotFound(string optionId) =>
+            HttpError.NotFound(ErrMsg.StepOptionNotFound(optionId));
+        public static Exception StepArtifactAlreadyExists(string artifactId) =>
+            HttpError.Conflict(ErrMsg.StepArtifactAlreadyExists(artifactId));
+        public static Exception StepArtifactNotFound(string artifactId) =>
+            HttpError.NotFound(ErrMsg.StepArtifactNotFound(artifactId));
+        public static Exception StepArtifactOptionAlreadyExists(string optionId) =>
+            HttpError.Conflict(ErrMsg.StepArtifactOptionAlreadyExists(optionId));
+        public static Exception StepArtifactOptionNotFound(string optionId) =>
+            HttpError.NotFound(ErrMsg.StepArtifactOptionNotFound(optionId));
         
-        public static HttpError CommandAlreadyExists(string commandId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.CommandAlreadyExists(commandId));
-        public static HttpError CommandNotFound(string commandId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.CommandNotFound(commandId));
-        public static HttpError CommandVariableAlreadyExists(string variableId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.CommandVariableAlreadyExists(variableId));
-        public static HttpError CommandVariableNotFound(string variableId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.CommandVariableNotFound(variableId));
-        public static HttpError CommandOptionAlreadyExists(string optionId) =>
-            new HttpError(HttpStatusCode.Conflict, ErrMsg.CommandOptionAlreadyExists(optionId));
-        public static HttpError CommandOptionNotFound(string optionId) =>
-            new HttpError(HttpStatusCode.NotFound, ErrMsg.CommandOptionNotFound(optionId));
+        public static Exception CommandAlreadyExists(string commandId) =>
+            HttpError.Conflict(ErrMsg.CommandAlreadyExists(commandId));
+        public static Exception CommandNotFound(string commandId) =>
+            HttpError.NotFound(ErrMsg.CommandNotFound(commandId));
+        public static Exception CommandVariableAlreadyExists(string variableId) =>
+            HttpError.Conflict(ErrMsg.CommandVariableAlreadyExists(variableId));
+        public static Exception CommandVariableNotFound(string variableId) =>
+            HttpError.NotFound(ErrMsg.CommandVariableNotFound(variableId));
+        public static Exception CommandOptionAlreadyExists(string optionId) =>
+            HttpError.Conflict(ErrMsg.CommandOptionAlreadyExists(optionId));
+        public static Exception CommandOptionNotFound(string optionId) =>
+            HttpError.NotFound(ErrMsg.CommandOptionNotFound(optionId));
     }
 }

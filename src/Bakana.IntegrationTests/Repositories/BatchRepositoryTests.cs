@@ -8,7 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using ServiceStack.OrmLite;
 
-namespace Bakana.IntegrationTests
+namespace Bakana.IntegrationTests.Repositories
 {
     [TestFixture]
     public class BatchRepositoryTests : RepositoryTestFixtureBase

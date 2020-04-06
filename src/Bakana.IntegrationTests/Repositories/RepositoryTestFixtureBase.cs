@@ -3,7 +3,7 @@ using Bakana.Core.Repositories;
 using NUnit.Framework;
 using ServiceStack.OrmLite;
 
-namespace Bakana.IntegrationTests
+namespace Bakana.IntegrationTests.Repositories
 {
     public abstract class RepositoryTestFixtureBase
     {

@@ -7,7 +7,7 @@ using ServiceStack;
 
 namespace Bakana.ServiceInterface.Steps
 {
-    public class StepService : BakanaService
+    public class StepService : Service
     {
         private readonly IBatchRepository batchRepository;
         private readonly IStepRepository stepRepository;
@@ -23,10 +23,10 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<CreateStepResponse> Post(CreateStepRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             if (await stepRepository.DoesStepExist(request.BatchId, request.StepId))
-                throw StepAlreadyExists(request.StepId);
+                throw Err.StepAlreadyExists(request.StepId);
 
             var step = request.ConvertTo<Step>();
 
@@ -38,10 +38,10 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<GetStepResponse> Get(GetStepRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             return step.ConvertTo<GetStepResponse>();
         }
@@ -49,7 +49,7 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<GetAllStepsResponse> Get(GetAllStepsRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var steps = await stepRepository.GetAll(request.BatchId);
 
@@ -62,12 +62,12 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<UpdateStepResponse> Put(UpdateStepRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = request.ConvertTo<Step>();
 
             var updated = await stepRepository.Update(step);
-            if (!updated) throw StepNotFound(request.StepId);
+            if (!updated) throw Err.StepNotFound(request.StepId);
 
             return new UpdateStepResponse();
         }
@@ -75,10 +75,10 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<DeleteStepResponse> Delete(DeleteStepRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             await stepRepository.Delete(step.Id);
 

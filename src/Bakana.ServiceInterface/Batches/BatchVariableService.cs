@@ -7,7 +7,7 @@ using ServiceStack;
 
 namespace Bakana.ServiceInterface.Batches
 {
-    public class BatchVariableService : BakanaService
+    public class BatchVariableService : Service
     {
         private readonly IBatchRepository batchRepository;
 
@@ -19,10 +19,10 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<CreateBatchVariableResponse> Post(CreateBatchVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             if (await batchRepository.DoesBatchVariableExist(request.BatchId, request.VariableId))
-                throw BatchVariableAlreadyExists(request.VariableId);
+                throw Err.BatchVariableAlreadyExists(request.VariableId);
 
             var batchVariable = request.ConvertTo<BatchVariable>();
 
@@ -34,11 +34,11 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<GetBatchVariableResponse> Get(GetBatchVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var batchVariable = await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
             if (batchVariable == null)
-                throw BatchVariableNotFound(request.VariableId);
+                throw Err.BatchVariableNotFound(request.VariableId);
 
             return batchVariable.ConvertTo<GetBatchVariableResponse>();
         }
@@ -46,7 +46,7 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<GetAllBatchVariableResponse> Get(GetAllBatchVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var batchVariables = await batchRepository.GetAllBatchVariables(request.BatchId);
             var response = new GetAllBatchVariableResponse
@@ -60,12 +60,12 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<UpdateBatchVariableResponse> Put(UpdateBatchVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var existingBatchVariable =
                 await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
             if (existingBatchVariable == null)
-                throw BatchVariableNotFound(request.VariableId);
+                throw Err.BatchVariableNotFound(request.VariableId);
 
             var batchVariable = request.ConvertTo<BatchVariable>();
             batchVariable.Id = existingBatchVariable.Id;
@@ -78,12 +78,12 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<DeleteBatchVariableResponse> Delete(DeleteBatchVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var existingBatchVariable =
                 await batchRepository.GetBatchVariable(request.BatchId, request.VariableId);
             if (existingBatchVariable == null)
-                throw BatchVariableNotFound(request.VariableId);
+                throw Err.BatchVariableNotFound(request.VariableId);
 
             await batchRepository.DeleteBatchVariable(existingBatchVariable.Id);
 

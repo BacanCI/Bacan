@@ -8,7 +8,7 @@ using ServiceStack;
 
 namespace Bakana.ServiceInterface.Batches
 {
-    public class BatchService : BakanaService
+    public class BatchService : Service
     {
         private readonly IShortIdGenerator idGenerator;
         private readonly IBatchRepository batchRepository;
@@ -38,7 +38,7 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<GetBatchResponse> Get(GetBatchRequest request)
         {
             var batch = await batchRepository.Get(request.BatchId);
-            if (batch == null) throw BatchNotFound(request.BatchId);
+            if (batch == null) throw Err.BatchNotFound(request.BatchId);
 
             return batch.ConvertTo<GetBatchResponse>();
         }
@@ -48,7 +48,7 @@ namespace Bakana.ServiceInterface.Batches
             var batch = request.ConvertTo<Batch>();
 
             var updated = await batchRepository.Update(batch);
-            if (!updated) throw BatchNotFound(request.BatchId);
+            if (!updated) throw Err.BatchNotFound(request.BatchId);
 
             return new UpdateBatchResponse();
         }
@@ -56,7 +56,7 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<DeleteBatchResponse> Delete(DeleteBatchRequest request)
         {
             var deleted = await batchRepository.Delete(request.BatchId);
-            if (!deleted) throw BatchNotFound(request.BatchId);
+            if (!deleted) throw Err.BatchNotFound(request.BatchId);
 
             return new DeleteBatchResponse();
         }

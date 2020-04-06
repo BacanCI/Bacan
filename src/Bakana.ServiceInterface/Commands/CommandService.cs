@@ -6,7 +6,7 @@ using ServiceStack;
 
 namespace Bakana.ServiceInterface.Commands
 {
-    public class CommandService : BakanaService
+    public class CommandService : Service
     {
         private readonly IBatchRepository batchRepository;
         private readonly IStepRepository stepRepository;
@@ -25,13 +25,13 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<CreateCommandResponse> Post(CreateCommandRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             if (await commandRepository.DoesCommandExist(request.BatchId, request.StepId, request.CommandId))
-                throw CommandAlreadyExists(request.CommandId);
+                throw Err.CommandAlreadyExists(request.CommandId);
 
             var command = request.ConvertTo<Core.Entities.Command>();
             command.StepId = step.Id;
@@ -44,13 +44,13 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<GetCommandResponse> Get(GetCommandRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = await commandRepository.Get(step.Id, request.CommandId);
-            if (command == null) throw CommandNotFound(request.CommandId);
+            if (command == null) throw Err.CommandNotFound(request.CommandId);
 
             return command.ConvertTo<GetCommandResponse>();
         }
@@ -58,10 +58,10 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<GetAllCommandsResponse> Get(GetAllCommandsRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             return new GetAllCommandsResponse
             {
@@ -72,15 +72,15 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<UpdateCommandResponse> Put(UpdateCommandRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = request.ConvertTo<Core.Entities.Command>();
 
             var updated = await commandRepository.Update(command);
-            if (!updated) throw CommandNotFound(request.CommandId);
+            if (!updated) throw Err.CommandNotFound(request.CommandId);
 
             return new UpdateCommandResponse();
         }
@@ -88,13 +88,13 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<DeleteCommandResponse> Delete(DeleteCommandRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = await commandRepository.Get(step.Id, request.CommandId);
-            if (command == null) throw CommandNotFound(request.CommandId);
+            if (command == null) throw Err.CommandNotFound(request.CommandId);
 
             await commandRepository.Delete(command.Id);
 

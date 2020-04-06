@@ -7,7 +7,7 @@ using ServiceStack;
 
 namespace Bakana.ServiceInterface.Batches
 {
-    public class BatchOptionService : BakanaService
+    public class BatchOptionService : Service
     {
         private readonly IBatchRepository batchRepository;
 
@@ -19,10 +19,10 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<CreateBatchOptionResponse> Post(CreateBatchOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             if (await batchRepository.DoesBatchOptionExist(request.BatchId, request.OptionId))
-                throw BatchOptionAlreadyExists(request.OptionId);
+                throw Err.BatchOptionAlreadyExists(request.OptionId);
 
             var batchOption = request.ConvertTo<BatchOption>();
 
@@ -34,11 +34,11 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<GetBatchOptionResponse> Get(GetBatchOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var batchOption = await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
             if (batchOption == null)
-                throw BatchOptionNotFound(request.OptionId);
+                throw Err.BatchOptionNotFound(request.OptionId);
 
             return batchOption.ConvertTo<GetBatchOptionResponse>();
         }
@@ -46,7 +46,7 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<GetAllBatchOptionResponse> Get(GetAllBatchOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var batchOptions = await batchRepository.GetAllBatchOptions(request.BatchId);
             var response = new GetAllBatchOptionResponse
@@ -60,12 +60,12 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<UpdateBatchOptionResponse> Put(UpdateBatchOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var existingBatchOption =
                 await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
             if (existingBatchOption == null)
-                throw BatchOptionNotFound(request.OptionId);
+                throw Err.BatchOptionNotFound(request.OptionId);
 
             var batchOption = request.ConvertTo<BatchOption>();
             batchOption.Id = existingBatchOption.Id;
@@ -78,12 +78,12 @@ namespace Bakana.ServiceInterface.Batches
         public async Task<DeleteBatchOptionResponse> Delete(DeleteBatchOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var existingBatchOption =
                 await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
             if (existingBatchOption == null)
-                throw BatchOptionNotFound(request.OptionId);
+                throw Err.BatchOptionNotFound(request.OptionId);
 
             await batchRepository.DeleteBatchOption(existingBatchOption.Id);
 

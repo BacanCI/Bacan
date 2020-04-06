@@ -7,7 +7,7 @@ using ServiceStack;
 
 namespace Bakana.ServiceInterface.Steps
 {
-    public class StepOptionService : BakanaService
+    public class StepOptionService : Service
     {
         private readonly IBatchRepository batchRepository;
         private readonly IStepRepository stepRepository;
@@ -23,14 +23,14 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<CreateStepOptionResponse> Post(CreateStepOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
             if (step == null)
-                throw StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepId);
 
             if (await stepRepository.DoesStepOptionExist(request.BatchId, request.StepId, request.OptionId))
-                throw StepOptionAlreadyExists(request.OptionId);
+                throw Err.StepOptionAlreadyExists(request.OptionId);
 
             var stepOption = request.ConvertTo<StepOption>();
             stepOption.StepId = step.Id;
@@ -43,15 +43,15 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<GetStepOptionResponse> Get(GetStepOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
             if (step == null)
-                throw StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepId);
 
             var stepOption = await stepRepository.GetStepOption(step.Id, request.OptionId);
             if (stepOption == null)
-                throw StepOptionNotFound(request.OptionId);
+                throw Err.StepOptionNotFound(request.OptionId);
 
             return stepOption.ConvertTo<GetStepOptionResponse>();
         }
@@ -59,11 +59,11 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<GetAllStepOptionResponse> Get(GetAllStepOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
             if (step == null)
-                throw StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepId);
 
             var response = new GetAllStepOptionResponse
             {
@@ -76,16 +76,16 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<UpdateStepOptionResponse> Put(UpdateStepOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
             if (step == null)
-                throw StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepId);
 
             var existingStepOption =
                 await stepRepository.GetStepOption(step.Id, request.OptionId);
             if (existingStepOption == null)
-                throw StepOptionNotFound(request.OptionId);
+                throw Err.StepOptionNotFound(request.OptionId);
 
             var stepOption = request.ConvertTo<StepOption>();
             stepOption.Id = existingStepOption.Id;
@@ -98,16 +98,16 @@ namespace Bakana.ServiceInterface.Steps
         public async Task<DeleteStepOptionResponse> Delete(DeleteStepOptionRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
             if (step == null)
-                throw StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepId);
 
             var existingStepOption =
                 await stepRepository.GetStepOption(step.Id, request.OptionId);
             if (existingStepOption == null)
-                throw StepOptionNotFound(request.OptionId);
+                throw Err.StepOptionNotFound(request.OptionId);
 
             await stepRepository.DeleteStepOption(existingStepOption.Id);
 

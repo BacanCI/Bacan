@@ -7,7 +7,7 @@ using ServiceStack;
 
 namespace Bakana.ServiceInterface.Commands
 {
-    public class CommandVariableService : BakanaService
+    public class CommandVariableService : Service
     {
         private readonly IBatchRepository batchRepository;
         private readonly IStepRepository stepRepository;
@@ -26,17 +26,17 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<CreateCommandVariableResponse> Post(CreateCommandVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = await commandRepository.Get(step.Id, request.CommandId);
             if (command == null)
-                throw CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandId);
 
             if (await commandRepository.DoesCommandVariableExist(request.BatchId, request.StepId, request.CommandId, request.VariableId))
-                throw CommandVariableAlreadyExists(request.VariableId);
+                throw Err.CommandVariableAlreadyExists(request.VariableId);
 
             var commandVariable = request.ConvertTo<CommandVariable>();
             commandVariable.CommandId = command.Id;
@@ -49,18 +49,18 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<GetCommandVariableResponse> Get(GetCommandVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = await commandRepository.Get(step.Id, request.CommandId);
             if (command == null)
-                throw CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandId);
 
             var commandVariable = await commandRepository.GetCommandVariable(command.Id, request.VariableId);
             if (commandVariable == null)
-                throw CommandVariableNotFound(request.VariableId);
+                throw Err.CommandVariableNotFound(request.VariableId);
 
             return commandVariable.ConvertTo<GetCommandVariableResponse>();
         }
@@ -68,14 +68,14 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<GetAllCommandVariableResponse> Get(GetAllCommandVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = await commandRepository.Get(step.Id, request.CommandId);
             if (command == null)
-                throw CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandId);
 
             var response = new GetAllCommandVariableResponse
             {
@@ -88,19 +88,19 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<UpdateCommandVariableResponse> Put(UpdateCommandVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = await commandRepository.Get(step.Id, request.CommandId);
             if (command == null)
-                throw CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandId);
 
             var existingCommandVariable =
                 await commandRepository.GetCommandVariable(command.Id, request.VariableId);
             if (existingCommandVariable == null)
-                throw CommandVariableNotFound(request.VariableId);
+                throw Err.CommandVariableNotFound(request.VariableId);
 
             var commandVariable = request.ConvertTo<CommandVariable>();
             commandVariable.Id = existingCommandVariable.Id;
@@ -113,19 +113,19 @@ namespace Bakana.ServiceInterface.Commands
         public async Task<DeleteCommandVariableResponse> Delete(DeleteCommandVariableRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
-                throw BatchNotFound(request.BatchId);
+                throw Err.BatchNotFound(request.BatchId);
 
             var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw StepNotFound(request.StepId);
+            if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = await commandRepository.Get(step.Id, request.CommandId);
             if (command == null)
-                throw CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandId);
 
             var existingCommandVariable =
                 await commandRepository.GetCommandVariable(command.Id, request.VariableId);
             if (existingCommandVariable == null)
-                throw CommandVariableNotFound(request.VariableId);
+                throw Err.CommandVariableNotFound(request.VariableId);
 
             await commandRepository.DeleteCommandVariable(existingCommandVariable.Id);
 

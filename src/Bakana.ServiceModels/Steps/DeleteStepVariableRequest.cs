@@ -1,7 +1,7 @@
 using System.Net;
 using ServiceStack;
 
-namespace Bakana.ServiceModels.Batches
+namespace Bakana.ServiceModels.Steps
 {
     [Tag("Step")]
     [Route("/batch/{BatchId}/step/{StepId}/variable/{VariableId}", HttpMethods.Delete, Summary = "Delete Step Variable")]

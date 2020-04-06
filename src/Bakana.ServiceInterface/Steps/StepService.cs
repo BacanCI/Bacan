@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
 using Bakana.ServiceModels.Steps;
@@ -25,7 +26,7 @@ namespace Bakana.ServiceInterface.Steps
                 throw BatchNotFound(request.BatchId);
 
             if (await stepRepository.DoesStepExist(request.BatchId, request.StepId))
-                throw StepArtifactAlreadyExists(request.StepId);
+                throw StepAlreadyExists(request.StepId);
 
             var step = request.ConvertTo<Step>();
 
@@ -45,6 +46,19 @@ namespace Bakana.ServiceInterface.Steps
             return step.ConvertTo<GetStepResponse>();
         }
         
+        public async Task<GetAllStepsResponse> Get(GetAllStepsRequest request)
+        {
+            if (!await batchRepository.DoesBatchExist(request.BatchId)) 
+                throw BatchNotFound(request.BatchId);
+
+            var steps = await stepRepository.GetAll(request.BatchId);
+
+            return new GetAllStepsResponse
+            {
+                Steps = steps.ConvertTo<List<ServiceModels.Step>>()
+            };
+        }
+
         public async Task<UpdateStepResponse> Put(UpdateStepRequest request)
         {
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 

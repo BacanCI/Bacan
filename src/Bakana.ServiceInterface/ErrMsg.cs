@@ -12,6 +12,7 @@ namespace Bakana.ServiceInterface
         public static string BatchArtifactOptionAlreadyExists(string optionId) => $"Batch Artifact Option {optionId} already exists";
         public static string BatchArtifactOptionNotFound(string optionId) => $"Batch Artifact Option {optionId} not found";
 
+        public static string StepAlreadyExists(string stepId) => $"Step {stepId} already exists";
         public static string StepNotFound(string stepId) => $"Step {stepId} not found";
         public static string StepVariableAlreadyExists(string variableId) => $"Step Variable {variableId} already exists";
         public static string StepVariableNotFound(string variableId) => $"Step Variable {variableId} not found";
@@ -22,6 +23,7 @@ namespace Bakana.ServiceInterface
         public static string StepArtifactOptionAlreadyExists(string optionId) => $"Step Artifact Option {optionId} already exists";
         public static string StepArtifactOptionNotFound(string optionId) => $"Step Artifact Option {optionId} not found";
 
+        public static string CommandAlreadyExists(string commandId) => $"Command {commandId} already exists";
         public static string CommandNotFound(string commandId) => $"Command {commandId} not found";
         public static string CommandVariableAlreadyExists(string variableId) => $"Command Variable {variableId} already exists";
         public static string CommandVariableNotFound(string variableId) => $"Command Variable {variableId} not found";

@@ -6,7 +6,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Commands
 {
     [Tag("Command")]
-    [Route("/batch/{BatchId}/steps/{StepId}/commands", HttpMethods.Get, Summary = "Get all Commands")]
+    [Route("/batch/{BatchId}/step/{StepId}/commands", HttpMethods.Get, Summary = "Get all Commands")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step was not found")]
     public class GetAllCommandsRequest : IReturn<GetAllStepsResponse>
     {

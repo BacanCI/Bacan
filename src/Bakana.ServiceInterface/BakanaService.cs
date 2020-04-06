@@ -24,6 +24,8 @@ namespace Bakana.ServiceInterface
         public static HttpError BatchArtifactOptionNotFound(string optionId) =>
             new HttpError(HttpStatusCode.NotFound, ErrMsg.BatchArtifactOptionNotFound(optionId));
         
+        public static HttpError StepAlreadyExists(string stepId) =>
+            new HttpError(HttpStatusCode.Conflict, ErrMsg.StepAlreadyExists(stepId));
         public static HttpError StepNotFound(string stepId) =>
             new HttpError(HttpStatusCode.NotFound, ErrMsg.StepNotFound(stepId));
         public static HttpError StepVariableAlreadyExists(string variableId) =>
@@ -43,6 +45,8 @@ namespace Bakana.ServiceInterface
         public static HttpError StepArtifactOptionNotFound(string optionId) =>
             new HttpError(HttpStatusCode.NotFound, ErrMsg.StepArtifactOptionNotFound(optionId));
         
+        public static HttpError CommandAlreadyExists(string commandId) =>
+            new HttpError(HttpStatusCode.Conflict, ErrMsg.CommandAlreadyExists(commandId));
         public static HttpError CommandNotFound(string commandId) =>
             new HttpError(HttpStatusCode.NotFound, ErrMsg.CommandNotFound(commandId));
         public static HttpError CommandVariableAlreadyExists(string variableId) =>

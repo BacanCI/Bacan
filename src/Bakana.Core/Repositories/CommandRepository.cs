@@ -27,11 +27,12 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task Update(Command command)
+        public async Task<bool> Update(Command command)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                await db.UpdateCommand(command);
+                var rowsUpdated = await db.UpdateCommand(command);
+                return rowsUpdated > 0;
             }
         }
 
@@ -73,6 +74,14 @@ namespace Bakana.Core.Repositories
             }
         }
 
+        public async Task<bool> DoesCommandExist(string batchId, string stepId, string commandId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesCommandExist(batchId, stepId, commandId);
+            }
+        }
+
         public async Task<ulong> CreateOrUpdateCommandVariable(CommandVariable variable)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
@@ -111,6 +120,14 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<CommandVariable>(id);
         }
 
+        public async Task<bool> DoesCommandVariableExist(string batchId, string stepId, string commandId, string variableId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesCommandVariableExist(batchId, stepId, commandId, variableId);
+            }
+        }
+
         public async Task<ulong> CreateOrUpdateCommandOption(CommandOption option)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
@@ -147,6 +164,14 @@ namespace Bakana.Core.Repositories
         public async Task DeleteCommandOption(ulong id)
         {
             await DeleteByIdAsync<CommandOption>(id);
+        }
+
+        public async Task<bool> DoesCommandOptionExist(string batchId, string stepId, string commandId, string optionId)
+        {
+            using (var db = await DbConnectionFactory.OpenAsync())
+            {
+                return await db.DoesCommandVariableExist(batchId, stepId, commandId, optionId);
+            }
         }
     }
 }

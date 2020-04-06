@@ -26,9 +26,9 @@ namespace Bakana.Core.Repositories
             return command.Id;
         }
 
-        internal static async Task UpdateCommand(this IDbConnection db, Command command)
+        internal static async Task<int> UpdateCommand(this IDbConnection db, Command command)
         {
-            await db.UpdateAsync(command);
+            return await db.UpdateAsync(command);
         }
         
         internal static async Task<Command> GetCommand(this IDbConnection db, ulong id)
@@ -54,6 +54,13 @@ namespace Bakana.Core.Repositories
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
+        }
+
+        internal static async Task<bool> DoesCommandExist(this IDbConnection db, string batchId, string stepId, string commandId)
+        {
+            var id = await db.GetStepPkByStepId(batchId, stepId);
+            
+            return await db.ExistsAsync<Command>(o => o.StepId == id && o.CommandId == commandId);
         }
 
         internal static async Task CreateOrUpdateCommandOptions(this IDbConnection db, IEnumerable<CommandOption> options)
@@ -90,6 +97,14 @@ namespace Bakana.Core.Repositories
             return await db.ScalarAsync<ulong>(q);
         }
 
+        internal static async Task<bool> DoesCommandOptionExist(this IDbConnection db, string batchId, string stepId, string commandId, string optionId)
+        {
+            var id = await db.GetStepPkByStepId(batchId, stepId);
+            var cId = await db.GetCommandPkByCommandId(id, commandId);
+            
+            return await db.ExistsAsync<CommandOption>(o => o.CommandId == cId && o.OptionId == optionId);
+        }
+
         internal static async Task CreateOrUpdateCommandVariables(this IDbConnection db, IEnumerable<CommandVariable> variables)
         {
             if (variables == null) return;
@@ -122,6 +137,14 @@ namespace Bakana.Core.Repositories
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
+        }
+        
+        internal static async Task<bool> DoesCommandVariableExist(this IDbConnection db, string batchId, string stepId, string commandId, string variableId)
+        {
+            var id = await db.GetStepPkByStepId(batchId, stepId);
+            var cId = await db.GetCommandPkByCommandId(id, commandId);
+            
+            return await db.ExistsAsync<CommandVariable>(o => o.CommandId == cId && o.VariableId == variableId);
         }
     }
 }

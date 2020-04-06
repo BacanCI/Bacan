@@ -1,0 +1,38 @@
+using Bakana.ServiceInterface;
+using NUnit.Framework;
+using ServiceStack;
+using ServiceStack.Testing;
+
+namespace Bakana.UnitTests.Services
+{
+    public abstract class ServiceTestFixtureBase<T> where T : Service
+    {
+        private const string TestBatchId = "TestBatch";
+        
+        private readonly ServiceStackHost appHost;
+        protected T Sut { get; set; }
+
+        public ServiceTestFixtureBase()
+        {
+            appHost = new BasicAppHost().Init();
+            appHost.Container.AddTransient<T>();
+            
+            ConfigureAppHost(appHost.Container);
+        }
+
+        protected virtual void ConfigureAppHost(IContainer container)
+        {
+        }
+        
+        [OneTimeSetUp]
+        public virtual void OneTimeSetup()
+        {
+            Sut = appHost.Resolve<T>();
+            
+            Mappers.Register();
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown() => appHost.Dispose();
+    }
+}

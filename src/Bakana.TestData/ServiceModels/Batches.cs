@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Bakana.ServiceModels;
 using Bakana.ServiceModels.Batches;
+using ServiceStack;
 
 namespace Bakana.TestData.ServiceModels
 {
@@ -80,6 +81,13 @@ namespace Bakana.TestData.ServiceModels
         };
     }
 
+    public static class CreateBatchArtifacts
+    {
+        public static CreateBatchArtifactRequest Package => BatchArtifacts.Package.ConvertTo<CreateBatchArtifactRequest>();
+        
+        public static CreateBatchArtifactRequest DbBackup => BatchArtifacts.DbBackup.ConvertTo<CreateBatchArtifactRequest>();
+    }
+    
     public static class Batches
     {
         public static CreateBatchRequest FullyPopulated => new CreateBatchRequest
@@ -103,5 +111,10 @@ namespace Bakana.TestData.ServiceModels
                 Steps.Test
             }
         };
+    }
+
+    public static class UpdateBatches
+    {
+        public static UpdateBatchRequest FullyPopulated => Batches.FullyPopulated.ConvertTo<UpdateBatchRequest>();
     }
 }

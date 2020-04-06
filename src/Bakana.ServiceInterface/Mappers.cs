@@ -60,7 +60,7 @@ namespace Bakana.ServiceInterface
                 to.BatchId = from.Id;
                 to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
                 to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
-                to.InputArtifacts = from.Artifacts.ConvertTo<List<ServiceModels.BatchArtifact>>(true);
+                to.Artifacts = from.Artifacts.ConvertTo<List<ServiceModels.BatchArtifact>>(true);
                 to.Steps = from.Steps.ConvertTo<List<ServiceModels.Step>>(true);
 
                 return to;

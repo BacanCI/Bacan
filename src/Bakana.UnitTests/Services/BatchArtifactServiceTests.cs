@@ -11,6 +11,7 @@ using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using ServiceStack;
 using BatchArtifacts = Bakana.TestData.Entities.BatchArtifacts;
+using Batches = Bakana.TestData.Entities.Batches;
 
 namespace Bakana.UnitTests.Services
 {
@@ -18,6 +19,7 @@ namespace Bakana.UnitTests.Services
     {
         private const string TestBatchId = "TestBatch";
         private const string TestBatchArtifactId = "TestBatchArtifact";
+        private const string TestBatchArtifactOptionId = "TestBatchArtifactOption";
         
         private IBatchRepository batchRepository;
 
@@ -142,6 +144,606 @@ namespace Bakana.UnitTests.Services
             var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Get(request));
             exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
             exception.Message.Should().Be("Batch Artifact TestBatchArtifact not found");
+        }
+        
+        [Test]
+        public async Task It_Should_Get_All_BatchArtifact()
+        {
+            // Arrange
+            var batchArtifacts = Batches.FullyPopulated.Artifacts;
+
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+            batchRepository.GetAllBatchArtifacts(Arg.Any<string>())
+                .Returns(batchArtifacts);
+
+            var request = new GetAllBatchArtifactRequest();
+
+            // Act
+            var response = await Sut.Get(request);
+
+            // Assert
+            response.Artifacts.Should().BeEquivalentTo(TestData.ServiceModels.Batches.FullyPopulated.Artifacts);
+        }
+        
+        [Test]
+        public void Get_All_BatchArtifacts_Should_Throw_With_Invalid_Batch_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(false);
+
+            var request = new GetAllBatchArtifactRequest
+            {
+                BatchId = TestBatchId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Get(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch TestBatch not found");
+        }
+        
+        [Test]
+        public async Task It_Should_Update_BatchArtifact()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            var batchArtifact = new BatchArtifact
+            {
+                Id = 123
+            };
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(batchArtifact);
+            
+            var request = UpdateBatchArtifacts.Package;
+            request.BatchId = TestBatchId;
+
+            // Act
+            var response = await Sut.Put(request);
+
+            // Assert
+            response.Should().NotBeNull();
+            await batchRepository.Received().UpdateBatchArtifact(Arg.Is<BatchArtifact>(a =>
+                a.Id == 123 &&
+                a.BatchId == TestBatchId &&
+                a.Description == request.Description));
+        }
+        
+        [Test]
+        public void Update_BatchArtifact_Should_Throw_With_Invalid_Batch_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(false);
+
+            var request = new UpdateBatchArtifactRequest
+            {
+                BatchId = TestBatchId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Put(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch TestBatch not found");
+        }
+        
+        [Test]
+        public void Update_BatchArtifact_Should_Throw_With_Invalid_Batch_Artifact_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .ReturnsNull();
+
+            var request = new UpdateBatchArtifactRequest
+            {
+                ArtifactId = TestBatchArtifactId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Put(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact TestBatchArtifact not found");
+        }
+        
+        [Test]
+        public async Task It_Should_Delete_Batch_Artifact()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            var existingBatchArtifact = new BatchArtifact
+            {
+                Id = 123
+            };
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(existingBatchArtifact);
+
+            batchRepository.DeleteBatchArtifact(Arg.Any<ulong>()).Returns(true);
+
+            var request = new DeleteBatchArtifactRequest();
+
+            // Act
+            var response = await Sut.Delete(request);
+
+            // Assert
+            response.Should().NotBeNull();
+            await batchRepository.Received().DeleteBatchArtifact(Arg.Is<ulong>(a =>
+                a == existingBatchArtifact.Id));
+        }
+        
+        [Test]
+        public void Delete_Batch_Artifact_Should_Throw_With_Invalid_Batch_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(false);
+
+            var request = new DeleteBatchArtifactRequest
+            {
+                BatchId = TestBatchId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Delete(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch TestBatch not found");
+        }
+
+        [Test]
+        public void Delete_Batch_Artifact_Should_Throw_With_Invalid_Batch_Artifact_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .ReturnsNull();
+
+            var request = new DeleteBatchArtifactRequest
+            {
+                ArtifactId = TestBatchArtifactId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Delete(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact TestBatchArtifact not found");
+        }
+        
+        [Test]
+        public async Task It_Should_Create_BatchArtifact_Option()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>()).Returns(new BatchArtifact
+            {
+                Id = 123
+            });
+            
+            batchRepository.DoesBatchArtifactOptionExist(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
+                .Returns(false);
+
+            var request = CreateBatchArtifactOptions.Compress;
+
+            // Act
+            var response = await Sut.Post(request);
+
+            // Assert
+            response.Should().NotBeNull();
+            await batchRepository.Received().CreateOrUpdateBatchArtifactOption(Arg.Is<BatchArtifactOption>(a =>
+                a.BatchArtifactId == 123 &&
+                a.OptionId == request.OptionId &&
+                a.Description == request.Description));
+        }
+        
+        [Test]
+        public void Create_Batch_Artifact_Option_Should_Throw_With_Invalid_Batch_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(false);
+
+            var request = new CreateBatchArtifactOptionRequest
+            {
+                BatchId = TestBatchId
+            };
+
+            // Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Post(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch TestBatch not found");
+        }
+        
+        [Test]
+        public void Create_Batch_Artifact_Option_Should_Throw_With_Invalid_Batch_Artifact_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>()).ReturnsNull();
+
+            var request = new CreateBatchArtifactOptionRequest
+            {
+                ArtifactId = TestBatchArtifactId
+            };
+
+            // Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Post(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact TestBatchArtifact not found");
+        }
+        
+        [Test]
+        public void Create_Batch_Artifact_Option_Should_Throw_With_Existing_Batch_Artifact_Option_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(new BatchArtifact());
+
+            batchRepository.DoesBatchArtifactOptionExist(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
+                .Returns(true);
+
+            var request = new CreateBatchArtifactOptionRequest
+            {
+                OptionId = TestBatchArtifactOptionId
+            };
+
+            // Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Post(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.Conflict.ToString());
+            exception.Message.Should().Be("Batch Artifact Option TestBatchArtifactOption already exists");
+        }
+        
+        [Test]
+        public async Task It_Should_Get_BatchArtifact_Option()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(new BatchArtifact());
+            
+            var batchArtifactOption = TestData.Entities.BatchArtifactOptions.Extract;
+            batchRepository.GetBatchArtifactOption(Arg.Any<ulong>(), Arg.Any<string>())
+                .Returns(batchArtifactOption);
+
+            // Act
+            var response = await Sut.Get(new GetBatchArtifactOptionRequest());
+
+            // Assert
+            response.Should().BeEquivalentTo(BatchArtifactOptions.Extract);
+        }
+        
+        [Test]
+        public void Get_BatchArtifact_Option_Should_Throw_With_Invalid_Batch_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(false);
+
+            var request = new GetBatchArtifactOptionRequest
+            {
+                BatchId = TestBatchId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Get(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch TestBatch not found");
+        }
+        
+        [Test]
+        public void Get_BatchArtifact_Option_Should_Throw_With_Invalid_Batch_Artifact_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .ReturnsNull();
+            
+            var request = new GetBatchArtifactOptionRequest
+            {
+                ArtifactId = TestBatchArtifactId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Get(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact TestBatchArtifact not found");
+        }
+        
+        [Test]
+        public void Get_BatchArtifact_Option_Should_Throw_With_Invalid_Batch_Artifact_Option_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(new BatchArtifact());
+
+            batchRepository.GetBatchArtifactOption(Arg.Any<ulong>(), Arg.Any<string>())
+                .ReturnsNull();
+
+            var request = new GetBatchArtifactOptionRequest
+            {
+                OptionId = TestBatchArtifactOptionId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Get(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact Option TestBatchArtifactOption not found");
+        }
+        
+        [Test]
+        public async Task It_Should_Get_All_BatchArtifact_Options()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            var batchArtifact = BatchArtifacts.Package;
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(batchArtifact);
+            
+            // Act
+            var response = await Sut.Get(new GetAllBatchArtifactOptionRequest());
+
+            // Assert
+            response.Options.Should().BeEquivalentTo(TestData.ServiceModels.BatchArtifacts.Package.Options);
+        }
+        
+        [Test]
+        public void Get_All_BatchArtifact_Options_Should_Throw_With_Invalid_Batch_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(false);
+
+            var request = new GetAllBatchArtifactOptionRequest
+            {
+                BatchId = TestBatchId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Get(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch TestBatch not found");
+        }
+        
+        [Test]
+        public void Get_All_BatchArtifact_Options_Should_Throw_With_Invalid_Batch_Artifact_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .ReturnsNull();
+            
+            var request = new GetAllBatchArtifactOptionRequest
+            {
+                ArtifactId = TestBatchArtifactId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Get(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact TestBatchArtifact not found");
+        }
+        
+        [Test]
+        public async Task It_Should_Update_BatchArtifact_Option()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            var batchArtifact = new BatchArtifact
+            {
+                Id = 123
+            };
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(batchArtifact);
+
+            var batchArtifactOption = new BatchArtifactOption
+            {
+                Id = 456
+            };
+            batchRepository.GetBatchArtifactOption(Arg.Any<ulong>(), Arg.Any<string>())
+                .Returns(batchArtifactOption);
+
+            var request = UpdateBatchArtifactOptions.Compress;
+            request.BatchId = TestBatchId;
+            request.ArtifactId = TestBatchArtifactId;
+
+            // Act
+            var response = await Sut.Put(request);
+
+            // Assert
+            response.Should().NotBeNull();
+            await batchRepository.Received().CreateOrUpdateBatchArtifactOption(Arg.Is<BatchArtifactOption>(a =>
+                a.Id == 456 &&
+                a.BatchArtifactId == 123 &&
+                a.OptionId == request.OptionId &&
+                a.Description == request.Description));
+        }
+        
+        [Test]
+        public void Update_BatchArtifact_Option_Should_Throw_With_Invalid_Batch_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(false);
+
+            var request = new UpdateBatchArtifactOptionRequest
+            {
+                BatchId = TestBatchId
+            };
+            
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Put(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch TestBatch not found");
+        }
+        
+        [Test]
+        public void Update_BatchArtifact_Option_Should_Throw_With_Invalid_Batch_Artifact_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .ReturnsNull();
+
+            var request = new UpdateBatchArtifactOptionRequest
+            {
+                ArtifactId = TestBatchArtifactId
+            };
+            
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Put(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact TestBatchArtifact not found");
+        }
+        
+        [Test]
+        public void Update_BatchArtifact_Option_Should_Throw_With_Invalid_Batch_Artifact_Option_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(new BatchArtifact());
+
+            batchRepository.GetBatchArtifactOption(Arg.Any<ulong>(), Arg.Any<string>())
+                .ReturnsNull();
+
+            var request = new UpdateBatchArtifactOptionRequest
+            {
+                OptionId = TestBatchArtifactOptionId
+            };
+            
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Put(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact Option TestBatchArtifactOption not found");
+        }
+        
+        [Test]
+        public async Task It_Should_Delete_Batch_Artifact_Option()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            var existingBatchArtifact = new BatchArtifact
+            {
+                Id = 123
+            };
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(existingBatchArtifact);
+
+            var existingBatchArtifactOption = new BatchArtifactOption
+            {
+                Id = 456
+            };
+            batchRepository.GetBatchArtifactOption(Arg.Any<ulong>(), Arg.Any<string>())
+                .Returns(existingBatchArtifactOption);
+
+            batchRepository.DeleteBatchArtifact(Arg.Any<ulong>()).Returns(true);
+
+            var request = new DeleteBatchArtifactOptionRequest();
+
+            // Act
+            var response = await Sut.Delete(request);
+
+            // Assert
+            response.Should().NotBeNull();
+            await batchRepository.Received().DeleteBatchArtifact(Arg.Is<ulong>(a =>
+                a == existingBatchArtifactOption.Id));
+        }
+        
+        [Test]
+        public void Delete_Batch_Artifact_Option_Should_Throw_With_Invalid_Batch_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(false);
+
+            var request = new DeleteBatchArtifactOptionRequest
+            {
+                BatchId = TestBatchId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Delete(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch TestBatch not found");
+        }
+        
+        [Test]
+        public void Delete_Batch_Artifact_Option_Should_Throw_With_Invalid_Batch_Artifact_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .ReturnsNull();
+
+            var request = new DeleteBatchArtifactOptionRequest
+            {
+                ArtifactId = TestBatchArtifactId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Delete(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact TestBatchArtifact not found");
+        }
+        
+        [Test]
+        public void Delete_Batch_Artifact_Option_Should_Throw_With_Invalid_Batch_Artifact_Option_Id()
+        {
+            // Arrange
+            batchRepository.DoesBatchExist(Arg.Any<string>())
+                .Returns(true);
+
+            batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
+                .Returns(new BatchArtifact());
+
+            batchRepository.GetBatchArtifactOption(Arg.Any<ulong>(), Arg.Any<string>())
+                .ReturnsNull();
+
+            var request = new DeleteBatchArtifactOptionRequest
+            {
+                OptionId = TestBatchArtifactOptionId
+            };
+
+            // Act / Assert
+            var exception = Assert.ThrowsAsync<HttpError>(() => Sut.Delete(request));
+            exception.ErrorCode.Should().Be(HttpStatusCode.NotFound.ToString());
+            exception.Message.Should().Be("Batch Artifact Option TestBatchArtifactOption not found");
         }
     }
 }

@@ -55,7 +55,25 @@ namespace Bakana.TestData.ServiceModels
             Value = "True"
         };
     }
+
+    public static class CreateBatchArtifactOptions
+    {
+        public static CreateBatchArtifactOptionRequest Extract =
+            BatchArtifactOptions.Extract.ConvertTo<CreateBatchArtifactOptionRequest>();
         
+        public static CreateBatchArtifactOptionRequest Compress =
+            BatchArtifactOptions.Compress.ConvertTo<CreateBatchArtifactOptionRequest>();
+    }
+        
+    public static class UpdateBatchArtifactOptions
+    {
+        public static UpdateBatchArtifactOptionRequest Extract =
+            BatchArtifactOptions.Extract.ConvertTo<UpdateBatchArtifactOptionRequest>();
+        
+        public static UpdateBatchArtifactOptionRequest Compress =
+            BatchArtifactOptions.Compress.ConvertTo<UpdateBatchArtifactOptionRequest>();
+    }
+
     public static class BatchArtifacts
     {
         public static BatchArtifact Package => new BatchArtifact
@@ -88,6 +106,13 @@ namespace Bakana.TestData.ServiceModels
         public static CreateBatchArtifactRequest DbBackup => BatchArtifacts.DbBackup.ConvertTo<CreateBatchArtifactRequest>();
     }
     
+    public static class UpdateBatchArtifacts
+    {
+        public static UpdateBatchArtifactRequest Package => BatchArtifacts.Package.ConvertTo<UpdateBatchArtifactRequest>();
+        
+        public static UpdateBatchArtifactRequest DbBackup => BatchArtifacts.DbBackup.ConvertTo<UpdateBatchArtifactRequest>();
+    }
+
     public static class Batches
     {
         public static CreateBatchRequest FullyPopulated => new CreateBatchRequest

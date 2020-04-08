@@ -170,7 +170,7 @@ namespace Bakana.Core.Repositories
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesCommandVariableExist(batchId, stepId, commandId, optionId);
+                return await db.DoesCommandOptionExist(batchId, stepId, commandId, optionId);
             }
         }
     }

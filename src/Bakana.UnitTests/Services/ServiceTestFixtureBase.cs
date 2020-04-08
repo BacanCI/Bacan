@@ -7,12 +7,10 @@ namespace Bakana.UnitTests.Services
 {
     public abstract class ServiceTestFixtureBase<T> where T : Service
     {
-        private const string TestBatchId = "TestBatch";
-        
         private readonly ServiceStackHost appHost;
         protected T Sut { get; set; }
 
-        public ServiceTestFixtureBase()
+        protected ServiceTestFixtureBase()
         {
             appHost = new BasicAppHost().Init();
             appHost.Container.AddTransient<T>();

@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using Bakana.ServiceModels;
+using Bakana.ServiceModels.Steps;
+using ServiceStack;
+using Command = Bakana.ServiceModels.Command;
 
 namespace Bakana.TestData.ServiceModels
 {
@@ -158,5 +161,19 @@ namespace Bakana.TestData.ServiceModels
                 Commands.Test,
             },
         };
+    }
+
+    public static class CreateSteps
+    {
+        public static CreateStepRequest Build = Steps.Build.ConvertTo<CreateStepRequest>();
+        
+        public static CreateStepRequest Test = Steps.Test.ConvertTo<CreateStepRequest>();
+    }
+    
+    public static class UpdateSteps
+    {
+        public static UpdateStepRequest Build = Steps.Build.ConvertTo<UpdateStepRequest>();
+        
+        public static UpdateStepRequest Test = Steps.Test.ConvertTo<UpdateStepRequest>();
     }
 }

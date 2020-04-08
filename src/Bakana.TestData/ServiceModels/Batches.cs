@@ -75,6 +75,24 @@ namespace Bakana.TestData.ServiceModels
             BatchOptions.Log.ConvertTo<UpdateBatchOptionRequest>();
     }
 
+    public static class GetBatchOptions
+    {
+        public static GetBatchOptionRequest Debug =
+            BatchOptions.Debug.ConvertTo<GetBatchOptionRequest>();
+
+        public static GetBatchOptionRequest Log =
+            BatchOptions.Log.ConvertTo<GetBatchOptionRequest>();
+    }
+
+    public static class DeleteBatchOptions
+    {
+        public static DeleteBatchOptionRequest Debug =
+            BatchOptions.Debug.ConvertTo<DeleteBatchOptionRequest>();
+
+        public static DeleteBatchOptionRequest Log =
+            BatchOptions.Log.ConvertTo<DeleteBatchOptionRequest>();
+    }
+
     public static class BatchArtifactOptions
     {
         public static Option Extract => new Option

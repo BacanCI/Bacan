@@ -11,9 +11,8 @@ using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using ServiceStack;
 using BatchArtifacts = Bakana.TestData.Entities.BatchArtifacts;
-using Batches = Bakana.TestData.Entities.Batches;
 
-namespace Bakana.UnitTests.Services
+namespace Bakana.UnitTests.Services.Batches
 {
     public class BatchArtifactServiceTests : ServiceTestFixtureBase<BatchArtifactService>
     {
@@ -150,7 +149,7 @@ namespace Bakana.UnitTests.Services
         public async Task It_Should_Get_All_BatchArtifact()
         {
             // Arrange
-            var batchArtifacts = Batches.FullyPopulated.Artifacts;
+            var batchArtifacts = TestData.Entities.Batches.FullyPopulated.Artifacts;
 
             batchRepository.DoesBatchExist(Arg.Any<string>())
                 .Returns(true);

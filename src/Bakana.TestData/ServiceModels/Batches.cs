@@ -21,7 +21,25 @@ namespace Bakana.TestData.ServiceModels
             Value = "Production"
         };
     }
+
+    public static class CreateBatchVariables
+    {
+        public static CreateBatchVariableRequest Schedule =
+            BatchVariables.Schedule.ConvertTo<CreateBatchVariableRequest>();
         
+        public static CreateBatchVariableRequest Environment =
+            BatchVariables.Environment.ConvertTo<CreateBatchVariableRequest>();
+    }
+        
+    public static class UpdateBatchVariables
+    {
+        public static UpdateBatchVariableRequest Schedule =
+            BatchVariables.Schedule.ConvertTo<UpdateBatchVariableRequest>();
+        
+        public static UpdateBatchVariableRequest Environment =
+            BatchVariables.Environment.ConvertTo<UpdateBatchVariableRequest>();
+    }
+
     public static class BatchOptions
     {
         public static Option Debug => new Option
@@ -39,6 +57,24 @@ namespace Bakana.TestData.ServiceModels
         };
     }
         
+    public static class CreateBatchOptions
+    {
+        public static CreateBatchOptionRequest Debug =
+            BatchOptions.Debug.ConvertTo<CreateBatchOptionRequest>();
+        
+        public static CreateBatchOptionRequest Log =
+            BatchOptions.Log.ConvertTo<CreateBatchOptionRequest>();
+    }
+        
+    public static class UpdateBatchOptions
+    {
+        public static UpdateBatchOptionRequest Debug =
+            BatchOptions.Debug.ConvertTo<UpdateBatchOptionRequest>();
+        
+        public static UpdateBatchOptionRequest Log =
+            BatchOptions.Log.ConvertTo<UpdateBatchOptionRequest>();
+    }
+
     public static class BatchArtifactOptions
     {
         public static Option Extract => new Option

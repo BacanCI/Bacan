@@ -12,9 +12,8 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using ServiceStack;
-using Batches = Bakana.TestData.Entities.Batches;
 
-namespace Bakana.UnitTests.Services
+namespace Bakana.UnitTests.Services.Batches
 {
     [TestFixture]
     public class BatchServiceTests : ServiceTestFixtureBase<BatchService>
@@ -60,7 +59,7 @@ namespace Bakana.UnitTests.Services
         public async Task It_Should_Get_Batch()
         {
             // Arrange
-            var batch = Batches.FullyPopulated;
+            var batch = TestData.Entities.Batches.FullyPopulated;
             batch.Id = TestBatchId;
             batchRepository.Get(Arg.Any<string>()).Returns(batch);
             

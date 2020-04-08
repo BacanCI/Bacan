@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using Bakana.ServiceModels;
+using Bakana.ServiceModels.Commands;
+using ServiceStack;
+using Command = Bakana.ServiceModels.Command;
 
 namespace Bakana.TestData.ServiceModels
 {
@@ -41,6 +44,24 @@ namespace Bakana.TestData.ServiceModels
         };
     }
 
+    public static class CreateCommandVariables
+    {
+        public static CreateCommandVariableRequest Extract = CommandVariables.DemoArg.ConvertTo<CreateCommandVariableRequest>();
+        public static CreateCommandVariableRequest HelpArg = CommandVariables.HelpArg.ConvertTo<CreateCommandVariableRequest>();
+        public static CreateCommandVariableRequest OverrideArg = CommandVariables.OverrideArg.ConvertTo<CreateCommandVariableRequest>();
+        public static CreateCommandVariableRequest OutArg = CommandVariables.OutArg.ConvertTo<CreateCommandVariableRequest>();
+        public static CreateCommandVariableRequest ConnectionString = CommandVariables.ConnectionString.ConvertTo<CreateCommandVariableRequest>();
+    }
+ 
+    public static class UpdateCommandVariables
+    {
+        public static UpdateCommandVariableRequest Extract = CommandVariables.DemoArg.ConvertTo<UpdateCommandVariableRequest>();
+        public static UpdateCommandVariableRequest HelpArg = CommandVariables.HelpArg.ConvertTo<UpdateCommandVariableRequest>();
+        public static UpdateCommandVariableRequest OverrideArg = CommandVariables.OverrideArg.ConvertTo<UpdateCommandVariableRequest>();
+        public static UpdateCommandVariableRequest OutArg = CommandVariables.OutArg.ConvertTo<UpdateCommandVariableRequest>();
+        public static UpdateCommandVariableRequest ConnectionString = CommandVariables.ConnectionString.ConvertTo<UpdateCommandVariableRequest>();
+    }
+
     public static class CommandOptions
     {
         public static Option Optional1 => new Option
@@ -71,7 +92,31 @@ namespace Bakana.TestData.ServiceModels
             Value = "True"
         };
     }
-    
+
+    public static class CreateOptions
+    {
+        public static CreateCommandOptionRequest Optional1 =
+            CommandOptions.Optional1.ConvertTo<CreateCommandOptionRequest>();
+        public static CreateCommandOptionRequest Optional2 =
+            CommandOptions.Optional2.ConvertTo<CreateCommandOptionRequest>();
+        public static CreateCommandOptionRequest Debug =
+            CommandOptions.Debug.ConvertTo<CreateCommandOptionRequest>();
+        public static CreateCommandOptionRequest Production =
+            CommandOptions.Production.ConvertTo<CreateCommandOptionRequest>();
+    }
+
+    public static class UpdateOptions
+    {
+        public static UpdateCommandOptionRequest Optional1 =
+            CommandOptions.Optional1.ConvertTo<UpdateCommandOptionRequest>();
+        public static UpdateCommandOptionRequest Optional2 =
+            CommandOptions.Optional2.ConvertTo<UpdateCommandOptionRequest>();
+        public static UpdateCommandOptionRequest Debug =
+            CommandOptions.Debug.ConvertTo<UpdateCommandOptionRequest>();
+        public static UpdateCommandOptionRequest Production =
+            CommandOptions.Production.ConvertTo<UpdateCommandOptionRequest>();
+    }
+
     public static class Commands
     {
         public static Command DotNetRestore => new Command
@@ -128,5 +173,21 @@ namespace Bakana.TestData.ServiceModels
                 CommandOptions.Debug
             }
         };
+    }
+
+    public static class CreateCommands
+    {
+        public static CreateCommandRequest DotNetRestore = Commands.DotNetRestore.ConvertTo<CreateCommandRequest>();
+        public static CreateCommandRequest DotNetBuild = Commands.DotNetBuild.ConvertTo<CreateCommandRequest>();
+        public static CreateCommandRequest Deploy = Commands.Deploy.ConvertTo<CreateCommandRequest>();
+        public static CreateCommandRequest Test = Commands.Test.ConvertTo<CreateCommandRequest>();
+    }
+    
+    public static class UpdateCommands
+    {
+        public static UpdateCommandRequest DotNetRestore = Commands.DotNetRestore.ConvertTo<UpdateCommandRequest>();
+        public static UpdateCommandRequest DotNetBuild = Commands.DotNetBuild.ConvertTo<UpdateCommandRequest>();
+        public static UpdateCommandRequest Deploy = Commands.Deploy.ConvertTo<UpdateCommandRequest>();
+        public static UpdateCommandRequest Test = Commands.Test.ConvertTo<UpdateCommandRequest>();
     }
 }

@@ -89,6 +89,7 @@ namespace Bakana.ServiceInterface.Steps
 
             var stepVariable = request.ConvertTo<StepVariable>();
             stepVariable.Id = existingStepVariable.Id;
+            stepVariable.StepId = step.Id;
 
             await stepRepository.CreateOrUpdateStepVariable(stepVariable);
 

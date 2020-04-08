@@ -89,6 +89,7 @@ namespace Bakana.ServiceInterface.Steps
 
             var stepOption = request.ConvertTo<StepOption>();
             stepOption.Id = existingStepOption.Id;
+            stepOption.StepId = step.Id;
 
             await stepRepository.CreateOrUpdateStepOption(stepOption);
 

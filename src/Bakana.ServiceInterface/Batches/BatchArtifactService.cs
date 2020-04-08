@@ -180,7 +180,7 @@ namespace Bakana.ServiceInterface.Batches
             if (existingBatchArtifactOption == null)
                 throw Err.BatchArtifactOptionNotFound(request.OptionId);
 
-            await batchRepository.DeleteBatchArtifact(existingBatchArtifactOption.Id);
+            await batchRepository.DeleteBatchArtifactOption(existingBatchArtifactOption.Id);
 
             return new DeleteBatchArtifactOptionResponse();
         }

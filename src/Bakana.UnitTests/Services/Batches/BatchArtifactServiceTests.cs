@@ -669,7 +669,7 @@ namespace Bakana.UnitTests.Services.Batches
             batchRepository.GetBatchArtifactOption(Arg.Any<ulong>(), Arg.Any<string>())
                 .Returns(existingBatchArtifactOption);
 
-            batchRepository.DeleteBatchArtifact(Arg.Any<ulong>()).Returns(true);
+            batchRepository.DeleteBatchArtifactOption(Arg.Any<ulong>()).Returns(true);
 
             var request = new DeleteBatchArtifactOptionRequest();
 
@@ -678,7 +678,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             // Assert
             response.Should().NotBeNull();
-            await batchRepository.Received().DeleteBatchArtifact(Arg.Is<ulong>(a =>
+            await batchRepository.Received().DeleteBatchArtifactOption(Arg.Is<ulong>(a =>
                 a == existingBatchArtifactOption.Id));
         }
         

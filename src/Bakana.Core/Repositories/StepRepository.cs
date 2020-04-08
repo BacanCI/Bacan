@@ -262,9 +262,10 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task DeleteStepArtifactOption(ulong id)
+        public async Task<bool> DeleteStepArtifactOption(ulong id)
         {
-            await DeleteByIdAsync<StepArtifactOption>(id);
+            var rowsDeleted = await DeleteByIdAsync<StepArtifactOption>(id);
+            return rowsDeleted > 0;
         }
 
         public async Task<bool> DoesStepArtifactOptionExist(string batchId, string stepId, string artifactId, string optionId)

@@ -42,7 +42,7 @@ namespace Bakana.Core.Repositories
         Task<StepArtifactOption> GetStepArtifactOption(ulong id);
         Task<StepArtifactOption> GetStepArtifactOption(ulong artifactId, string optionId);
         Task<List<StepArtifactOption>> GetAllStepArtifactOptions(ulong artifactId);
-        Task DeleteStepArtifactOption(ulong id);
+        Task<bool> DeleteStepArtifactOption(ulong id);
         Task<bool> DoesStepArtifactOptionExist(string batchId, string stepId, string artifactId, string optionId);
     }
 }

@@ -89,6 +89,7 @@ namespace Bakana.ServiceInterface.Steps
                 throw Err.StepArtifactNotFound(request.ArtifactId);
 
             var stepArtifact = request.ConvertTo<StepArtifact>();
+            stepArtifact.StepId = step.Id;
             stepArtifact.Id = existingStepArtifact.Id;
 
             await stepRepository.UpdateStepArtifact(stepArtifact);
@@ -130,7 +131,7 @@ namespace Bakana.ServiceInterface.Steps
                 throw Err.StepArtifactNotFound(request.ArtifactId);
 
             if (await stepRepository.DoesStepArtifactOptionExist(request.BatchId, request.StepId, request.ArtifactId, request.OptionId))
-                throw Err.StepArtifactOptionAlreadyExists(request.ArtifactId);
+                throw Err.StepArtifactOptionAlreadyExists(request.OptionId);
             
             var stepArtifactOption = request.ConvertTo<StepArtifactOption>();
             stepArtifactOption.StepArtifactId = existingStepArtifact.Id;
@@ -203,6 +204,7 @@ namespace Bakana.ServiceInterface.Steps
 
             var stepArtifactOption = request.ConvertTo<StepArtifactOption>();
             stepArtifactOption.Id = existingStepArtifactOption.Id;
+            stepArtifactOption.StepArtifactId = existingStepArtifact.Id;
 
             await stepRepository.CreateOrUpdateStepArtifactOption(stepArtifactOption);
 
@@ -227,7 +229,7 @@ namespace Bakana.ServiceInterface.Steps
             if (existingStepArtifactOption == null)
                 throw Err.StepArtifactOptionNotFound(request.OptionId);
 
-            await stepRepository.DeleteStepArtifact(existingStepArtifactOption.Id);
+            await stepRepository.DeleteStepArtifactOption(existingStepArtifactOption.Id);
 
             return new DeleteStepArtifactOptionResponse();
         }

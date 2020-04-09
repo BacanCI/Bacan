@@ -104,6 +104,7 @@ namespace Bakana.ServiceInterface.Commands
 
             var commandVariable = request.ConvertTo<CommandVariable>();
             commandVariable.Id = existingCommandVariable.Id;
+            commandVariable.CommandId = command.Id;
 
             await commandRepository.CreateOrUpdateCommandVariable(commandVariable);
 

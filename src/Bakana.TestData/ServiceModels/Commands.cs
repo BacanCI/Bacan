@@ -93,7 +93,7 @@ namespace Bakana.TestData.ServiceModels
         };
     }
 
-    public static class CreateOptions
+    public static class CreateCommandOptions
     {
         public static CreateCommandOptionRequest Optional1 =
             CommandOptions.Optional1.ConvertTo<CreateCommandOptionRequest>();
@@ -105,7 +105,7 @@ namespace Bakana.TestData.ServiceModels
             CommandOptions.Production.ConvertTo<CreateCommandOptionRequest>();
     }
 
-    public static class UpdateOptions
+    public static class UpdateCommandOptions
     {
         public static UpdateCommandOptionRequest Optional1 =
             CommandOptions.Optional1.ConvertTo<UpdateCommandOptionRequest>();

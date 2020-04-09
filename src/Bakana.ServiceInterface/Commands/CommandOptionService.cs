@@ -104,6 +104,7 @@ namespace Bakana.ServiceInterface.Commands
 
             var commandOption = request.ConvertTo<CommandOption>();
             commandOption.Id = existingCommandOption.Id;
+            commandOption.CommandId = command.Id;
 
             await commandRepository.CreateOrUpdateCommandOption(commandOption);
 

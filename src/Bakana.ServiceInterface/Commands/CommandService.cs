@@ -78,6 +78,7 @@ namespace Bakana.ServiceInterface.Commands
             if (step == null) throw Err.StepNotFound(request.StepId);
 
             var command = request.ConvertTo<Core.Entities.Command>();
+            command.StepId = step.Id;
 
             var updated = await commandRepository.Update(command);
             if (!updated) throw Err.CommandNotFound(request.CommandId);

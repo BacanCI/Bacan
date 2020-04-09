@@ -39,6 +39,82 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
+        public async Task It_Should_Create_Without_Step_Variables()
+        {
+            // Arrange
+            var buildStep = Steps.Build;
+            buildStep.BatchId = "123";
+            buildStep.Variables = null;
+
+            // Act
+            var id = await Sut.Create(buildStep);
+
+            // Assert
+            id.Should().BeGreaterThan(0);
+
+            var fetchedBuildStep = await Sut.Get(id);
+            fetchedBuildStep.Variables.Should().BeEmpty();
+            fetchedBuildStep.Should().BeEquivalentTo(buildStep, options => options.Excluding(p => p.Variables));
+        }
+
+        [Test]
+        public async Task It_Should_Create_Without_Step_Options()
+        {
+            // Arrange
+            var buildStep = Steps.Build;
+            buildStep.BatchId = "123";
+            buildStep.Options = null;
+
+            // Act
+            var id = await Sut.Create(buildStep);
+
+            // Assert
+            id.Should().BeGreaterThan(0);
+
+            var fetchedBuildStep = await Sut.Get(id);
+            fetchedBuildStep.Options.Should().BeEmpty();
+            fetchedBuildStep.Should().BeEquivalentTo(buildStep, options => options.Excluding(p => p.Options));
+        }
+
+        [Test]
+        public async Task It_Should_Create_Without_Step_Artifacts()
+        {
+            // Arrange
+            var buildStep = Steps.Build;
+            buildStep.BatchId = "123";
+            buildStep.Artifacts = null;
+
+            // Act
+            var id = await Sut.Create(buildStep);
+
+            // Assert
+            id.Should().BeGreaterThan(0);
+
+            var fetchedBuildStep = await Sut.Get(id);
+            fetchedBuildStep.Artifacts.Should().BeEmpty();
+            fetchedBuildStep.Should().BeEquivalentTo(buildStep, options => options.Excluding(p => p.Artifacts));
+        }
+
+        [Test]
+        public async Task It_Should_Create_Without_Commands()
+        {
+            // Arrange
+            var buildStep = Steps.Build;
+            buildStep.BatchId = "123";
+            buildStep.Commands = null;
+
+            // Act
+            var id = await Sut.Create(buildStep);
+
+            // Assert
+            id.Should().BeGreaterThan(0);
+
+            var fetchedBuildStep = await Sut.Get(id);
+            fetchedBuildStep.Commands.Should().BeEmpty();
+            fetchedBuildStep.Should().BeEquivalentTo(buildStep, options => options.Excluding(p => p.Commands));
+        }
+
+        [Test]
         public async Task It_Should_Update()
         {
             // Arrange

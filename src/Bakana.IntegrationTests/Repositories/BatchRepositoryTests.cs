@@ -39,6 +39,74 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
+        public async Task It_Should_Create_Without_Steps()
+        {
+            // Arrange
+            var fullyPopulatedBatch = Batches.FullyPopulated;
+            fullyPopulatedBatch.Id = "123";
+            fullyPopulatedBatch.Steps = null;
+
+            // Act
+            await Sut.Create(fullyPopulatedBatch);
+
+            // Assert
+            var fetchedBuildBatch = await Sut.Get(fullyPopulatedBatch.Id);
+            fetchedBuildBatch.Steps.Should().BeEmpty();
+            fetchedBuildBatch.Should().BeEquivalentTo(fetchedBuildBatch, options => options.Excluding(p => p.Steps));
+        }
+
+        [Test]
+        public async Task It_Should_Create_Without_Batch_Options()
+        {
+            // Arrange
+            var fullyPopulatedBatch = Batches.FullyPopulated;
+            fullyPopulatedBatch.Id = "123";
+            fullyPopulatedBatch.Options = null;
+
+            // Act
+            await Sut.Create(fullyPopulatedBatch);
+
+            // Assert
+            var fetchedBuildBatch = await Sut.Get(fullyPopulatedBatch.Id);
+            fetchedBuildBatch.Options.Should().BeEmpty();
+            fetchedBuildBatch.Should().BeEquivalentTo(fetchedBuildBatch, options => options.Excluding(p => p.Options));
+        }
+
+        [Test]
+        public async Task It_Should_Create_Without_Batch_Variables()
+        {
+            // Arrange
+            var fullyPopulatedBatch = Batches.FullyPopulated;
+            fullyPopulatedBatch.Id = "123";
+            fullyPopulatedBatch.Variables = null;
+
+            // Act
+            await Sut.Create(fullyPopulatedBatch);
+
+            // Assert
+            var fetchedBuildBatch = await Sut.Get(fullyPopulatedBatch.Id);
+            fetchedBuildBatch.Variables.Should().BeEmpty();
+            fetchedBuildBatch.Should().BeEquivalentTo(fetchedBuildBatch, options => options.Excluding(p => p.Variables));
+        }
+
+        [Test]
+        public async Task It_Should_Create_Without_Batch_Artifacts()
+        {
+            // Arrange
+            var fullyPopulatedBatch = Batches.FullyPopulated;
+            fullyPopulatedBatch.Id = "123";
+            fullyPopulatedBatch.Artifacts = null;
+
+            // Act
+            await Sut.Create(fullyPopulatedBatch);
+
+            // Assert
+            var fetchedBuildBatch = await Sut.Get(fullyPopulatedBatch.Id);
+            fetchedBuildBatch.Artifacts.Should().BeEmpty();
+            fetchedBuildBatch.Should().BeEquivalentTo(fetchedBuildBatch, options => options.Excluding(p => p.Artifacts));
+        }
+
+        [Test]
         public async Task It_Should_Update()
         {
             // Arrange
@@ -94,6 +162,22 @@ namespace Bakana.IntegrationTests.Repositories
 
             // Assert
             fetchedBatch.Should().BeEquivalentTo(fullyPopulatedBatch, o => o.Excluding(b => b.CreatedOn));
+        }
+
+        [Test]
+        public async Task It_Should_Get_Null_When_BatchId_Is_Incorrect()
+        {
+            // Arrange
+            var fullyPopulatedBatch = Batches.FullyPopulated;
+            fullyPopulatedBatch.Id = "123";
+
+            await Sut.Create(fullyPopulatedBatch);
+
+            // Act
+            var fetchedBatch = await Sut.Get("BatchId_1");
+
+            // Assert
+            fetchedBatch.Should().BeNull();
         }
 
         [Test]
@@ -721,8 +805,6 @@ namespace Bakana.IntegrationTests.Repositories
             var artifact = BatchArtifacts.Package;
             artifact.BatchId = "123";
             await Sut.CreateBatchArtifact(artifact);
-
-            var artifactOption = artifact.Options[0];
 
             //Act
             var doesExist = await Sut.DoesBatchArtifactOptionExist(artifact.BatchId, artifact.ArtifactId, "OptionId_1");

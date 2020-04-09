@@ -26,9 +26,8 @@ namespace Bakana.Core.Repositories
 
         internal static async Task<Batch> GetBatch(this IDbConnection db, string batchId)
         {
-            var batch = await db.LoadSingleByIdAsync<Batch>(
-                batchId, include:
-                new[] { nameof(Batch.Options), nameof(Batch.Variables) });
+            var batch = await db.LoadSingleByIdAsync<Batch>(batchId, 
+                include: new[] { nameof(Batch.Options), nameof(Batch.Variables) });
 
             if (batch == null) return null;
 

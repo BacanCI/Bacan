@@ -11,8 +11,6 @@ namespace Bakana.Core.Repositories
     {
         internal static async Task CreateCommands(this IDbConnection db, IEnumerable<Command> commands)
         {
-            if (commands == null) return;
-
             await commands.Iter(db.CreateCommand);
         }
 
@@ -65,8 +63,6 @@ namespace Bakana.Core.Repositories
 
         internal static async Task CreateOrUpdateCommandOptions(this IDbConnection db, IEnumerable<CommandOption> options)
         {
-            if (options == null) return;
-
             await options.Iter(db.CreateOrUpdateCommandOption);
         }
 
@@ -107,8 +103,6 @@ namespace Bakana.Core.Repositories
 
         internal static async Task CreateOrUpdateCommandVariables(this IDbConnection db, IEnumerable<CommandVariable> variables)
         {
-            if (variables == null) return;
-
             await variables.Iter(db.CreateOrUpdateCommandVariable);
         }
 

@@ -11,8 +11,6 @@ namespace Bakana.Core.Repositories
     {
         internal static async Task CreateSteps(this IDbConnection db, IEnumerable<Step> steps)
         {
-            if (steps == null) return;
-
             await steps.Iter(db.CreateStep);
         }
 
@@ -81,8 +79,6 @@ namespace Bakana.Core.Repositories
         
         internal static async Task CreateOrUpdateStepVariables(this IDbConnection db, IEnumerable<StepVariable> variables)
         {
-            if (variables == null) return;
-
             await variables.Iter(db.CreateOrUpdateStepVariable);
         }
 
@@ -122,8 +118,6 @@ namespace Bakana.Core.Repositories
 
         internal static async Task CreateOrUpdateStepOptions(this IDbConnection db, IEnumerable<StepOption> options)
         {
-            if (options == null) return;
-
             await options.Iter(db.CreateOrUpdateStepOption);
         }
 
@@ -162,8 +156,6 @@ namespace Bakana.Core.Repositories
 
         internal static async Task CreateOrUpdateStepArtifacts(this IDbConnection db, IEnumerable<StepArtifact> artifacts)
         {
-            if (artifacts == null) return;
-
             await artifacts.Iter(db.CreateOrUpdateStepArtifact);
         }
         

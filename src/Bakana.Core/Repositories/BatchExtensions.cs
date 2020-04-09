@@ -49,8 +49,6 @@ namespace Bakana.Core.Repositories
 
         internal static async Task CreateOrUpdateBatchOptions(this IDbConnection db, IEnumerable<BatchOption> options)
         {
-            if (options == null) return;
-
             await options.Iter(db.CreateOrUpdateBatchOption);
         }
 
@@ -87,8 +85,6 @@ namespace Bakana.Core.Repositories
 
         internal static async Task CreateOrUpdateBatchVariables(this IDbConnection db, IEnumerable<BatchVariable> variables)
         {
-            if (variables == null) return;
-
             await variables.Iter(db.CreateOrUpdateBatchVariable);
         }
 
@@ -124,8 +120,6 @@ namespace Bakana.Core.Repositories
 
         internal static async Task CreateOrUpdateBatchArtifacts(this IDbConnection db, IEnumerable<BatchArtifact> artifacts)
         {
-            if (artifacts == null) return;
-
             await artifacts.Iter(db.CreateOrUpdateBatchArtifact);
         }
 

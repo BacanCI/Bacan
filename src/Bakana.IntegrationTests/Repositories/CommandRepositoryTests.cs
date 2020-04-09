@@ -35,7 +35,7 @@ namespace Bakana.IntegrationTests.Repositories
 
             // Assert
             id.Should().BeGreaterThan(0);
-            
+
             var fetchedRestoreCommand = await Sut.Get(id);
             fetchedRestoreCommand.Should().BeEquivalentTo(restoreCommand);
         }

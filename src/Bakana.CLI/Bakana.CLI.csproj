@@ -23,7 +23,15 @@
 
   <ItemGroup>
     <None Include="..\Images\bakana.png" Pack="true" PackagePath="\" />
-    <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bakana.Loader\Bakana.Loader.csproj" />
   </ItemGroup>
 
 </Project>

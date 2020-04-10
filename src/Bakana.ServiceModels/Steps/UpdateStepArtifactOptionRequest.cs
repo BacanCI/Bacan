@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Steps
 {
     [Tag("Step")]
-    [Route("/batch/{BatchId}/step/{StepId}/artifact/{ArtifactId}/option/{OptionId}", HttpMethods.Put, Summary = "Update Step Artifact Option")]
+    [Route("/batch/{BatchId}/step/{StepName}/artifact/{ArtifactName}/option/{OptionName}", HttpMethods.Put, Summary = "Update Step Artifact Option")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Step Artifact or Step Artifact Option was not found")]
     public class UpdateStepArtifactOptionRequest : IReturn<UpdateStepArtifactOptionResponse>
     {
@@ -20,21 +20,21 @@ namespace Bakana.ServiceModels.Steps
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Artifact",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string ArtifactId { get; set; }
+        public string ArtifactName { get; set; }
         
         [ApiMember(
             Description = "A user-generated identifier associated with the Artifact Option",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string OptionId { get; set; }
+        public string OptionName { get; set; }
 
         [ApiMember(
             Description = "A description of the Artifact Option",

@@ -25,12 +25,12 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
-            if (await stepRepository.DoesStepVariableExist(request.BatchId, request.StepId, request.VariableId))
-                throw Err.StepVariableAlreadyExists(request.VariableId);
+            if (await stepRepository.DoesStepVariableExist(request.BatchId, request.StepName, request.VariableName))
+                throw Err.StepVariableAlreadyExists(request.VariableName);
 
             var stepVariable = request.ConvertTo<StepVariable>();
             stepVariable.StepId = step.Id;
@@ -45,13 +45,13 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
-            var stepVariable = await stepRepository.GetStepVariable(step.Id, request.VariableId);
+            var stepVariable = await stepRepository.GetStepVariable(step.Id, request.VariableName);
             if (stepVariable == null)
-                throw Err.StepVariableNotFound(request.VariableId);
+                throw Err.StepVariableNotFound(request.VariableName);
 
             return stepVariable.ConvertTo<GetStepVariableResponse>();
         }
@@ -61,9 +61,9 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var response = new GetAllStepVariableResponse
             {
@@ -78,14 +78,14 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepVariable =
-                await stepRepository.GetStepVariable(step.Id, request.VariableId);
+                await stepRepository.GetStepVariable(step.Id, request.VariableName);
             if (existingStepVariable == null)
-                throw Err.StepVariableNotFound(request.VariableId);
+                throw Err.StepVariableNotFound(request.VariableName);
 
             var stepVariable = request.ConvertTo<StepVariable>();
             stepVariable.Id = existingStepVariable.Id;
@@ -101,14 +101,14 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepVariable =
-                await stepRepository.GetStepVariable(step.Id, request.VariableId);
+                await stepRepository.GetStepVariable(step.Id, request.VariableName);
             if (existingStepVariable == null)
-                throw Err.StepVariableNotFound(request.VariableId);
+                throw Err.StepVariableNotFound(request.VariableName);
 
             await stepRepository.DeleteStepVariable(existingStepVariable.Id);
 

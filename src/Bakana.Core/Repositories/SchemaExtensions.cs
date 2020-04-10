@@ -1,5 +1,4 @@
 using System.Data;
-using System.Threading.Tasks;
 using Bakana.Core.Entities;
 using ServiceStack.OrmLite;
 

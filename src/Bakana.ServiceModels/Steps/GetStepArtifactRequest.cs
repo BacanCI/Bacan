@@ -5,7 +5,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Steps
 {
     [Tag("Step")]
-    [Route("/batch/{BatchId}/step/{StepId}/artifact/{ArtifactId}", HttpMethods.Get, Summary = "Get Step Artifact")]
+    [Route("/batch/{BatchId}/step/{StepName}/artifact/{ArtifactName}", HttpMethods.Get, Summary = "Get Step Artifact")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Step Artifact was not found")]
     public class GetStepArtifactRequest : IReturn<GetStepArtifactResponse>
     {
@@ -21,21 +21,21 @@ namespace Bakana.ServiceModels.Steps
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Artifact",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string ArtifactId { get; set; }
+        public string ArtifactName { get; set; }
     }
 
     public class GetStepArtifactResponse : IHasResponseStatus
     {
         [ApiMember(
             Description = "A user-generated identifier associated with the Artifact")]
-        public string ArtifactId { get; set; }
+        public string ArtifactName { get; set; }
         
         [ApiMember(
             Description = "A description of the Artifact")]

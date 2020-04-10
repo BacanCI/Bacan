@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/option/{OptionId}", HttpMethods.Delete, Summary = "Delete Batch Option")]
+    [Route("/batch/{BatchId}/option/{OptionName}", HttpMethods.Delete, Summary = "Delete Batch Option")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Option was not found")]
     public class DeleteBatchOptionRequest : IReturn<DeleteBatchOptionResponse>
     {
@@ -20,7 +20,7 @@ namespace Bakana.ServiceModels.Batches
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string OptionId { get; set; }
+        public string OptionName { get; set; }
     }
 
     public class DeleteBatchOptionResponse : IHasResponseStatus

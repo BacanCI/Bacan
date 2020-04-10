@@ -5,7 +5,7 @@ namespace Bakana.ServiceModels
 {
     public class Command
     {
-        public string CommandId { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 

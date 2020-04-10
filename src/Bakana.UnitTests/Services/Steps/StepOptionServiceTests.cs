@@ -17,8 +17,8 @@ namespace Bakana.UnitTests.Services.Steps
     public class StepOptionServiceTests : ServiceTestFixtureBase<StepOptionService>
     {
         private const string TestBatchId = "TestBatch";
-        private const string TestStepId = "TestStep";
-        private const string TestStepOptionId = "TestStepOption";
+        private const string TestStepName = "TestStep";
+        private const string TestStepOptionName = "TestStepOption";
         
         private IBatchRepository batchRepository;
         private IStepRepository stepRepository;
@@ -49,7 +49,7 @@ namespace Bakana.UnitTests.Services.Steps
             
             var request = CreateStepOptions.BuildAlways;
             request.BatchId = TestBatchId;
-            request.StepId = TestStepId;
+            request.StepName = TestStepName;
 
             // Act
             var response = await Sut.Post(request);
@@ -58,7 +58,7 @@ namespace Bakana.UnitTests.Services.Steps
             response.Should().NotBeNull();
             await stepRepository.Received().CreateOrUpdateStepOption(Arg.Is<StepOption>(a =>
                 a.StepId == 123 &&
-                a.OptionId == request.OptionId &&
+                a.Name == request.OptionName &&
                 a.Description == request.Description));
         }
 
@@ -81,7 +81,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Create_StepOption_Should_Throw_With_Invalid_Step_Id()
+        public void Create_StepOption_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -91,7 +91,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -114,7 +114,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepOptionRequest
             {
-                OptionId = TestStepOptionId
+                OptionName = TestStepOptionName
             };
 
             // Act / Assert
@@ -145,7 +145,9 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.StepOptions.BuildWhenNoErrors);
+            response.Should().BeEquivalentTo(TestData.ServiceModels.StepOptions.BuildWhenNoErrors, 
+                o => o.ExcludingMissingMembers());
+            response.OptionName.Should().Be(TestData.ServiceModels.StepOptions.BuildWhenNoErrors.Name);
         }
         
         [Test]
@@ -167,7 +169,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Get_StepOption_Should_Throw_With_Invalid_Step_Id()
+        public void Get_StepOption_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -177,7 +179,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetStepOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -200,7 +202,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetStepOptionRequest
             {
-                OptionId = TestStepOptionId
+                OptionName = TestStepOptionName
             };
 
             // Act / Assert
@@ -247,7 +249,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Get_All_StepOptions_Should_Throw_With_Invalid_Step_Id()
+        public void Get_All_StepOptions_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -258,7 +260,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetAllStepOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -287,7 +289,7 @@ namespace Bakana.UnitTests.Services.Steps
                 });
             
             var request = UpdateStepOptions.BuildAlways;
-            request.StepId = TestStepId;
+            request.StepName = TestStepName;
 
             // Act
             var response = await Sut.Put(request);
@@ -319,7 +321,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Update_StepOption_Should_Throw_With_Invalid_Step_Id()
+        public void Update_StepOption_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -329,7 +331,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -351,7 +353,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepOptionRequest
             {
-                OptionId = TestStepOptionId
+                OptionName = TestStepOptionName
             };
 
             // Act / Assert
@@ -407,7 +409,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Delete_Step_Option_Should_Throw_With_Invalid_Step_Id()
+        public void Delete_Step_Option_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -417,7 +419,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -440,7 +442,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepOptionRequest
             {
-                OptionId = TestStepOptionId
+                OptionName = TestStepOptionName
             };
 
             // Act / Assert

@@ -1,6 +1,5 @@
 using Bakana.Core.Entities;
-using Bakana.ServiceInterface;
-using Bakana.ServiceModels;
+using Bakana.ServiceInterface.Mapping;
 using Bakana.ServiceModels.Batches;
 using FluentAssertions;
 using NUnit.Framework;

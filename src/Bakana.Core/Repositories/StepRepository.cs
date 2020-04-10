@@ -50,11 +50,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<Step> Get(string batchId, string stepId)
+        public async Task<Step> Get(string batchId, string stepName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetStepPkByStepId(batchId, stepId);
+                var id = await db.GetStepPkByStepName(batchId, stepName);
                 return await db.GetStep(id);
             }
         }
@@ -75,11 +75,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<bool> DoesStepExist(string batchId, string stepId)
+        public async Task<bool> DoesStepExist(string batchId, string stepName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesStepExist(batchId, stepId);
+                return await db.DoesStepExist(batchId, stepName);
             }
         }
 
@@ -99,11 +99,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<StepVariable> GetStepVariable(ulong stepId, string variableId)
+        public async Task<StepVariable> GetStepVariable(ulong stepId, string variableName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetStepVariablePkByVariableId(stepId, variableId);
+                var id = await db.GetStepVariablePkByVariableName(stepId, variableName);
                 return await db.GetStepVariable(id);
             }
         }
@@ -121,11 +121,11 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<StepVariable>(id);
         }
 
-        public async Task<bool> DoesStepVariableExist(string batchId, string stepId, string variableId)
+        public async Task<bool> DoesStepVariableExist(string batchId, string stepName, string variableName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesStepVariableExist(batchId, stepId, variableId);
+                return await db.DoesStepVariableExist(batchId, stepName, variableName);
             }
         }
 
@@ -145,11 +145,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<StepOption> GetStepOption(ulong stepId, string optionId)
+        public async Task<StepOption> GetStepOption(ulong stepId, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetStepOptionPkByOptionId(stepId, optionId);
+                var id = await db.GetStepOptionPkByOptionName(stepId, optionName);
                 return await db.GetStepOption(id);
             }
         }
@@ -167,11 +167,11 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<StepOption>(id);
         }
 
-        public async Task<bool> DoesStepOptionExist(string batchId, string stepId, string optionId)
+        public async Task<bool> DoesStepOptionExist(string batchId, string stepName, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesStepOptionExist(batchId, stepId, optionId);
+                return await db.DoesStepOptionExist(batchId, stepName, optionName);
             }
         }
 
@@ -199,11 +199,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<StepArtifact> GetStepArtifact(ulong stepId, string artifactId)
+        public async Task<StepArtifact> GetStepArtifact(ulong stepId, string artifactName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetStepArtifactPkByArtifactId(stepId, artifactId);
+                var id = await db.GetStepArtifactPkByArtifactName(stepId, artifactName);
                 return await db.GetStepArtifact(id);
             }
         }
@@ -221,11 +221,11 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<StepArtifact>(id);
         }
 
-        public async Task<bool> DoesStepArtifactExist(string batchId, string stepId, string artifactId)
+        public async Task<bool> DoesStepArtifactExist(string batchId, string stepName, string artifactName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesStepArtifactExist(batchId, stepId, artifactId);
+                return await db.DoesStepArtifactExist(batchId, stepName, artifactName);
             }
         }
 
@@ -245,20 +245,20 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<StepArtifactOption> GetStepArtifactOption(ulong artifactId, string optionId)
+        public async Task<StepArtifactOption> GetStepArtifactOption(ulong stepArtifactId, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetStepArtifactOptionPkByOptionId(artifactId, optionId);
+                var id = await db.GetStepArtifactOptionPkByOptionName(stepArtifactId, optionName);
                 return await db.GetStepArtifactOption(id);
             }
         }
 
-        public async Task<List<StepArtifactOption>> GetAllStepArtifactOptions(ulong artifactId)
+        public async Task<List<StepArtifactOption>> GetAllStepArtifactOptions(ulong stepArtifactId)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.GetAllStepArtifactOptions(artifactId);
+                return await db.GetAllStepArtifactOptions(stepArtifactId);
             }
         }
 
@@ -268,11 +268,11 @@ namespace Bakana.Core.Repositories
             return rowsDeleted > 0;
         }
 
-        public async Task<bool> DoesStepArtifactOptionExist(string batchId, string stepId, string artifactId, string optionId)
+        public async Task<bool> DoesStepArtifactOptionExist(string batchId, string stepName, string artifactName, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesStepArtifactOptionExist(batchId, stepId, artifactId, optionId);
+                return await db.DoesStepArtifactOptionExist(batchId, stepName, artifactName, optionName);
             }
         }
     }

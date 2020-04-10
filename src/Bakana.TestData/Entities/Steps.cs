@@ -7,28 +7,28 @@ namespace Bakana.TestData.Entities
     {
         public static StepVariable SourcePath => new StepVariable
         {
-            VariableId = "SourcePath",
+            Name = "SourcePath",
             Description = "Path to Source code",
             Value = "./src"
         };
 
         public static StepVariable Profile => new StepVariable
         {
-            VariableId = "Profile",
+            Name = "Profile",
             Description = "Build Profile ",
             Value = "PRODUCTION"
         };
         
         public static StepVariable TestPath => new StepVariable
         {
-            VariableId = "TestPath",
+            Name = "TestPath",
             Description = "Path to test project",
             Value = "./tests"
         };
         
         public static StepVariable TestFilter => new StepVariable
         {
-            VariableId = "TestFilter",
+            Name = "TestFilter",
             Description = "NUnit Test Filter",
             Value = "--category = 'agency'"
         };
@@ -38,14 +38,14 @@ namespace Bakana.TestData.Entities
     {
         public static StepOption BuildAlways => new StepOption
         {
-            OptionId = "BuildAlways",
+            Name = "BuildAlways",
             Description = "Build Always",
             Value = "True"
         };
 
         public static StepOption BuildWhenNoErrors => new StepOption
         {
-            OptionId = "BuildWhenNoErrors",
+            Name = "BuildWhenNoErrors",
             Description = "Build only when no previous step has errored",
             Value = "True"
         };
@@ -55,14 +55,14 @@ namespace Bakana.TestData.Entities
     {
         public static StepArtifactOption Extract => new StepArtifactOption
         {
-            OptionId = "Extract",
+            Name = "Extract",
             Description = "Extract files",
             Value = "True"
         };
 
         public static StepArtifactOption Compress => new StepArtifactOption
         {
-            OptionId = "Compress",
+            Name = "Compress",
             Description = "Compress files",
             Value = "True"
         };
@@ -72,7 +72,7 @@ namespace Bakana.TestData.Entities
     {
         public static StepArtifact Source => new StepArtifact
         {
-            ArtifactId = "Source",
+            Name = "Source",
             Description = "Source Code",
             FileName = "Source.zip",
             Options = new List<StepArtifactOption>
@@ -83,7 +83,7 @@ namespace Bakana.TestData.Entities
 
         public static StepArtifact Binaries => new StepArtifact
         {
-            ArtifactId = "Binaries",
+            Name = "Binaries",
             Description = "Binaries",
             FileName = "Build.zip",
             OutputArtifact = true,
@@ -95,7 +95,7 @@ namespace Bakana.TestData.Entities
 
         public static StepArtifact TestResults => new StepArtifact
         {
-            ArtifactId = "Results",
+            Name = "Results",
             Description = "Test Results",
             FileName = "Results.zip",
             OutputArtifact = true,
@@ -106,7 +106,7 @@ namespace Bakana.TestData.Entities
     {
         public static Step Build => new Step
         {
-            StepId = "BuildStep",
+            Name = "BuildStep",
             Description = "Build Step",
             Tags = new[] {"Build"},
             Requirements = new[] {"Docker", "Build"},
@@ -133,7 +133,7 @@ namespace Bakana.TestData.Entities
 
         public static Step Test => new Step
         {
-            StepId = "TestStep",
+            Name = "TestStep",
             Description = "Test Step",
             Dependencies = new[] {"BuildStep"},
             Tags = new[] {"TEST"},

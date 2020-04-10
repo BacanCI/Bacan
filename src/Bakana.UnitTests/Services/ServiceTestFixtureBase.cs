@@ -1,4 +1,5 @@
 using Bakana.ServiceInterface;
+using Bakana.ServiceInterface.Mapping;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Testing;

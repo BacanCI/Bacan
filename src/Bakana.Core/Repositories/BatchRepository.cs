@@ -85,11 +85,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<BatchVariable> GetBatchVariable(string batchId, string variableId)
+        public async Task<BatchVariable> GetBatchVariable(string batchId, string variableName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetBatchVariablePkByVariableId(batchId, variableId);
+                var id = await db.GetBatchVariablePkByVariableName(batchId, variableName);
                 return await db.GetBatchVariable(id);
             }
         }
@@ -108,11 +108,11 @@ namespace Bakana.Core.Repositories
             return rowsDeleted > 0;
         }
 
-        public async Task<bool> DoesBatchVariableExist(string batchId, string variableId)
+        public async Task<bool> DoesBatchVariableExist(string batchId, string variableName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesBatchVariableExist(batchId, variableId);
+                return await db.DoesBatchVariableExist(batchId, variableName);
             }
         }
 
@@ -132,11 +132,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<BatchOption> GetBatchOption(string batchId, string optionId)
+        public async Task<BatchOption> GetBatchOption(string batchId, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetBatchOptionPkByOptionId(batchId, optionId);
+                var id = await db.GetBatchOptionPkByOptionName(batchId, optionName);
                 return await db.GetBatchOption(id);
             }
         }
@@ -155,11 +155,11 @@ namespace Bakana.Core.Repositories
             return rowsDeleted > 0;
         }
 
-        public async Task<bool> DoesBatchOptionExist(string batchId, string optionId)
+        public async Task<bool> DoesBatchOptionExist(string batchId, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesBatchOptionExist(batchId, optionId);
+                return await db.DoesBatchOptionExist(batchId, optionName);
             }
         }
 
@@ -189,11 +189,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<BatchArtifact> GetBatchArtifact(string batchId, string artifactId)
+        public async Task<BatchArtifact> GetBatchArtifact(string batchId, string artifactName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetBatchArtifactPkByArtifactId(batchId, artifactId);
+                var id = await db.GetBatchArtifactPkByArtifactName(batchId, artifactName);
                 return await db.GetBatchArtifact(id);
             }
         }
@@ -212,11 +212,11 @@ namespace Bakana.Core.Repositories
             return rowsDeleted > 0;
         }
 
-        public async Task<bool> DoesBatchArtifactExist(string batchId, string artifactId)
+        public async Task<bool> DoesBatchArtifactExist(string batchId, string artifactName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesBatchArtifactExist(batchId, artifactId);
+                return await db.DoesBatchArtifactExist(batchId, artifactName);
             }
         }
 
@@ -236,20 +236,20 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<BatchArtifactOption> GetBatchArtifactOption(ulong artifactId, string optionId)
+        public async Task<BatchArtifactOption> GetBatchArtifactOption(ulong artifactName, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetBatchArtifactOptionPkByOptionId(artifactId, optionId);
+                var id = await db.GetBatchArtifactOptionPkByOptionName(artifactName, optionName);
                 return await db.GetBatchArtifactOption(id);
             }
         }
 
-        public async Task<List<BatchArtifactOption>> GetAllBatchArtifactOptions(ulong artifactId)
+        public async Task<List<BatchArtifactOption>> GetAllBatchArtifactOptions(ulong artifactName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.GetAllBatchArtifactOptions(artifactId);
+                return await db.GetAllBatchArtifactOptions(artifactName);
             }
         }
 
@@ -259,11 +259,11 @@ namespace Bakana.Core.Repositories
             return rowsDeleted > 0;
         }
         
-        public async Task<bool> DoesBatchArtifactOptionExist(string batchId, string artifactId, string optionId)
+        public async Task<bool> DoesBatchArtifactOptionExist(string batchId, string artifactName, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesBatchArtifactOptionExist(batchId, artifactId, optionId);
+                return await db.DoesBatchArtifactOptionExist(batchId, artifactName, optionName);
             }
         }
     }

@@ -168,7 +168,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
         
         [Test]
-        public async Task It_Should_Get_By_StepId()
+        public async Task It_Should_Get_By_StepName()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -177,7 +177,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.Create(buildStep);
 
             // Act
-            var fetchedBuildStep = await Sut.Get("123", buildStep.StepId);
+            var fetchedBuildStep = await Sut.Get("123", buildStep.Name);
 
             // Assert
             fetchedBuildStep.Should().BeEquivalentTo(buildStep);
@@ -201,11 +201,11 @@ namespace Bakana.IntegrationTests.Repositories
             // Assert
             all.Count.Should().Be(2);
 
-            var fetchedBuildStep = all.SingleOrDefault(c => c.StepId == buildStep.StepId);
+            var fetchedBuildStep = all.SingleOrDefault(c => c.Name == buildStep.Name);
             fetchedBuildStep.Should().NotBeNull();
             fetchedBuildStep.Should().BeEquivalentTo(buildStep);
             
-            var fetchedTestStep = all.SingleOrDefault(c => c.StepId == testStep.StepId);
+            var fetchedTestStep = all.SingleOrDefault(c => c.Name == testStep.Name);
             fetchedTestStep.Should().NotBeNull();
             fetchedTestStep.Should().BeEquivalentTo(testStep);
         }
@@ -237,7 +237,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.Create(buildStep);
 
             // Act
-            var doesStepExist = await Sut.DoesStepExist(buildStep.BatchId, buildStep.StepId);
+            var doesStepExist = await Sut.DoesStepExist(buildStep.BatchId, buildStep.Name);
 
             // Assert
             doesStepExist.Should().BeTrue();
@@ -252,14 +252,14 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.Create(buildStep);
 
             // Act
-            var doesStepExist = await Sut.DoesStepExist("BatchId_1", buildStep.StepId);
+            var doesStepExist = await Sut.DoesStepExist("BatchId_1", buildStep.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Does_Not_Exist_When_StepId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Does_Not_Exist_When_StepName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -267,7 +267,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.Create(buildStep);
 
             // Act
-            var doesStepExist = await Sut.DoesStepExist(buildStep.BatchId, "StepId_1");
+            var doesStepExist = await Sut.DoesStepExist(buildStep.BatchId, "StepName_1");
 
             // Assert
             doesStepExist.Should().BeFalse();
@@ -293,7 +293,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBuildStep.Variables.Count.Should().Be(3);
 
             var fetchedTestFilterVariable =
-                fetchedBuildStep.Variables.SingleOrDefault(o => o.VariableId == testFilterVariable.VariableId);
+                fetchedBuildStep.Variables.SingleOrDefault(o => o.Name == testFilterVariable.Name);
             fetchedTestFilterVariable.Should().NotBeNull();
             fetchedTestFilterVariable.Should().BeEquivalentTo(testFilterVariable);
         }
@@ -307,7 +307,7 @@ namespace Bakana.IntegrationTests.Repositories
 
             var id = await Sut.Create(buildStep);
 
-            var profileVariable = buildStep.Variables.Single(o => o.VariableId == StepVariables.Profile.VariableId);
+            var profileVariable = buildStep.Variables.Single(o => o.Name == StepVariables.Profile.Name);
             profileVariable.Description = "Updated";
 
             // Act
@@ -318,7 +318,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBuildStep.Variables.Count.Should().Be(2);
 
             var fetchedProfileVariable =
-                fetchedBuildStep.Variables.SingleOrDefault(o => o.VariableId == StepVariables.Profile.VariableId);
+                fetchedBuildStep.Variables.SingleOrDefault(o => o.Name == StepVariables.Profile.Name);
             fetchedProfileVariable.Should().NotBeNull();
             fetchedProfileVariable.Should().BeEquivalentTo(profileVariable);
         }
@@ -340,7 +340,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
         
         [Test]
-        public async Task It_Should_Get_StepVariable_By_VariableId()
+        public async Task It_Should_Get_StepVariable_By_VariableName()
         {
             // Arrange
             var profileVariable = StepVariables.Profile;
@@ -349,7 +349,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateStepVariable(profileVariable);
 
             // Act
-            var fetchedVariable = await Sut.GetStepVariable(123, profileVariable.VariableId);
+            var fetchedVariable = await Sut.GetStepVariable(123, profileVariable.Name);
 
             // Assert
             fetchedVariable.Should().BeEquivalentTo(profileVariable);
@@ -360,7 +360,7 @@ namespace Bakana.IntegrationTests.Repositories
         {
             // Arrange
             var buildStep = Steps.Build;
-            buildStep.StepId = "123";
+            buildStep.Name = "123";
 
             var id = await Sut.Create(buildStep);
 
@@ -400,7 +400,7 @@ namespace Bakana.IntegrationTests.Repositories
             var variable = buildStep.Variables[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepVariableExist(buildStep.BatchId, buildStep.StepId, variable.VariableId);
+            var doesStepExist = await Sut.DoesStepVariableExist(buildStep.BatchId, buildStep.Name, variable.Name);
 
             // Assert
             doesStepExist.Should().BeTrue();
@@ -417,14 +417,14 @@ namespace Bakana.IntegrationTests.Repositories
             var variable = buildStep.Variables[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepVariableExist("BatchId_1", buildStep.StepId, variable.VariableId);
+            var doesStepExist = await Sut.DoesStepVariableExist("BatchId_1", buildStep.Name, variable.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Variable_Does_Not_Exist_When_StepId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Variable_Does_Not_Exist_When_StepName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -434,14 +434,14 @@ namespace Bakana.IntegrationTests.Repositories
             var variable = buildStep.Variables[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepVariableExist(buildStep.BatchId, "StepId_1", variable.VariableId);
+            var doesStepExist = await Sut.DoesStepVariableExist(buildStep.BatchId, "StepName_1", variable.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Variable_Does_Not_Exist_When_VariableId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Variable_Does_Not_Exist_When_VariableName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -449,7 +449,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.Create(buildStep);
 
             // Act
-            var doesStepExist = await Sut.DoesStepVariableExist(buildStep.BatchId, buildStep.StepId, "VariableId_1");
+            var doesStepExist = await Sut.DoesStepVariableExist(buildStep.BatchId, buildStep.Name, "VariableName_1");
 
             // Assert
             doesStepExist.Should().BeFalse();
@@ -475,7 +475,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBuildStep.Options.Count.Should().Be(2);
 
             var fetchedBuildWhenNoErrorsOption =
-                fetchedBuildStep.Options.SingleOrDefault(o => o.OptionId == buildWhenNoErrorsOption.OptionId);
+                fetchedBuildStep.Options.SingleOrDefault(o => o.Name == buildWhenNoErrorsOption.Name);
             fetchedBuildWhenNoErrorsOption.Should().NotBeNull();
             fetchedBuildWhenNoErrorsOption.Should().BeEquivalentTo(buildWhenNoErrorsOption);
         }
@@ -489,7 +489,7 @@ namespace Bakana.IntegrationTests.Repositories
 
             var id = await Sut.Create(buildStep);
 
-            var buildAlwaysOption = buildStep.Options.Single(o => o.OptionId == StepOptions.BuildAlways.OptionId);
+            var buildAlwaysOption = buildStep.Options.Single(o => o.Name == StepOptions.BuildAlways.Name);
             buildAlwaysOption.Description = "Updated";
 
             // Act
@@ -500,7 +500,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBuildStep.Options.Count.Should().Be(1);
 
             var fetchedBuildAlwaysOption =
-                fetchedBuildStep.Options.SingleOrDefault(o => o.OptionId == StepOptions.BuildAlways.OptionId);
+                fetchedBuildStep.Options.SingleOrDefault(o => o.Name == StepOptions.BuildAlways.Name);
             fetchedBuildAlwaysOption.Should().NotBeNull();
             fetchedBuildAlwaysOption.Should().BeEquivalentTo(buildAlwaysOption);
         }
@@ -522,7 +522,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
         
         [Test]
-        public async Task It_Should_Get_StepOption_By_OptionId()
+        public async Task It_Should_Get_StepOption_By_OptionName()
         {
             // Arrange
             var buildAlwaysOption = StepOptions.BuildAlways;
@@ -531,7 +531,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateStepOption(buildAlwaysOption);
 
             // Act
-            var fetchedOption = await Sut.GetStepOption(123, buildAlwaysOption.OptionId);
+            var fetchedOption = await Sut.GetStepOption(123, buildAlwaysOption.Name);
 
             // Assert
             fetchedOption.Should().BeEquivalentTo(buildAlwaysOption);
@@ -582,7 +582,7 @@ namespace Bakana.IntegrationTests.Repositories
             var option = buildStep.Options[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepOptionExist(buildStep.BatchId, buildStep.StepId, option.OptionId);
+            var doesStepExist = await Sut.DoesStepOptionExist(buildStep.BatchId, buildStep.Name, option.Name);
 
             // Assert
             doesStepExist.Should().BeTrue();
@@ -599,14 +599,14 @@ namespace Bakana.IntegrationTests.Repositories
             var option = buildStep.Options[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepOptionExist("BatchId_1", buildStep.StepId, option.OptionId);
+            var doesStepExist = await Sut.DoesStepOptionExist("BatchId_1", buildStep.Name, option.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Option_Does_Not_Exist_When_StepId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Option_Does_Not_Exist_When_StepName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -616,14 +616,14 @@ namespace Bakana.IntegrationTests.Repositories
             var option = buildStep.Options[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepOptionExist(buildStep.BatchId, "StepId_1", option.OptionId);
+            var doesStepExist = await Sut.DoesStepOptionExist(buildStep.BatchId, "StepName_1", option.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Option_Does_Not_Exist_When_OptionId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Option_Does_Not_Exist_When_OptionName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -631,7 +631,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.Create(buildStep);
 
             // Act
-            var doesStepExist = await Sut.DoesStepOptionExist(buildStep.BatchId, buildStep.StepId, "OptionId_1");
+            var doesStepExist = await Sut.DoesStepOptionExist(buildStep.BatchId, buildStep.Name, "OptionName_1");
 
             // Assert
             doesStepExist.Should().BeFalse();
@@ -642,7 +642,7 @@ namespace Bakana.IntegrationTests.Repositories
         {
             // Arrange
             var buildStep = Steps.Build;
-            buildStep.StepId = "123";
+            buildStep.Name = "123";
 
             var id = await Sut.Create(buildStep);
 
@@ -657,7 +657,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedStep.Artifacts.Count.Should().Be(3);
 
             var fetchedTestResultsArtifact =
-                fetchedStep.Artifacts.SingleOrDefault(o => o.ArtifactId == testResultsArtifact.ArtifactId);
+                fetchedStep.Artifacts.SingleOrDefault(o => o.Name == testResultsArtifact.Name);
             fetchedTestResultsArtifact.Should().NotBeNull();
             fetchedTestResultsArtifact.Should().BeEquivalentTo(testResultsArtifact);
         }
@@ -667,11 +667,11 @@ namespace Bakana.IntegrationTests.Repositories
         {
             // Arrange
             var buildStep = Steps.Build;
-            buildStep.StepId = "123";
+            buildStep.Name = "123";
 
             var id = await Sut.Create(buildStep);
 
-            var sourceArtifact = buildStep.Artifacts.Single(o => o.ArtifactId == StepArtifacts.Source.ArtifactId);
+            var sourceArtifact = buildStep.Artifacts.Single(o => o.Name == StepArtifacts.Source.Name);
             sourceArtifact.Description = "Updated";
 
             // Act
@@ -682,7 +682,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBuildStep.Artifacts.Count.Should().Be(2);
 
             var fetchedSourceArtifact =
-                fetchedBuildStep.Artifacts.SingleOrDefault(o => o.ArtifactId == StepArtifacts.Source.ArtifactId);
+                fetchedBuildStep.Artifacts.SingleOrDefault(o => o.Name == StepArtifacts.Source.Name);
             fetchedSourceArtifact.Should().NotBeNull();
             fetchedSourceArtifact.Should().BeEquivalentTo(sourceArtifact);
         }
@@ -704,7 +704,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
         
         [Test]
-        public async Task It_Should_Get_StepArtifact_By_ArtifactId()
+        public async Task It_Should_Get_StepArtifact_By_ArtifactName()
         {
             // Arrange
             var binariesArtifact = StepArtifacts.Binaries;
@@ -713,7 +713,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateStepArtifact(binariesArtifact);
 
             // Act
-            var fetchedArtifact = await Sut.GetStepArtifact(123, binariesArtifact.ArtifactId);
+            var fetchedArtifact = await Sut.GetStepArtifact(123, binariesArtifact.Name);
 
             // Assert
             fetchedArtifact.Should().BeEquivalentTo(binariesArtifact);
@@ -724,7 +724,7 @@ namespace Bakana.IntegrationTests.Repositories
         {
             // Arrange
             var buildStep = Steps.Build;
-            buildStep.StepId = "123";
+            buildStep.Name = "123";
 
             var id = await Sut.Create(buildStep);
 
@@ -764,7 +764,7 @@ namespace Bakana.IntegrationTests.Repositories
             var artifact = buildStep.Artifacts[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactExist(buildStep.BatchId, buildStep.StepId, artifact.ArtifactId);
+            var doesStepExist = await Sut.DoesStepArtifactExist(buildStep.BatchId, buildStep.Name, artifact.Name);
 
             // Assert
             doesStepExist.Should().BeTrue();
@@ -781,14 +781,14 @@ namespace Bakana.IntegrationTests.Repositories
             var artifact = buildStep.Artifacts[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactExist("BatchId_1", buildStep.StepId, artifact.ArtifactId);
+            var doesStepExist = await Sut.DoesStepArtifactExist("BatchId_1", buildStep.Name, artifact.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Artifact_Does_Not_Exist_When_StepId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Artifact_Does_Not_Exist_When_StepName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -798,14 +798,14 @@ namespace Bakana.IntegrationTests.Repositories
             var artifact = buildStep.Artifacts[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactExist(buildStep.BatchId, "StepId_1", artifact.ArtifactId);
+            var doesStepExist = await Sut.DoesStepArtifactExist(buildStep.BatchId, "StepName_1", artifact.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Artifact_Does_Not_Exist_When_ArtifactId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Artifact_Does_Not_Exist_When_ArtifactName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -813,7 +813,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.Create(buildStep);
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactExist(buildStep.BatchId, buildStep.StepId, "ArtifactId_1");
+            var doesStepExist = await Sut.DoesStepArtifactExist(buildStep.BatchId, buildStep.Name, "ArtifactName_1");
 
             // Assert
             doesStepExist.Should().BeFalse();
@@ -871,7 +871,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
         
         [Test]
-        public async Task It_Should_Get_StepArtifactOption_By_OptionId()
+        public async Task It_Should_Get_StepArtifactOption_By_OptionName()
         {
             // Arrange
             var compressOption = StepArtifactOptions.Compress;
@@ -880,7 +880,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateStepArtifactOption(compressOption);
 
             // Act
-            var fetchedOption = await Sut.GetStepArtifactOption(123, compressOption.OptionId);
+            var fetchedOption = await Sut.GetStepArtifactOption(123, compressOption.Name);
 
             // Assert
             fetchedOption.Should().BeEquivalentTo(compressOption);
@@ -903,10 +903,10 @@ namespace Bakana.IntegrationTests.Repositories
 
             // Assert
             allOptions.Count.Should().Be(2);
-            var fetchedExtractOption = allOptions.SingleOrDefault(o => o.OptionId == extractOption.OptionId);
+            var fetchedExtractOption = allOptions.SingleOrDefault(o => o.Name == extractOption.Name);
             fetchedExtractOption.Should().NotBeNull();
             fetchedExtractOption.Should().BeEquivalentTo(extractOption);
-            var fetchedCompressOption = allOptions.SingleOrDefault(o => o.OptionId == compressOption.OptionId);
+            var fetchedCompressOption = allOptions.SingleOrDefault(o => o.Name == compressOption.Name);
             fetchedCompressOption.Should().NotBeNull();
             fetchedCompressOption.Should().BeEquivalentTo(compressOption);
         }
@@ -940,7 +940,7 @@ namespace Bakana.IntegrationTests.Repositories
             var option = artifact.Options[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactOptionExist(buildStep.BatchId, buildStep.StepId, artifact.ArtifactId, option.OptionId);
+            var doesStepExist = await Sut.DoesStepArtifactOptionExist(buildStep.BatchId, buildStep.Name, artifact.Name, option.Name);
 
             // Assert
             doesStepExist.Should().BeTrue();
@@ -958,14 +958,14 @@ namespace Bakana.IntegrationTests.Repositories
             var option = artifact.Options[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactOptionExist("BatchId_1", buildStep.StepId, artifact.ArtifactId, option.OptionId);
+            var doesStepExist = await Sut.DoesStepArtifactOptionExist("BatchId_1", buildStep.Name, artifact.Name, option.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Artifact_Option_Does_Not_Exist_When_StepId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Artifact_Option_Does_Not_Exist_When_StepName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -976,14 +976,14 @@ namespace Bakana.IntegrationTests.Repositories
             var option = artifact.Options[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactOptionExist(buildStep.BatchId, "StepId_1", artifact.ArtifactId, option.OptionId);
+            var doesStepExist = await Sut.DoesStepArtifactOptionExist(buildStep.BatchId, "StepName_1", artifact.Name, option.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Artifact_Option_Does_Not_Exist_When_ArtifactId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Artifact_Option_Does_Not_Exist_When_ArtifactName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -994,14 +994,14 @@ namespace Bakana.IntegrationTests.Repositories
             var option = artifact.Options[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactOptionExist(buildStep.BatchId, buildStep.StepId, "ArtifactId_1", option.OptionId);
+            var doesStepExist = await Sut.DoesStepArtifactOptionExist(buildStep.BatchId, buildStep.Name, "ArtifactName_1", option.Name);
 
             // Assert
             doesStepExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Step_Artifact_Option_Does_Not_Exist_When_OptionId_Is_Incorrect()
+        public async Task It_Should_Return_Step_Artifact_Option_Does_Not_Exist_When_OptionName_Is_Incorrect()
         {
             // Arrange
             var buildStep = Steps.Build;
@@ -1011,7 +1011,7 @@ namespace Bakana.IntegrationTests.Repositories
             var artifact = buildStep.Artifacts[0];
 
             // Act
-            var doesStepExist = await Sut.DoesStepArtifactOptionExist(buildStep.BatchId, buildStep.StepId, artifact.ArtifactId, "OptionId_1");
+            var doesStepExist = await Sut.DoesStepArtifactOptionExist(buildStep.BatchId, buildStep.Name, artifact.Name, "OptionName_1");
 
             // Assert
             doesStepExist.Should().BeFalse();

@@ -7,7 +7,7 @@ namespace Bakana.Core.Entities
         [AutoIncrement]
         public ulong Id { get; set; }
         
-        public string VariableId { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 

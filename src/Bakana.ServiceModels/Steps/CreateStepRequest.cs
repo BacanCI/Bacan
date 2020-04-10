@@ -22,7 +22,7 @@ namespace Bakana.ServiceModels.Steps
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
 
         [ApiMember(
             Description = "A description of the Step",

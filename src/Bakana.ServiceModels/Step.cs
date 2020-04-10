@@ -4,7 +4,7 @@ namespace Bakana.ServiceModels
 {
     public class Step
     {
-        public string StepId { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 

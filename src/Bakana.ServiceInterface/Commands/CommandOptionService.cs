@@ -28,15 +28,15 @@ namespace Bakana.ServiceInterface.Commands
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw Err.StepNotFound(request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
+            if (step == null) throw Err.StepNotFound(request.StepName);
 
-            var command = await commandRepository.Get(step.Id, request.CommandId);
+            var command = await commandRepository.Get(step.Id, request.CommandName);
             if (command == null)
-                throw Err.CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandName);
 
-            if (await commandRepository.DoesCommandOptionExist(request.BatchId, request.StepId, request.CommandId, request.OptionId))
-                throw Err.CommandOptionAlreadyExists(request.OptionId);
+            if (await commandRepository.DoesCommandOptionExist(request.BatchId, request.StepName, request.CommandName, request.OptionName))
+                throw Err.CommandOptionAlreadyExists(request.OptionName);
 
             var commandOption = request.ConvertTo<CommandOption>();
             commandOption.CommandId = command.Id;
@@ -51,16 +51,16 @@ namespace Bakana.ServiceInterface.Commands
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw Err.StepNotFound(request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
+            if (step == null) throw Err.StepNotFound(request.StepName);
 
-            var command = await commandRepository.Get(step.Id, request.CommandId);
+            var command = await commandRepository.Get(step.Id, request.CommandName);
             if (command == null)
-                throw Err.CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandName);
 
-            var commandOption = await commandRepository.GetCommandOption(command.Id, request.OptionId);
+            var commandOption = await commandRepository.GetCommandOption(command.Id, request.OptionName);
             if (commandOption == null)
-                throw Err.CommandOptionNotFound(request.OptionId);
+                throw Err.CommandOptionNotFound(request.OptionName);
 
             return commandOption.ConvertTo<GetCommandOptionResponse>();
         }
@@ -70,12 +70,12 @@ namespace Bakana.ServiceInterface.Commands
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw Err.StepNotFound(request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
+            if (step == null) throw Err.StepNotFound(request.StepName);
 
-            var command = await commandRepository.Get(step.Id, request.CommandId);
+            var command = await commandRepository.Get(step.Id, request.CommandName);
             if (command == null)
-                throw Err.CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandName);
 
             var response = new GetAllCommandOptionResponse
             {
@@ -90,17 +90,17 @@ namespace Bakana.ServiceInterface.Commands
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw Err.StepNotFound(request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
+            if (step == null) throw Err.StepNotFound(request.StepName);
 
-            var command = await commandRepository.Get(step.Id, request.CommandId);
+            var command = await commandRepository.Get(step.Id, request.CommandName);
             if (command == null)
-                throw Err.CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandName);
 
             var existingCommandOption =
-                await commandRepository.GetCommandOption(command.Id, request.OptionId);
+                await commandRepository.GetCommandOption(command.Id, request.OptionName);
             if (existingCommandOption == null)
-                throw Err.CommandOptionNotFound(request.OptionId);
+                throw Err.CommandOptionNotFound(request.OptionName);
 
             var commandOption = request.ConvertTo<CommandOption>();
             commandOption.Id = existingCommandOption.Id;
@@ -116,17 +116,17 @@ namespace Bakana.ServiceInterface.Commands
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw Err.StepNotFound(request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
+            if (step == null) throw Err.StepNotFound(request.StepName);
 
-            var command = await commandRepository.Get(step.Id, request.CommandId);
+            var command = await commandRepository.Get(step.Id, request.CommandName);
             if (command == null)
-                throw Err.CommandNotFound(request.CommandId);
+                throw Err.CommandNotFound(request.CommandName);
 
             var existingCommandOption =
-                await commandRepository.GetCommandOption(command.Id, request.OptionId);
+                await commandRepository.GetCommandOption(command.Id, request.OptionName);
             if (existingCommandOption == null)
-                throw Err.CommandOptionNotFound(request.OptionId);
+                throw Err.CommandOptionNotFound(request.OptionName);
 
             await commandRepository.DeleteCommandOption(existingCommandOption.Id);
 

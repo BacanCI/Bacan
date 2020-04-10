@@ -34,9 +34,9 @@ namespace Bakana.Core.Repositories
             return await db.LoadSingleByIdAsync<Command>(id);
         }
 
-        internal static async Task<List<Command>> GetAllCommands(this IDbConnection db, ulong stepId)
+        internal static async Task<List<Command>> GetAllCommands(this IDbConnection db, ulong stepName)
         {
-            return await db.LoadSelectAsync<Command>(c => c.StepId == stepId);
+            return await db.LoadSelectAsync<Command>(c => c.StepId == stepName);
         }
         
         internal static async Task UpdateCommandState(this IDbConnection db, ulong id, CommandState state)
@@ -44,21 +44,21 @@ namespace Bakana.Core.Repositories
             await db.UpdateOnlyAsync(() => new Command { State = state }, where: p => p.Id == id);
         }
 
-        internal static async Task<ulong> GetCommandPkByCommandId(this IDbConnection db, ulong stepId, string commandId)
+        internal static async Task<ulong> GetCommandPkByCommandName(this IDbConnection db, ulong stepName, string commandName)
         {
             var q = db
                 .From<Command>()
-                .Where(c => c.CommandId == commandId && c.StepId == stepId)
+                .Where(c => c.Name == commandName && c.StepId == stepName)
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
         }
 
-        internal static async Task<bool> DoesCommandExist(this IDbConnection db, string batchId, string stepId, string commandId)
+        internal static async Task<bool> DoesCommandExist(this IDbConnection db, string batchId, string stepName, string commandName)
         {
-            var id = await db.GetStepPkByStepId(batchId, stepId);
+            var id = await db.GetStepPkByStepName(batchId, stepName);
             
-            return await db.ExistsAsync<Command>(o => o.StepId == id && o.CommandId == commandId);
+            return await db.ExistsAsync<Command>(o => o.StepId == id && o.Name == commandName);
         }
 
         internal static async Task CreateOrUpdateCommandOptions(this IDbConnection db, IEnumerable<CommandOption> options)
@@ -83,22 +83,22 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<CommandOption>(c => c.CommandId == commandId);
         }
 
-        internal static async Task<ulong> GetCommandOptionPkByOptionId(this IDbConnection db, ulong commandId, string optionId)
+        internal static async Task<ulong> GetCommandOptionPkByOptionName(this IDbConnection db, ulong commandId, string optionName)
         {
             var q = db
                 .From<CommandOption>()
-                .Where(c => c.OptionId == optionId && c.CommandId == commandId)
+                .Where(c => c.Name == optionName && c.CommandId == commandId)
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
         }
 
-        internal static async Task<bool> DoesCommandOptionExist(this IDbConnection db, string batchId, string stepId, string commandId, string optionId)
+        internal static async Task<bool> DoesCommandOptionExist(this IDbConnection db, string batchId, string stepName, string commandName, string optionName)
         {
-            var id = await db.GetStepPkByStepId(batchId, stepId);
-            var cId = await db.GetCommandPkByCommandId(id, commandId);
+            var id = await db.GetStepPkByStepName(batchId, stepName);
+            var cId = await db.GetCommandPkByCommandName(id, commandName);
             
-            return await db.ExistsAsync<CommandOption>(o => o.CommandId == cId && o.OptionId == optionId);
+            return await db.ExistsAsync<CommandOption>(o => o.CommandId == cId && o.Name == optionName);
         }
 
         internal static async Task CreateOrUpdateCommandVariables(this IDbConnection db, IEnumerable<CommandVariable> variables)
@@ -123,22 +123,22 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<CommandVariable>(c => c.CommandId == commandId);
         }
 
-        internal static async Task<ulong> GetCommandVariablePkByVariableId(this IDbConnection db, ulong commandId, string variableId)
+        internal static async Task<ulong> GetCommandVariablePkByVariableName(this IDbConnection db, ulong commandId, string variableName)
         {
             var q = db
                 .From<CommandVariable>()
-                .Where(c => c.VariableId == variableId && c.CommandId == commandId)
+                .Where(c => c.Name == variableName && c.CommandId == commandId)
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
         }
         
-        internal static async Task<bool> DoesCommandVariableExist(this IDbConnection db, string batchId, string stepId, string commandId, string variableId)
+        internal static async Task<bool> DoesCommandVariableExist(this IDbConnection db, string batchId, string stepName, string commandName, string variableName)
         {
-            var id = await db.GetStepPkByStepId(batchId, stepId);
-            var cId = await db.GetCommandPkByCommandId(id, commandId);
+            var id = await db.GetStepPkByStepName(batchId, stepName);
+            var cId = await db.GetCommandPkByCommandName(id, commandName);
             
-            return await db.ExistsAsync<CommandVariable>(o => o.CommandId == cId && o.VariableId == variableId);
+            return await db.ExistsAsync<CommandVariable>(o => o.CommandId == cId && o.Name == variableName);
         }
     }
 }

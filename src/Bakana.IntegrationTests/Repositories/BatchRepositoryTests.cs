@@ -220,7 +220,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBatch.Variables.Count.Should().Be(2);
 
             var fetchedEnvironmentVariable =
-                fetchedBatch.Variables.SingleOrDefault(o => o.VariableId == environmentVariable.VariableId);
+                fetchedBatch.Variables.SingleOrDefault(o => o.Name == environmentVariable.Name);
             fetchedEnvironmentVariable.Should().NotBeNull();
             fetchedEnvironmentVariable.Should().BeEquivalentTo(environmentVariable);
         }
@@ -234,7 +234,7 @@ namespace Bakana.IntegrationTests.Repositories
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var scheduleVariable = fullyPopulatedBatch.Variables.Single(o => o.VariableId == BatchVariables.Schedule.VariableId);
+            var scheduleVariable = fullyPopulatedBatch.Variables.Single(o => o.Name == BatchVariables.Schedule.Name);
             scheduleVariable.Description = "Updated";
 
             // Act
@@ -245,7 +245,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBatch.Variables.Count.Should().Be(1);
 
             var fetchedScheduleVariable =
-                fetchedBatch.Variables.SingleOrDefault(o => o.VariableId == BatchVariables.Schedule.VariableId);
+                fetchedBatch.Variables.SingleOrDefault(o => o.Name == BatchVariables.Schedule.Name);
             fetchedScheduleVariable.Should().NotBeNull();
             fetchedScheduleVariable.Should().BeEquivalentTo(scheduleVariable);
         }
@@ -267,7 +267,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
-        public async Task It_Should_Get_BatchVariable_By_VariableId()
+        public async Task It_Should_Get_BatchVariable_By_VariableName()
         {
             // Arrange
             var scheduleVariable = BatchVariables.Schedule;
@@ -276,7 +276,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateBatchVariable(scheduleVariable);
 
             // Act
-            var fetchedVariable = await Sut.GetBatchVariable("123", scheduleVariable.VariableId);
+            var fetchedVariable = await Sut.GetBatchVariable("123", scheduleVariable.Name);
 
             // Assert
             fetchedVariable.Should().BeEquivalentTo(scheduleVariable);
@@ -325,7 +325,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateBatchVariable(scheduleVariable);
 
             //Act
-            var doesExist = await Sut.DoesBatchVariableExist(scheduleVariable.BatchId, scheduleVariable.VariableId);
+            var doesExist = await Sut.DoesBatchVariableExist(scheduleVariable.BatchId, scheduleVariable.Name);
 
             // Assert
             doesExist.Should().BeTrue();
@@ -340,14 +340,14 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateBatchVariable(scheduleVariable);
 
             //Act
-            var doesExist = await Sut.DoesBatchVariableExist("BatchId_1", scheduleVariable.VariableId);
+            var doesExist = await Sut.DoesBatchVariableExist("BatchId_1", scheduleVariable.Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Batch_Variable_Does_Not_Exist_When_VariableId_Is_Incorrect()
+        public async Task It_Should_Return_Batch_Variable_Does_Not_Exist_When_VariableName_Is_Incorrect()
         {
             // Arrange
             var scheduleVariable = BatchVariables.Schedule;
@@ -355,7 +355,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateBatchVariable(scheduleVariable);
 
             //Act
-            var doesExist = await Sut.DoesBatchVariableExist(scheduleVariable.BatchId, "VariableId_1");
+            var doesExist = await Sut.DoesBatchVariableExist(scheduleVariable.BatchId, "VariableName_1");
 
             // Assert
             doesExist.Should().BeFalse();
@@ -381,7 +381,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBuildBatch.Options.Count.Should().Be(2);
 
             var fetchedLogOption =
-                fetchedBuildBatch.Options.SingleOrDefault(o => o.OptionId == logOption.OptionId);
+                fetchedBuildBatch.Options.SingleOrDefault(o => o.Name == logOption.Name);
             fetchedLogOption.Should().NotBeNull();
             fetchedLogOption.Should().BeEquivalentTo(logOption);
         }
@@ -395,7 +395,7 @@ namespace Bakana.IntegrationTests.Repositories
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var debugOption = fullyPopulatedBatch.Options.Single(o => o.OptionId == BatchOptions.Debug.OptionId);
+            var debugOption = fullyPopulatedBatch.Options.Single(o => o.Name == BatchOptions.Debug.Name);
             debugOption.Description = "Updated";
 
             // Act
@@ -406,7 +406,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBatch.Options.Count.Should().Be(1);
 
             var fetchedDebugOption =
-                fetchedBatch.Options.SingleOrDefault(o => o.OptionId == BatchOptions.Debug.OptionId);
+                fetchedBatch.Options.SingleOrDefault(o => o.Name == BatchOptions.Debug.Name);
             fetchedDebugOption.Should().NotBeNull();
             fetchedDebugOption.Should().BeEquivalentTo(debugOption);
         }
@@ -428,7 +428,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
-        public async Task It_Should_Get_BatchOption_By_OptionId()
+        public async Task It_Should_Get_BatchOption_By_OptionName()
         {
             // Arrange
             var debugOption = BatchOptions.Debug;
@@ -437,7 +437,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateBatchOption(debugOption);
 
             // Act
-            var fetchedOption = await Sut.GetBatchOption("123", debugOption.OptionId);
+            var fetchedOption = await Sut.GetBatchOption("123", debugOption.Name);
 
             // Assert
             fetchedOption.Should().BeEquivalentTo(debugOption);
@@ -497,7 +497,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBatch.Artifacts.Count.Should().Be(2);
 
             var fetchedDbBackupArtifact =
-                fetchedBatch.Artifacts.SingleOrDefault(o => o.ArtifactId == dbBackupArtifact.ArtifactId);
+                fetchedBatch.Artifacts.SingleOrDefault(o => o.Name == dbBackupArtifact.Name);
             fetchedDbBackupArtifact.Should().NotBeNull();
             fetchedDbBackupArtifact.Should().BeEquivalentTo(dbBackupArtifact);
         }
@@ -511,7 +511,7 @@ namespace Bakana.IntegrationTests.Repositories
 
             await Sut.Create(fullyPopulatedBatch);
 
-            var packageArtifact = fullyPopulatedBatch.Artifacts.Single(o => o.ArtifactId == BatchArtifacts.Package.ArtifactId);
+            var packageArtifact = fullyPopulatedBatch.Artifacts.Single(o => o.Name == BatchArtifacts.Package.Name);
             packageArtifact.Description = "Updated";
 
             // Act
@@ -522,7 +522,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedBuildBatch.Artifacts.Count.Should().Be(1);
 
             var fetchedPackageArtifact =
-                fetchedBuildBatch.Artifacts.SingleOrDefault(o => o.ArtifactId == BatchArtifacts.Package.ArtifactId);
+                fetchedBuildBatch.Artifacts.SingleOrDefault(o => o.Name == BatchArtifacts.Package.Name);
             fetchedPackageArtifact.Should().NotBeNull();
             fetchedPackageArtifact.Should().BeEquivalentTo(packageArtifact);
         }
@@ -544,7 +544,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
-        public async Task It_Should_Get_BatchArtifact_By_ArtifactId()
+        public async Task It_Should_Get_BatchArtifact_By_ArtifactName()
         {
             // Arrange
             var packageArtifact = BatchArtifacts.Package;
@@ -553,7 +553,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateBatchArtifact(packageArtifact);
 
             // Act
-            var fetchedArtifact = await Sut.GetBatchArtifact("123", packageArtifact.ArtifactId);
+            var fetchedArtifact = await Sut.GetBatchArtifact("123", packageArtifact.Name);
 
             // Assert
             fetchedArtifact.Should().BeEquivalentTo(packageArtifact);
@@ -645,7 +645,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
-        public async Task It_Should_Get_BatchArtifactOption_By_OptionId()
+        public async Task It_Should_Get_BatchArtifactOption_By_OptionName()
         {
             // Arrange
             var compressOption = BatchArtifactOptions.Compress;
@@ -654,7 +654,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateBatchArtifactOption(compressOption);
 
             // Act
-            var fetchedOption = await Sut.GetBatchArtifactOption(123, compressOption.OptionId);
+            var fetchedOption = await Sut.GetBatchArtifactOption(123, compressOption.Name);
 
             // Assert
             fetchedOption.Should().BeEquivalentTo(compressOption);
@@ -677,10 +677,10 @@ namespace Bakana.IntegrationTests.Repositories
 
             // Assert
             allOptions.Count.Should().Be(2);
-            var fetchedExtractOption = allOptions.SingleOrDefault(o => o.OptionId == extractOption.OptionId);
+            var fetchedExtractOption = allOptions.SingleOrDefault(o => o.Name == extractOption.Name);
             fetchedExtractOption.Should().NotBeNull();
             fetchedExtractOption.Should().BeEquivalentTo(extractOption);
-            var fetchedCompressOption = allOptions.SingleOrDefault(o => o.OptionId == compressOption.OptionId);
+            var fetchedCompressOption = allOptions.SingleOrDefault(o => o.Name == compressOption.Name);
             fetchedCompressOption.Should().NotBeNull();
             fetchedCompressOption.Should().BeEquivalentTo(compressOption);
         }
@@ -711,7 +711,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateBatchArtifact(artifact);
 
             //Act
-            var doesExist = await Sut.DoesBatchArtifactExist(artifact.BatchId, artifact.ArtifactId);
+            var doesExist = await Sut.DoesBatchArtifactExist(artifact.BatchId, artifact.Name);
 
             // Assert
             doesExist.Should().BeTrue();
@@ -726,14 +726,14 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateBatchArtifact(artifact);
 
             //Act
-            var doesExist = await Sut.DoesBatchArtifactExist("BatchId_1", artifact.ArtifactId);
+            var doesExist = await Sut.DoesBatchArtifactExist("BatchId_1", artifact.Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Batch_Artifact_Does_Not_Exist_When_ArtifactId_Is_Incorrect()
+        public async Task It_Should_Return_Batch_Artifact_Does_Not_Exist_When_ArtifactName_Is_Incorrect()
         {
             // Arrange
             var artifact = BatchArtifacts.Package;
@@ -741,7 +741,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateBatchArtifact(artifact);
 
             //Act
-            var doesExist = await Sut.DoesBatchArtifactExist(artifact.BatchId, "ArtifactId_1");
+            var doesExist = await Sut.DoesBatchArtifactExist(artifact.BatchId, "ArtifactName_1");
 
             // Assert
             doesExist.Should().BeFalse();
@@ -758,7 +758,7 @@ namespace Bakana.IntegrationTests.Repositories
             var artifactOption = artifact.Options[0];
 
             //Act
-            var doesExist = await Sut.DoesBatchArtifactOptionExist(artifact.BatchId, artifact.ArtifactId, artifactOption.OptionId);
+            var doesExist = await Sut.DoesBatchArtifactOptionExist(artifact.BatchId, artifact.Name, artifactOption.Name);
 
             // Assert
             doesExist.Should().BeTrue();
@@ -775,14 +775,14 @@ namespace Bakana.IntegrationTests.Repositories
             var artifactOption = artifact.Options[0];
 
             //Act
-            var doesExist = await Sut.DoesBatchArtifactOptionExist("BatchId_1", artifact.ArtifactId, artifactOption.OptionId);
+            var doesExist = await Sut.DoesBatchArtifactOptionExist("BatchId_1", artifact.Name, artifactOption.Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Batch_Artifact_Option_Does_Not_Exist_When_ArtifactId_Is_Incorrect()
+        public async Task It_Should_Return_Batch_Artifact_Option_Does_Not_Exist_When_ArtifactName_Is_Incorrect()
         {
             // Arrange
             var artifact = BatchArtifacts.Package;
@@ -792,14 +792,14 @@ namespace Bakana.IntegrationTests.Repositories
             var artifactOption = artifact.Options[0];
 
             //Act
-            var doesExist = await Sut.DoesBatchArtifactOptionExist(artifact.BatchId, "ArtifactId_1", artifactOption.OptionId);
+            var doesExist = await Sut.DoesBatchArtifactOptionExist(artifact.BatchId, "ArtifactName_1", artifactOption.Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Batch_Artifact_Option_Does_Not_Exist_When_OptionId_Is_Incorrect()
+        public async Task It_Should_Return_Batch_Artifact_Option_Does_Not_Exist_When_OptionName_Is_Incorrect()
         {
             // Arrange
             var artifact = BatchArtifacts.Package;
@@ -807,7 +807,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateBatchArtifact(artifact);
 
             //Act
-            var doesExist = await Sut.DoesBatchArtifactOptionExist(artifact.BatchId, artifact.ArtifactId, "OptionId_1");
+            var doesExist = await Sut.DoesBatchArtifactOptionExist(artifact.BatchId, artifact.Name, "OptionName_1");
 
             // Assert
             doesExist.Should().BeFalse();

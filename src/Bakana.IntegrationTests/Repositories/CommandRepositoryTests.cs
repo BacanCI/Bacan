@@ -94,7 +94,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
-        public async Task It_Should_Get_By_CommandId()
+        public async Task It_Should_Get_By_CommandName()
         {
             // Arrange
             var restoreCommand = Commands.DotNetRestore;
@@ -103,7 +103,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.Create(restoreCommand);
 
             // Act
-            var fetchedRestoreCommand = await Sut.Get(123, restoreCommand.CommandId);
+            var fetchedRestoreCommand = await Sut.Get(123, restoreCommand.Name);
 
             // Assert
             fetchedRestoreCommand.Should().BeEquivalentTo(restoreCommand);
@@ -127,11 +127,11 @@ namespace Bakana.IntegrationTests.Repositories
             // Assert
             all.Count.Should().Be(2);
 
-            var fetchedRestoreCmd = all.SingleOrDefault(c => c.CommandId == restoreCommand.CommandId);
+            var fetchedRestoreCmd = all.SingleOrDefault(c => c.Name == restoreCommand.Name);
             fetchedRestoreCmd.Should().NotBeNull();
             fetchedRestoreCmd.Should().BeEquivalentTo(restoreCommand);
             
-            var fetchedBuildCommand = all.SingleOrDefault(c => c.CommandId == buildCommand.CommandId);
+            var fetchedBuildCommand = all.SingleOrDefault(c => c.Name == buildCommand.Name);
             fetchedBuildCommand.Should().NotBeNull();
             fetchedBuildCommand.Should().BeEquivalentTo(buildCommand);
         }
@@ -166,14 +166,14 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandExist(fullyPopulatedBatch.Id, step.StepId, command.CommandId);
+            var doesExist = await Sut.DoesCommandExist(fullyPopulatedBatch.Id, step.Name, command.Name);
 
             // Assert
             doesExist.Should().BeTrue();
         }
 
         [Test]
-        public async Task It_Should_Return_Command_Does_Not_Exist_When_CommandId_Is_Incorrect()
+        public async Task It_Should_Return_Command_Does_Not_Exist_When_CommandName_Is_Incorrect()
         {
             // Arrange
             var fullyPopulatedBatch = Batches.FullyPopulated;
@@ -183,14 +183,14 @@ namespace Bakana.IntegrationTests.Repositories
             var step = fullyPopulatedBatch.Steps[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandExist(fullyPopulatedBatch.Id, step.StepId, "CommandId_1");
+            var doesExist = await Sut.DoesCommandExist(fullyPopulatedBatch.Id, step.Name, "CommandName_1");
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Command_Does_Not_Exist_When_StepId_Is_Incorrect()
+        public async Task It_Should_Return_Command_Does_Not_Exist_When_StepName_Is_Incorrect()
         {
             // Arrange
             var fullyPopulatedBatch = Batches.FullyPopulated;
@@ -201,7 +201,7 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandExist(fullyPopulatedBatch.Id, "StepId_1", command.CommandId);
+            var doesExist = await Sut.DoesCommandExist(fullyPopulatedBatch.Id, "StepName_1", command.Name);
 
             // Assert
             doesExist.Should().BeFalse();
@@ -219,7 +219,7 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandExist("BatchId_1", step.StepId, command.CommandId);
+            var doesExist = await Sut.DoesCommandExist("BatchId_1", step.Name, command.Name);
 
             // Assert
             doesExist.Should().BeFalse();
@@ -245,7 +245,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedRestoreCommand.Options.Count.Should().Be(3);
 
             var fetchedProductionOption =
-                fetchedRestoreCommand.Options.SingleOrDefault(o => o.OptionId == productionOption.OptionId);
+                fetchedRestoreCommand.Options.SingleOrDefault(o => o.Name == productionOption.Name);
             fetchedProductionOption.Should().NotBeNull();
             fetchedProductionOption.Should().BeEquivalentTo(productionOption);
         }
@@ -259,7 +259,7 @@ namespace Bakana.IntegrationTests.Repositories
 
             var id = await Sut.Create(restoreCommand);
 
-            var option1 = restoreCommand.Options.Single(o => o.OptionId == CommandOptions.Optional1.OptionId);
+            var option1 = restoreCommand.Options.Single(o => o.Name == CommandOptions.Optional1.Name);
             option1.Description = "Updated";
 
             // Act
@@ -270,7 +270,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedRestoreCommand.Options.Count.Should().Be(2);
 
             var fetchedOption1 =
-                fetchedRestoreCommand.Options.SingleOrDefault(o => o.OptionId == CommandOptions.Optional1.OptionId);
+                fetchedRestoreCommand.Options.SingleOrDefault(o => o.Name == CommandOptions.Optional1.Name);
             fetchedOption1.Should().NotBeNull();
             fetchedOption1.Should().BeEquivalentTo(option1);
         }
@@ -292,7 +292,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
-        public async Task It_Should_Get_CommandOption_By_CommandId()
+        public async Task It_Should_Get_CommandOption_By_CommandName()
         {
             // Arrange
             var option1 = CommandOptions.Optional1;
@@ -301,7 +301,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateCommandOption(option1);
 
             // Act
-            var fetchedOption = await Sut.GetCommandOption(123, option1.OptionId);
+            var fetchedOption = await Sut.GetCommandOption(123, option1.Name);
 
             // Assert
             fetchedOption.Should().BeEquivalentTo(option1);
@@ -353,7 +353,7 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandOptionExist(fullyPopulatedBatch.Id, step.StepId, command.CommandId, command.Options[0].OptionId);
+            var doesExist = await Sut.DoesCommandOptionExist(fullyPopulatedBatch.Id, step.Name, command.Name, command.Options[0].Name);
 
             // Assert
             doesExist.Should().BeTrue();
@@ -371,14 +371,14 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandOptionExist("BatchId_1", step.StepId, command.CommandId, command.Options[0].OptionId);
+            var doesExist = await Sut.DoesCommandOptionExist("BatchId_1", step.Name, command.Name, command.Options[0].Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Command_Option_Does_Not_Exist_When_StepId_Is_Incorrect()
+        public async Task It_Should_Return_Command_Option_Does_Not_Exist_When_StepName_Is_Incorrect()
         {
             // Arrange
             var fullyPopulatedBatch = Batches.FullyPopulated;
@@ -389,14 +389,14 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandOptionExist(fullyPopulatedBatch.Id, "StepId_1", command.CommandId, command.Options[0].OptionId);
+            var doesExist = await Sut.DoesCommandOptionExist(fullyPopulatedBatch.Id, "StepName_1", command.Name, command.Options[0].Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Command_Option_Does_Not_Exist_When_CommandId_Is_Incorrect()
+        public async Task It_Should_Return_Command_Option_Does_Not_Exist_When_CommandName_Is_Incorrect()
         {
             // Arrange
             var fullyPopulatedBatch = Batches.FullyPopulated;
@@ -407,14 +407,14 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandOptionExist(fullyPopulatedBatch.Id, step.StepId, "CommandId_1", command.Options[0].OptionId);
+            var doesExist = await Sut.DoesCommandOptionExist(fullyPopulatedBatch.Id, step.Name, "CommandName_1", command.Options[0].Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Command_Option_Does_Not_Exist_When_OptionId_Is_Incorrect()
+        public async Task It_Should_Return_Command_Option_Does_Not_Exist_When_OptionName_Is_Incorrect()
         {
             // Arrange
             var fullyPopulatedBatch = Batches.FullyPopulated;
@@ -425,7 +425,7 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandOptionExist(fullyPopulatedBatch.Id, step.StepId, command.CommandId, "OptionId_1");
+            var doesExist = await Sut.DoesCommandOptionExist(fullyPopulatedBatch.Id, step.Name, command.Name, "OptionName_1");
 
             // Assert
             doesExist.Should().BeFalse();
@@ -451,7 +451,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedRestoreCommand.Variables.Count.Should().Be(3);
 
             var fetchedConnectionStringVariable =
-                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.VariableId == connectionStringVariable.VariableId);
+                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.Name == connectionStringVariable.Name);
             fetchedConnectionStringVariable.Should().NotBeNull();
             fetchedConnectionStringVariable.Should().BeEquivalentTo(connectionStringVariable);
         }
@@ -465,7 +465,7 @@ namespace Bakana.IntegrationTests.Repositories
 
             var id = await Sut.Create(restoreCommand);
 
-            var demoVariable = restoreCommand.Variables.Single(o => o.VariableId == CommandVariables.DemoArg.VariableId);
+            var demoVariable = restoreCommand.Variables.Single(o => o.Name == CommandVariables.DemoArg.Name);
             demoVariable.Description = "Updated";
 
             // Act
@@ -476,7 +476,7 @@ namespace Bakana.IntegrationTests.Repositories
             fetchedRestoreCommand.Variables.Count.Should().Be(2);
 
             var fetchedDemoVariable =
-                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.VariableId == CommandVariables.DemoArg.VariableId);
+                fetchedRestoreCommand.Variables.SingleOrDefault(o => o.Name == CommandVariables.DemoArg.Name);
             fetchedDemoVariable.Should().NotBeNull();
             fetchedDemoVariable.Should().BeEquivalentTo(demoVariable);
         }
@@ -498,7 +498,7 @@ namespace Bakana.IntegrationTests.Repositories
         }
 
         [Test]
-        public async Task It_Should_Get_CommandVariable_By_CommandId()
+        public async Task It_Should_Get_CommandVariable_By_CommandName()
         {
             // Arrange
             var connectionStringVariable = CommandVariables.ConnectionString;
@@ -507,7 +507,7 @@ namespace Bakana.IntegrationTests.Repositories
             await Sut.CreateOrUpdateCommandVariable(connectionStringVariable);
 
             // Act
-            var fetchedVariable = await Sut.GetCommandVariable(123, connectionStringVariable.VariableId);
+            var fetchedVariable = await Sut.GetCommandVariable(123, connectionStringVariable.Name);
 
             // Assert
             fetchedVariable.Should().BeEquivalentTo(connectionStringVariable);
@@ -559,7 +559,7 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandVariableExist(fullyPopulatedBatch.Id, step.StepId, command.CommandId, command.Variables[0].VariableId);
+            var doesExist = await Sut.DoesCommandVariableExist(fullyPopulatedBatch.Id, step.Name, command.Name, command.Variables[0].Name);
 
             // Assert
             doesExist.Should().BeTrue();
@@ -577,14 +577,14 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandVariableExist("BatchId_1", step.StepId, command.CommandId, command.Variables[0].VariableId);
+            var doesExist = await Sut.DoesCommandVariableExist("BatchId_1", step.Name, command.Name, command.Variables[0].Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Command_Variable_Does_Not_Exist_When_StepId_Is_Incorrect()
+        public async Task It_Should_Return_Command_Variable_Does_Not_Exist_When_StepName_Is_Incorrect()
         {
             // Arrange
             var fullyPopulatedBatch = Batches.FullyPopulated;
@@ -595,14 +595,14 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandVariableExist(fullyPopulatedBatch.Id, "StepId_1", command.CommandId, command.Variables[0].VariableId);
+            var doesExist = await Sut.DoesCommandVariableExist(fullyPopulatedBatch.Id, "StepName_1", command.Name, command.Variables[0].Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Command_Variable_Does_Not_Exist_When_CommandId_Is_Incorrect()
+        public async Task It_Should_Return_Command_Variable_Does_Not_Exist_When_CommandName_Is_Incorrect()
         {
             // Arrange
             var fullyPopulatedBatch = Batches.FullyPopulated;
@@ -613,14 +613,14 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandVariableExist(fullyPopulatedBatch.Id, step.StepId, "CommandId_1", command.Variables[0].VariableId);
+            var doesExist = await Sut.DoesCommandVariableExist(fullyPopulatedBatch.Id, step.Name, "CommandName_1", command.Variables[0].Name);
 
             // Assert
             doesExist.Should().BeFalse();
         }
 
         [Test]
-        public async Task It_Should_Return_Command_Variable_Does_Not_Exist_When_VariableId_Is_Incorrect()
+        public async Task It_Should_Return_Command_Variable_Does_Not_Exist_When_VariableName_Is_Incorrect()
         {
             // Arrange
             var fullyPopulatedBatch = Batches.FullyPopulated;
@@ -631,7 +631,7 @@ namespace Bakana.IntegrationTests.Repositories
             var command = step.Commands[0];
 
             // Act
-            var doesExist = await Sut.DoesCommandVariableExist(fullyPopulatedBatch.Id, step.StepId, command.CommandId, "VariableId_1");
+            var doesExist = await Sut.DoesCommandVariableExist(fullyPopulatedBatch.Id, step.Name, command.Name, "VariableName_1");
 
             // Assert
             doesExist.Should().BeFalse();

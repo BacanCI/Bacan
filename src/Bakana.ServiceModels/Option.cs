@@ -6,7 +6,7 @@ namespace Bakana.ServiceModels
     {
         [ApiMember(
             Description = "A user-generated identifier associated with the option")]
-        public string OptionId { get; set; }
+        public string Name { get; set; }
         
         [ApiMember(
             Description = "A description of the option")]

@@ -49,11 +49,11 @@ namespace Bakana.Core.Repositories
             }
         }
         
-        public async Task<Command> Get(ulong stepId, string commandId)
+        public async Task<Command> Get(ulong stepId, string commandName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetCommandPkByCommandId(stepId, commandId);
+                var id = await db.GetCommandPkByCommandName(stepId, commandName);
                 return await db.GetCommand(id);
             }
         }
@@ -74,11 +74,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<bool> DoesCommandExist(string batchId, string stepId, string commandId)
+        public async Task<bool> DoesCommandExist(string batchId, string stepName, string commandName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesCommandExist(batchId, stepId, commandId);
+                return await db.DoesCommandExist(batchId, stepName, commandName);
             }
         }
 
@@ -98,11 +98,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<CommandVariable> GetCommandVariable(ulong commandId, string variableId)
+        public async Task<CommandVariable> GetCommandVariable(ulong commandId, string variableName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetCommandVariablePkByVariableId(commandId, variableId);
+                var id = await db.GetCommandVariablePkByVariableName(commandId, variableName);
                 return await db.GetCommandVariable(id);
             }
         }
@@ -120,11 +120,11 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<CommandVariable>(id);
         }
 
-        public async Task<bool> DoesCommandVariableExist(string batchId, string stepId, string commandId, string variableId)
+        public async Task<bool> DoesCommandVariableExist(string batchId, string stepName, string commandName, string variableName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesCommandVariableExist(batchId, stepId, commandId, variableId);
+                return await db.DoesCommandVariableExist(batchId, stepName, commandName, variableName);
             }
         }
 
@@ -144,11 +144,11 @@ namespace Bakana.Core.Repositories
             }
         }
 
-        public async Task<CommandOption> GetCommandOption(ulong commandId, string optionId)
+        public async Task<CommandOption> GetCommandOption(ulong commandId, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                var id = await db.GetCommandOptionPkByOptionId(commandId, optionId);
+                var id = await db.GetCommandOptionPkByOptionName(commandId, optionName);
                 return await db.GetCommandOption(id);
             }
         }
@@ -166,11 +166,11 @@ namespace Bakana.Core.Repositories
             await DeleteByIdAsync<CommandOption>(id);
         }
 
-        public async Task<bool> DoesCommandOptionExist(string batchId, string stepId, string commandId, string optionId)
+        public async Task<bool> DoesCommandOptionExist(string batchId, string stepName, string commandName, string optionName)
         {
             using (var db = await DbConnectionFactory.OpenAsync())
             {
-                return await db.DoesCommandOptionExist(batchId, stepId, commandId, optionId);
+                return await db.DoesCommandOptionExist(batchId, stepName, commandName, optionName);
             }
         }
     }

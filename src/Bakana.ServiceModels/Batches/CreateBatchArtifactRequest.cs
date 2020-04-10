@@ -22,7 +22,7 @@ namespace Bakana.ServiceModels.Batches
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string ArtifactId { get; set; }
+        public string ArtifactName { get; set; }
         
         [ApiMember(
             Description = "A description of the Artifact",

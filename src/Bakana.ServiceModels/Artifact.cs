@@ -7,7 +7,7 @@ namespace Bakana.ServiceModels
     {
         [ApiMember(
             Description = "A user-generated identifier associated with the artifact")]
-        public string ArtifactId { get; set; }
+        public string Name { get; set; }
         
         [ApiMember(
             Description = "A description of the artifact")]

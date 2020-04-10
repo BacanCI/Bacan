@@ -17,9 +17,9 @@ namespace Bakana.UnitTests.Services.Steps
     public class StepArtifactServiceTests : ServiceTestFixtureBase<StepArtifactService>
     {
         private const string TestBatchId = "TestBatch";
-        private const string TestStepId = "TestStep";
-        private const string TestStepArtifactId = "TestStepArtifact";
-        private const string TestStepArtifactOptionId = "TestStepArtifactOption";
+        private const string TestStepName = "TestStep";
+        private const string TestStepArtifactName = "TestStepArtifact";
+        private const string TestStepArtifactOptionName = "TestStepArtifactOption";
         
         private IBatchRepository batchRepository;
         private IStepRepository stepRepository;
@@ -50,7 +50,7 @@ namespace Bakana.UnitTests.Services.Steps
             
             var request = CreateStepArtifacts.Binaries;
             request.BatchId = TestBatchId;
-            request.StepId = TestStepId;
+            request.StepName = TestStepName;
 
             // Act
             var response = await Sut.Post(request);
@@ -59,7 +59,7 @@ namespace Bakana.UnitTests.Services.Steps
             response.Should().NotBeNull();
             await stepRepository.Received().CreateStepArtifact(Arg.Is<StepArtifact>(a =>
                 a.StepId == 123 &&
-                a.ArtifactId == request.ArtifactId &&
+                a.Name == request.ArtifactName &&
                 a.Description == request.Description &&
                 a.Options.Count == request.Options.Count));
         }
@@ -83,7 +83,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Create_StepArtifact_Should_Throw_With_Invalid_Step_Id()
+        public void Create_StepArtifact_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -93,7 +93,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepArtifactRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -116,7 +116,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepArtifactRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
 
             // Act / Assert
@@ -147,7 +147,9 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.StepArtifacts.Binaries);
+            response.Should().BeEquivalentTo(TestData.ServiceModels.StepArtifacts.Binaries, 
+                o => o.ExcludingMissingMembers());
+            response.ArtifactName.Should().Be(TestData.ServiceModels.StepArtifacts.Binaries.Name);
         }
         
         [Test]
@@ -169,7 +171,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Get_StepArtifact_Should_Throw_With_Invalid_Step_Id()
+        public void Get_StepArtifact_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -179,7 +181,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetStepArtifactRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -202,7 +204,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetStepArtifactRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
 
             // Act / Assert
@@ -255,7 +257,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Get_All_StepArtifacts_Should_Throw_With_Invalid_Step_Id()
+        public void Get_All_StepArtifacts_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -266,7 +268,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetAllStepArtifactRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -295,7 +297,7 @@ namespace Bakana.UnitTests.Services.Steps
                 });
             
             var request = UpdateStepArtifacts.Binaries;
-            request.StepId = TestStepId;
+            request.StepName = TestStepName;
 
             // Act
             var response = await Sut.Put(request);
@@ -327,7 +329,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Update_StepArtifact_Should_Throw_With_Invalid_Step_Id()
+        public void Update_StepArtifact_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -337,7 +339,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepArtifactRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -359,7 +361,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepArtifactRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
 
             // Act / Assert
@@ -415,7 +417,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Delete_Step_Artifact_Should_Throw_With_Invalid_Step_Id()
+        public void Delete_Step_Artifact_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -425,7 +427,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepArtifactRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -448,7 +450,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepArtifactRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
 
             // Act / Assert
@@ -483,7 +485,7 @@ namespace Bakana.UnitTests.Services.Steps
             response.Should().NotBeNull();
             await stepRepository.Received().CreateOrUpdateStepArtifactOption(Arg.Is<StepArtifactOption>(a =>
                 a.StepArtifactId == 123 &&
-                a.OptionId == request.OptionId &&
+                a.Name == request.OptionName &&
                 a.Description == request.Description));
         }
         
@@ -506,7 +508,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Create_Step_Artifact_Option_Should_Throw_With_Invalid_Step_Id()
+        public void Create_Step_Artifact_Option_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -517,7 +519,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepArtifactOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Assert
@@ -540,7 +542,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepArtifactOptionRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
 
             // Assert
@@ -550,7 +552,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
         
         [Test]
-        public void Create_Step_Artifact_Option_Should_Throw_With_Existing_Step_Artifact_Option_Id()
+        public void Create_Step_Artifact_Option_Should_Throw_With_Existing_Step_Artifact_Option_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -567,7 +569,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepArtifactOptionRequest
             {
-                OptionId = TestStepArtifactOptionId
+                OptionName = TestStepArtifactOptionName
             };
 
             // Assert
@@ -596,7 +598,9 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(new GetStepArtifactOptionRequest());
 
             // Assert
-            response.Should().BeEquivalentTo(StepArtifactOptions.Extract);
+            response.Should().BeEquivalentTo(StepArtifactOptions.Extract, 
+                o => o.ExcludingMissingMembers());
+            response.OptionName.Should().Be(StepArtifactOptions.Extract.Name);
         }
         
         [Test]
@@ -618,7 +622,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Get_StepArtifact_Option_Should_Throw_With_Invalid_Step_Id()
+        public void Get_StepArtifact_Option_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -628,7 +632,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetStepArtifactOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -651,7 +655,7 @@ namespace Bakana.UnitTests.Services.Steps
             
             var request = new GetStepArtifactOptionRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
 
             // Act / Assert
@@ -661,7 +665,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
         
         [Test]
-        public void Get_StepArtifact_Option_Should_Throw_With_Invalid_Step_Artifact_Option_Id()
+        public void Get_StepArtifact_Option_Should_Throw_With_Invalid_Step_Artifact_Option_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -678,7 +682,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetStepArtifactOptionRequest
             {
-                OptionId = TestStepArtifactOptionId
+                OptionName = TestStepArtifactOptionName
             };
 
             // Act / Assert
@@ -730,7 +734,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Get_All_StepArtifact_Options_Should_Throw_With_Invalid_Step_Id()
+        public void Get_All_StepArtifact_Options_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -741,7 +745,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetAllStepArtifactOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -765,7 +769,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetAllStepArtifactOptionRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
 
             // Act / Assert
@@ -798,8 +802,8 @@ namespace Bakana.UnitTests.Services.Steps
                 .Returns(stepArtifactOption);
 
             var request = UpdateStepArtifactOptions.Compress;
-            request.StepId = TestStepId;
-            request.ArtifactId = TestStepArtifactId;
+            request.StepName = TestStepName;
+            request.ArtifactName = TestStepArtifactName;
 
             // Act
             var response = await Sut.Put(request);
@@ -809,7 +813,7 @@ namespace Bakana.UnitTests.Services.Steps
             await stepRepository.Received().CreateOrUpdateStepArtifactOption(Arg.Is<StepArtifactOption>(a =>
                 a.Id == 456 &&
                 a.StepArtifactId == 123 &&
-                a.OptionId == request.OptionId &&
+                a.Name == request.OptionName &&
                 a.Description == request.Description));
         }
         
@@ -832,7 +836,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Update_StepArtifact_Option_Should_Throw_With_Invalid_Step_Id()
+        public void Update_StepArtifact_Option_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -843,7 +847,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepArtifactOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
             
             // Act / Assert
@@ -867,7 +871,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepArtifactOptionRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
             
             // Act / Assert
@@ -877,7 +881,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
         
         [Test]
-        public void Update_StepArtifact_Option_Should_Throw_With_Invalid_Step_Artifact_Option_Id()
+        public void Update_StepArtifact_Option_Should_Throw_With_Invalid_Step_Artifact_Option_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -894,7 +898,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepArtifactOptionRequest
             {
-                OptionId = TestStepArtifactOptionId
+                OptionName = TestStepArtifactOptionName
             };
             
             // Act / Assert
@@ -955,7 +959,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Delete_Step_Artifact_Option_Should_Throw_With_Invalid_Step_Id()
+        public void Delete_Step_Artifact_Option_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -966,7 +970,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepArtifactOptionRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -990,7 +994,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepArtifactOptionRequest
             {
-                ArtifactId = TestStepArtifactId
+                ArtifactName = TestStepArtifactName
             };
 
             // Act / Assert
@@ -1000,7 +1004,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
         
         [Test]
-        public void Delete_Step_Artifact_Option_Should_Throw_With_Invalid_Step_Artifact_Option_Id()
+        public void Delete_Step_Artifact_Option_Should_Throw_With_Invalid_Step_Artifact_Option_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -1017,7 +1021,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepArtifactOptionRequest
             {
-                OptionId = TestStepArtifactOptionId
+                OptionName = TestStepArtifactOptionName
             };
 
             // Act / Assert

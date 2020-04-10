@@ -8,35 +8,35 @@ namespace Bakana.TestData.Entities
     {
         public static CommandVariable DemoArg => new CommandVariable
         {
-            VariableId = "DemoArg",
+            Name = "DemoArg",
             Description = "Demo Arg",
             Value = "--demo"
         };
         
         public static CommandVariable HelpArg => new CommandVariable
         {
-            VariableId = "HelpArg",
+            Name = "HelpArg",
             Description = "Help Arg",
             Value = "--help"
         };
 
         public static CommandVariable OverrideArg => new CommandVariable
         {
-            VariableId = "OverrideArg",
+            Name = "OverrideArg",
             Description = "Override Arg",
             Value = "--override"
         };
 
         public static CommandVariable OutArg => new CommandVariable
         {
-            VariableId = "OutArg",
+            Name = "OutArg",
             Description = "Out Arg",
             Value = "--out"
         };
 
         public static CommandVariable ConnectionString => new CommandVariable
         {
-            VariableId = "ConnectionString",
+            Name = "ConnectionString",
             Description = "Connection String",
             Value = "localhost:8000"
         };
@@ -46,28 +46,28 @@ namespace Bakana.TestData.Entities
     {
         public static CommandOption Optional1 => new CommandOption
         {
-            OptionId = "CMDOPT1",
+            Name = "CMDOPT1",
             Description = "Optional1",
             Value = "CMDOPT1VAL"
         };
 
         public static CommandOption Optional2 => new CommandOption
         {
-            OptionId = "CMDOPT2",
+            Name = "CMDOPT2",
             Description = "Optional2",
             Value = "CMDOPT2VAL"
         };
 
         public static CommandOption Debug => new CommandOption
         {
-            OptionId = "Debug",
+            Name = "Debug",
             Description = "Debug Mode",
             Value = "True"
         };
 
         public static CommandOption Production => new CommandOption
         {
-            OptionId = "Production",
+            Name = "Production",
             Description = "Production Mode",
             Value = "True"
         };
@@ -77,7 +77,7 @@ namespace Bakana.TestData.Entities
     {
         public static Command DotNetRestore => new Command
         {
-            CommandId = "RestoreCmd",
+            Name = "RestoreCmd",
             Description = "Dot Net Restore",
             Item = "dot net restore",
             State = CommandState.Running,
@@ -95,7 +95,7 @@ namespace Bakana.TestData.Entities
 
         public static Command DotNetBuild => new Command
         {
-            CommandId = "BuildCmd",
+            Name = "BuildCmd",
             Description = "Dot Net Build",
             Item = "dot net build",
             Options = new List<CommandOption>
@@ -106,7 +106,7 @@ namespace Bakana.TestData.Entities
 
         public static Command Deploy => new Command
         {
-            CommandId = "DeployCmd",
+            Name = "DeployCmd",
             Description = "Deploy Command",
             Item = "runner -deploy",
             Variables = new List<CommandVariable>
@@ -117,7 +117,7 @@ namespace Bakana.TestData.Entities
         
         public static Command Test => new Command
         {
-            CommandId = "TestCmd",
+            Name = "TestCmd",
             Description = "Test Command",
             Item = "runner -test",
             Variables = new List<CommandVariable>

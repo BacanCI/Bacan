@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Steps
 {
     [Tag("Step")]
-    [Route("/batch/{BatchId}/step/{StepId}/variable/{VariableId}", HttpMethods.Put, Summary = "Update Step Variable")]
+    [Route("/batch/{BatchId}/step/{StepName}/variable/{VariableName}", HttpMethods.Put, Summary = "Update Step Variable")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Step Variable was not found")]
     public class UpdateStepVariableRequest : IReturn<UpdateStepVariableResponse>
     {
@@ -20,14 +20,14 @@ namespace Bakana.ServiceModels.Steps
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Variable",
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string VariableId { get; set; }
+        public string VariableName { get; set; }
 
         [ApiMember(
             Description = "A description of the Variable",

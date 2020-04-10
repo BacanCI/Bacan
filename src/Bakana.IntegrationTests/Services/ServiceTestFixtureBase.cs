@@ -1,5 +1,6 @@
 using Bakana.Core;
 using Bakana.Core.Repositories;
+using Bakana.ServiceInterface.Mapping;
 using Funq;
 using NUnit.Framework;
 using ServiceStack;
@@ -49,6 +50,14 @@ namespace Bakana.IntegrationTests.Services
                 container.AddSingleton<IBatchRepository, BatchRepository>();
                 container.AddSingleton<IStepRepository, StepRepository>();
                 container.AddSingleton<ICommandRepository, CommandRepository>();
+            }
+            
+            public override void OnAfterInit()
+            {
+                base.OnAfterInit();
+            
+                Mappers.Register();
+                TestData.Mappers.Register();
             }
         }
     }

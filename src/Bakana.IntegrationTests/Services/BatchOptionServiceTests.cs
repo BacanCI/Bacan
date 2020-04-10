@@ -68,19 +68,19 @@ namespace Bakana.IntegrationTests.Services
             // Assert
             response.Should().NotBeNull();
             var getBatchOptionResponse = Sut.Get(GetBatchOptionRequest(batchId));
-            getBatchOptionResponse.Should().BeEquivalentTo(request, 
-                options => options.Excluding(r => r.BatchId));
+            getBatchOptionResponse.Should().BeEquivalentTo(request,
+                options => options.ExcludingMissingMembers());
 
             //Assert all options have been returned
             var getAllBatchOptionResponse = Sut.Get(new GetAllBatchOptionRequest { BatchId = batchId });
             getAllBatchOptionResponse.Options.Should().NotBeNull();
             getAllBatchOptionResponse.Options.Count.Should().Be(2);
             getAllBatchOptionResponse.Options.Should()
-                .ContainEquivalentOf(request, options => options.Excluding(r => r.BatchId));
+                .ContainEquivalentOf(request, options => options.ExcludingMissingMembers());
             var debugRequest = CreateBatchOptions.Debug;
-            debugRequest.BatchId = batchId; 
+            debugRequest.BatchId = batchId;
             getAllBatchOptionResponse.Options.Should()
-                .ContainEquivalentOf(debugRequest, options => options.Excluding(r => r.BatchId));
+                .ContainEquivalentOf(debugRequest, options => options.ExcludingMissingMembers());
         }
 
         [Test]
@@ -116,14 +116,14 @@ namespace Bakana.IntegrationTests.Services
             catch (WebServiceException webEx)
             {
                 webEx.StatusCode.Should().Be((int)HttpStatusCode.Conflict);
-                webEx.Message.Should().Be(ErrMsg.BatchOptionAlreadyExists(request.OptionId));
+                webEx.Message.Should().Be(ErrMsg.BatchOptionAlreadyExists(request.OptionName));
             }
         }
 
         [Test]
         public void It_Should_Throw_When_Getting_Option_When_Batch_Id_Does_Not_Exist()
         {
-            var request = new GetBatchOptionRequest { BatchId = "invalid", OptionId = "invalid" };
+            var request = new GetBatchOptionRequest { BatchId = "invalid", OptionName = "invalid" };
             try
             {
                 Sut.Get(request);
@@ -137,10 +137,10 @@ namespace Bakana.IntegrationTests.Services
         }
 
         [Test]
-        public void It_Should_Throw_When_Getting_Option_When_Option_Id_Does_Not_Exist()
+        public void It_Should_Throw_When_Getting_Option_When_Option_Name_Does_Not_Exist()
         {
             var batchId = CreateBatch();
-            var request = new GetBatchOptionRequest { BatchId = batchId, OptionId = "invalid" };
+            var request = new GetBatchOptionRequest { BatchId = batchId, OptionName = "invalid" };
             try
             {
                 Sut.Get(request);
@@ -149,7 +149,7 @@ namespace Bakana.IntegrationTests.Services
             catch (WebServiceException webEx)
             {
                 webEx.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-                webEx.Message.Should().Be(ErrMsg.BatchOptionNotFound(request.OptionId));
+                webEx.Message.Should().Be(ErrMsg.BatchOptionNotFound(request.OptionName));
             }
         }
 
@@ -215,7 +215,7 @@ namespace Bakana.IntegrationTests.Services
             catch (WebServiceException webEx)
             {
                 webEx.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
-                webEx.Message.Should().Be(ErrMsg.BatchOptionNotFound(request.OptionId));
+                webEx.Message.Should().Be(ErrMsg.BatchOptionNotFound(request.OptionName));
             }
         }
     }

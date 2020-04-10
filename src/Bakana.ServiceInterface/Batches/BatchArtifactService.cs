@@ -21,8 +21,8 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            if (await batchRepository.DoesBatchArtifactExist(request.BatchId, request.ArtifactId))
-                throw Err.BatchArtifactAlreadyExists(request.ArtifactId);
+            if (await batchRepository.DoesBatchArtifactExist(request.BatchId, request.ArtifactName))
+                throw Err.BatchArtifactAlreadyExists(request.ArtifactName);
 
             var batchArtifact = request.ConvertTo<BatchArtifact>();
 
@@ -36,9 +36,9 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactId);
+            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactName);
             if (batchArtifact == null)
-                throw Err.BatchArtifactNotFound(request.ArtifactId);
+                throw Err.BatchArtifactNotFound(request.ArtifactName);
 
             return batchArtifact.ConvertTo<GetBatchArtifactResponse>();
         }
@@ -63,9 +63,9 @@ namespace Bakana.ServiceInterface.Batches
                 throw Err.BatchNotFound(request.BatchId);
 
             var existingBatchArtifact =
-                await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactId);
+                await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactName);
             if (existingBatchArtifact == null)
-                throw Err.BatchArtifactNotFound(request.ArtifactId);
+                throw Err.BatchArtifactNotFound(request.ArtifactName);
 
             var batchArtifact = request.ConvertTo<BatchArtifact>();
             batchArtifact.Id = existingBatchArtifact.Id;
@@ -81,9 +81,9 @@ namespace Bakana.ServiceInterface.Batches
                 throw Err.BatchNotFound(request.BatchId);
 
             var existingBatchArtifact =
-                await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactId);
+                await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactName);
             if (existingBatchArtifact == null)
-                throw Err.BatchArtifactNotFound(request.ArtifactId);
+                throw Err.BatchArtifactNotFound(request.ArtifactName);
 
             await batchRepository.DeleteBatchArtifact(existingBatchArtifact.Id);
 
@@ -95,12 +95,12 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactId);
+            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactName);
             if (batchArtifact == null)
-                throw Err.BatchArtifactNotFound(request.ArtifactId);
+                throw Err.BatchArtifactNotFound(request.ArtifactName);
 
-            if (await batchRepository.DoesBatchArtifactOptionExist(request.BatchId, request.ArtifactId, request.OptionId)) 
-                throw Err.BatchArtifactOptionAlreadyExists(request.OptionId);
+            if (await batchRepository.DoesBatchArtifactOptionExist(request.BatchId, request.ArtifactName, request.OptionName)) 
+                throw Err.BatchArtifactOptionAlreadyExists(request.OptionName);
             
             var batchArtifactOption = request.ConvertTo<BatchArtifactOption>();
             batchArtifactOption.BatchArtifactId = batchArtifact.Id;
@@ -115,13 +115,13 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactId);
+            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactName);
             if (batchArtifact == null)
-                throw Err.BatchArtifactNotFound(request.ArtifactId);
+                throw Err.BatchArtifactNotFound(request.ArtifactName);
 
-            var batchArtifactOption = await batchRepository.GetBatchArtifactOption(batchArtifact.Id, request.OptionId);
+            var batchArtifactOption = await batchRepository.GetBatchArtifactOption(batchArtifact.Id, request.OptionName);
             if (batchArtifactOption == null)
-                throw Err.BatchArtifactOptionNotFound(request.OptionId);
+                throw Err.BatchArtifactOptionNotFound(request.OptionName);
 
             return batchArtifactOption.ConvertTo<GetBatchArtifactOptionResponse>();
         }
@@ -131,9 +131,9 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactId);
+            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactName);
             if (batchArtifact == null)
-                throw Err.BatchArtifactNotFound(request.ArtifactId);
+                throw Err.BatchArtifactNotFound(request.ArtifactName);
 
             var response = new GetAllBatchArtifactOptionResponse
             {
@@ -148,14 +148,14 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactId);
+            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactName);
             if (batchArtifact == null)
-                throw Err.BatchArtifactNotFound(request.ArtifactId);
+                throw Err.BatchArtifactNotFound(request.ArtifactName);
 
             var existingBatchArtifactOption =
-                await batchRepository.GetBatchArtifactOption(batchArtifact.Id, request.OptionId);
+                await batchRepository.GetBatchArtifactOption(batchArtifact.Id, request.OptionName);
             if (existingBatchArtifactOption == null)
-                throw Err.BatchArtifactOptionNotFound(request.OptionId);
+                throw Err.BatchArtifactOptionNotFound(request.OptionName);
 
             var batchArtifactOption = request.ConvertTo<BatchArtifactOption>();
             batchArtifactOption.Id = existingBatchArtifactOption.Id;
@@ -171,14 +171,14 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactId);
+            var batchArtifact = await batchRepository.GetBatchArtifact(request.BatchId, request.ArtifactName);
             if (batchArtifact == null)
-                throw Err.BatchArtifactNotFound(request.ArtifactId);
+                throw Err.BatchArtifactNotFound(request.ArtifactName);
 
             var existingBatchArtifactOption =
-                await batchRepository.GetBatchArtifactOption(batchArtifact.Id, request.OptionId);
+                await batchRepository.GetBatchArtifactOption(batchArtifact.Id, request.OptionName);
             if (existingBatchArtifactOption == null)
-                throw Err.BatchArtifactOptionNotFound(request.OptionId);
+                throw Err.BatchArtifactOptionNotFound(request.OptionName);
 
             await batchRepository.DeleteBatchArtifactOption(existingBatchArtifactOption.Id);
 

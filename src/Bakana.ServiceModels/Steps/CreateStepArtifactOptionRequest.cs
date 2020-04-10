@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Steps
 {
     [Tag("Step")]
-    [Route("/batch/{BatchId}/step/{StepId}/artifact/{ArtifactId}/option", HttpMethods.Post, Summary = "Create new Step Artifact Option")]
+    [Route("/batch/{BatchId}/step/{StepName}/artifact/{ArtifactName}/option", HttpMethods.Post, Summary = "Create new Step Artifact Option")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Step Artifact was not found")]
     [ApiResponse(HttpStatusCode.Conflict, "The Step Artifact Option already exists")]
     public class CreateStepArtifactOptionRequest : IReturn<CreateStepArtifactOptionResponse>
@@ -21,21 +21,21 @@ namespace Bakana.ServiceModels.Steps
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Artifact",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string ArtifactId { get; set; }
+        public string ArtifactName { get; set; }
         
         [ApiMember(
             Description = "A user-generated identifier associated with the Artifact Option",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string OptionId { get; set; }
+        public string OptionName { get; set; }
 
         [ApiMember(
             Description = "A description of the Artifact Option",

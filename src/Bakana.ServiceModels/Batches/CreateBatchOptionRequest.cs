@@ -21,7 +21,7 @@ namespace Bakana.ServiceModels.Batches
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string OptionId { get; set; }
+        public string OptionName { get; set; }
 
         [ApiMember(
             Description = "A description of the Option",

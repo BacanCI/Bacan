@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Commands
 {
     [Tag("Command")]
-    [Route("/batch/{BatchId}/step/{StepId}/command/{CommandId}/variable", HttpMethods.Post, Summary = "Create new Command Variable")]
+    [Route("/batch/{BatchId}/step/{StepName}/command/{CommandName}/variable", HttpMethods.Post, Summary = "Create new Command Variable")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Command was not found")]
     [ApiResponse(HttpStatusCode.Conflict, "The Command Variable already exists")]
     public class CreateCommandVariableRequest : IReturn<CreateCommandVariableResponse>
@@ -21,21 +21,21 @@ namespace Bakana.ServiceModels.Commands
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Command",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string CommandId { get; set; }
+        public string CommandName { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Variable",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string VariableId { get; set; }
+        public string VariableName { get; set; }
 
         [ApiMember(
             Description = "A description of the Variable",

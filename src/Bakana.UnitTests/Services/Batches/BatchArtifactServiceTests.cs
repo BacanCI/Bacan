@@ -17,8 +17,8 @@ namespace Bakana.UnitTests.Services.Batches
     public class BatchArtifactServiceTests : ServiceTestFixtureBase<BatchArtifactService>
     {
         private const string TestBatchId = "TestBatch";
-        private const string TestBatchArtifactId = "TestBatchArtifact";
-        private const string TestBatchArtifactOptionId = "TestBatchArtifactOption";
+        private const string TestBatchArtifactName = "TestBatchArtifact";
+        private const string TestBatchArtifactOptionName = "TestBatchArtifactOption";
         
         private IBatchRepository batchRepository;
 
@@ -78,7 +78,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new CreateBatchArtifactRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
 
             // Act / Assert
@@ -104,7 +104,9 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchArtifacts.Package);
+            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchArtifacts.Package, 
+                o => o.ExcludingMissingMembers());
+            response.ArtifactName.Should().Be(TestData.ServiceModels.BatchArtifacts.Package.Name);
         }
         
         [Test]
@@ -136,7 +138,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new GetBatchArtifactRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
 
             // Act / Assert
@@ -242,7 +244,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new UpdateBatchArtifactRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
 
             // Act / Assert
@@ -308,7 +310,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new DeleteBatchArtifactRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
 
             // Act / Assert
@@ -341,7 +343,7 @@ namespace Bakana.UnitTests.Services.Batches
             response.Should().NotBeNull();
             await batchRepository.Received().CreateOrUpdateBatchArtifactOption(Arg.Is<BatchArtifactOption>(a =>
                 a.BatchArtifactId == 123 &&
-                a.OptionId == request.OptionId &&
+                a.Name == request.OptionName &&
                 a.Description == request.Description));
         }
         
@@ -374,7 +376,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new CreateBatchArtifactOptionRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
 
             // Assert
@@ -398,7 +400,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new CreateBatchArtifactOptionRequest
             {
-                OptionId = TestBatchArtifactOptionId
+                OptionName = TestBatchArtifactOptionName
             };
 
             // Assert
@@ -425,7 +427,8 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(new GetBatchArtifactOptionRequest());
 
             // Assert
-            response.Should().BeEquivalentTo(BatchArtifactOptions.Extract);
+            response.Should().BeEquivalentTo(BatchArtifactOptions.Extract, o => o.ExcludingMissingMembers());
+            response.OptionName.Should().Be(BatchArtifactOptions.Extract.Name);
         }
         
         [Test]
@@ -458,7 +461,7 @@ namespace Bakana.UnitTests.Services.Batches
             
             var request = new GetBatchArtifactOptionRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
 
             // Act / Assert
@@ -482,7 +485,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new GetBatchArtifactOptionRequest
             {
-                OptionId = TestBatchArtifactOptionId
+                OptionName = TestBatchArtifactOptionName
             };
 
             // Act / Assert
@@ -539,7 +542,7 @@ namespace Bakana.UnitTests.Services.Batches
             
             var request = new GetAllBatchArtifactOptionRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
 
             // Act / Assert
@@ -571,7 +574,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = UpdateBatchArtifactOptions.Compress;
             request.BatchId = TestBatchId;
-            request.ArtifactId = TestBatchArtifactId;
+            request.ArtifactName = TestBatchArtifactName;
 
             // Act
             var response = await Sut.Put(request);
@@ -581,7 +584,7 @@ namespace Bakana.UnitTests.Services.Batches
             await batchRepository.Received().CreateOrUpdateBatchArtifactOption(Arg.Is<BatchArtifactOption>(a =>
                 a.Id == 456 &&
                 a.BatchArtifactId == 123 &&
-                a.OptionId == request.OptionId &&
+                a.Name == request.OptionName &&
                 a.Description == request.Description));
         }
         
@@ -615,7 +618,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new UpdateBatchArtifactOptionRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
             
             // Act / Assert
@@ -639,7 +642,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new UpdateBatchArtifactOptionRequest
             {
-                OptionId = TestBatchArtifactOptionId
+                OptionName = TestBatchArtifactOptionName
             };
             
             // Act / Assert
@@ -712,7 +715,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new DeleteBatchArtifactOptionRequest
             {
-                ArtifactId = TestBatchArtifactId
+                ArtifactName = TestBatchArtifactName
             };
 
             // Act / Assert
@@ -736,7 +739,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new DeleteBatchArtifactOptionRequest
             {
-                OptionId = TestBatchArtifactOptionId
+                OptionName = TestBatchArtifactOptionName
             };
 
             // Act / Assert

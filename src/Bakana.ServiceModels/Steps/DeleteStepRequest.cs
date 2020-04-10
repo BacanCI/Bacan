@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Steps
 {
     [Tag("Step")]
-    [Route("/batch/{BatchId}/step/{StepId}", HttpMethods.Delete, Summary = "Delete Step")]
+    [Route("/batch/{BatchId}/step/{StepName}", HttpMethods.Delete, Summary = "Delete Step")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step was not found")]
     public class DeleteStepRequest : IReturn<DeleteStepResponse>
     {
@@ -20,7 +20,7 @@ namespace Bakana.ServiceModels.Steps
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
     }
 
     public class DeleteStepResponse : IHasResponseStatus

@@ -6,7 +6,7 @@ namespace Bakana.ServiceModels
     {
         [ApiMember(
             Description = "A user-generated identifier associated with the variable")]
-        public string VariableId { get; set; }
+        public string Name { get; set; }
 
         [ApiMember(
             Description = "A description of the variable")]

@@ -9,14 +9,14 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Variable Schedule => new Variable
         {
-            VariableId = "Schedule",
+            Name = "Schedule",
             Description = "Schedule start",
             Value = "12:30:45"
         };
         
         public static Variable Environment => new Variable
         {
-            VariableId = "Environment",
+            Name = "Environment",
             Description = "Deployment Environment",
             Value = "Production"
         };
@@ -44,14 +44,14 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Option Debug => new Option
         {
-            OptionId = "Debug",
+            Name = "Debug",
             Description = "Debug Mode",
             Value = "True"
         };
         
         public static Option Log => new Option
         {
-            OptionId = "Log",
+            Name = "Log",
             Description = "Verbose Logging",
             Value = "True"
         };
@@ -97,14 +97,14 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Option Extract => new Option
         {
-            OptionId = "Extract",
+            Name = "Extract",
             Description = "Extract files",
             Value = "True"
         };
         
         public static Option Compress => new Option
         {
-            OptionId = "Compress",
+            Name = "Compress",
             Description = "Compress files",
             Value = "True"
         };
@@ -132,7 +132,7 @@ namespace Bakana.TestData.ServiceModels
     {
         public static BatchArtifact Package => new BatchArtifact
         {
-            ArtifactId = "Package",
+            Name = "Package",
             Description = "First artifact",
             FileName = "package.zip",
             Options = new List<Option>
@@ -143,7 +143,7 @@ namespace Bakana.TestData.ServiceModels
         
         public static BatchArtifact DbBackup => new BatchArtifact
         {
-            ArtifactId = "DbBackup",
+            Name = "DbBackup",
             Description = "Database Backup",
             FileName = "db.zip",
             Options = new List<Option>

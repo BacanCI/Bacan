@@ -5,7 +5,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Commands
 {
     [Tag("Command")]
-    [Route("/batch/{BatchId}/step/{StepId}/command/{CommandId}", HttpMethods.Get, Summary = "Get Command")]
+    [Route("/batch/{BatchId}/step/{StepName}/command/{CommandName}", HttpMethods.Get, Summary = "Get Command")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step or Command was not found")]
     public class GetCommandRequest : IReturn<GetCommandResponse>
     {
@@ -21,19 +21,19 @@ namespace Bakana.ServiceModels.Commands
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
         
         [ApiMember(
             Description = "A user-generated identifier associated with the Command",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string CommandId { get; set; }
+        public string CommandName { get; set; }
     }
 
     public class GetCommandResponse : IHasResponseStatus
     {
-        public string CommandId { get; set; }
+        public string CommandName { get; set; }
 
         public string Description { get; set; }
 

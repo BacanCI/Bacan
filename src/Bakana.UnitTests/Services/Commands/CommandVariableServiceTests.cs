@@ -18,9 +18,9 @@ namespace Bakana.UnitTests.Services.Commands
     public class CommandVariableServiceTests : ServiceTestFixtureBase<CommandVariableService>
     {
         private const string TestBatchId = "TestBatch";
-        private const string TestStepId = "TestStep";
-        private const string TestCommandId = "TestCommand";
-        private const string TestCommandVariableId = "TestCommandVariable";
+        private const string TestStepName = "TestStep";
+        private const string TestCommandName = "TestCommand";
+        private const string TestCommandVariableName = "TestCommandVariable";
         
         private IBatchRepository batchRepository;
         private IStepRepository stepRepository;
@@ -57,8 +57,8 @@ namespace Bakana.UnitTests.Services.Commands
             
             var request = CreateCommandVariables.Extract;
             request.BatchId = TestBatchId;
-            request.StepId = TestStepId;
-            request.CommandId = TestCommandId;
+            request.StepName = TestStepName;
+            request.CommandName = TestCommandName;
 
             // Act
             var response = await Sut.Post(request);
@@ -67,7 +67,7 @@ namespace Bakana.UnitTests.Services.Commands
             response.Should().NotBeNull();
             await commandRepository.Received().CreateOrUpdateCommandVariable(Arg.Is<CommandVariable>(a =>
                 a.CommandId == 123 &&
-                a.VariableId == request.VariableId &&
+                a.Name == request.VariableName &&
                 a.Description == request.Description));
         }
 
@@ -90,7 +90,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Create_CommandVariable_Should_Throw_With_Invalid_Step_Id()
+        public void Create_CommandVariable_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -101,7 +101,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new CreateCommandVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -111,7 +111,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Create_CommandVariable_Should_Throw_With_Invalid_Command_Id()
+        public void Create_CommandVariable_Should_Throw_With_Invalid_Command_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -125,7 +125,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new CreateCommandVariableRequest
             {
-                CommandId = TestCommandId
+                CommandName = TestCommandName
             };
 
             // Act / Assert
@@ -151,7 +151,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new CreateCommandVariableRequest
             {
-                VariableId = TestCommandVariableId
+                VariableName = TestCommandVariableName
             };
 
             // Act / Assert
@@ -170,6 +170,9 @@ namespace Bakana.UnitTests.Services.Commands
             stepRepository.Get(Arg.Any<string>(), Arg.Any<string>())
                 .Returns(new Step());
             
+            commandRepository.Get(Arg.Any<ulong>(), Arg.Any<string>())
+                .Returns(new Command());
+
             var commandVariable = CommandVariables.ConnectionString;
             commandRepository.GetCommandVariable(Arg.Any<ulong>(), Arg.Any<string>())
                 .Returns(commandVariable);
@@ -180,7 +183,9 @@ namespace Bakana.UnitTests.Services.Commands
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.CommandVariables.ConnectionString);
+            response.Should().BeEquivalentTo(TestData.ServiceModels.CommandVariables.ConnectionString, 
+                o => o.ExcludingMissingMembers());
+            response.VariableName.Should().Be(TestData.ServiceModels.CommandVariables.ConnectionString.Name);
         }
         
         [Test]
@@ -202,7 +207,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Get_CommandVariable_Should_Throw_With_Invalid_Step_Id()
+        public void Get_CommandVariable_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -213,7 +218,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new GetCommandVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -223,7 +228,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Get_CommandVariable_Should_Throw_With_Invalid_Command_Id()
+        public void Get_CommandVariable_Should_Throw_With_Invalid_Command_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -237,7 +242,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new GetCommandVariableRequest
             {
-                CommandId = TestCommandId
+                CommandName = TestCommandName
             };
 
             // Act / Assert
@@ -264,7 +269,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new GetCommandVariableRequest
             {
-                VariableId = TestCommandVariableId
+                VariableName = TestCommandVariableName
             };
 
             // Act / Assert
@@ -314,7 +319,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Get_All_CommandVariables_Should_Throw_With_Invalid_Step_Id()
+        public void Get_All_CommandVariables_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -325,7 +330,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new GetAllCommandVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -335,7 +340,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Get_All_CommandVariables_Should_Throw_With_Invalid_Command_Id()
+        public void Get_All_CommandVariables_Should_Throw_With_Invalid_Command_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -349,7 +354,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new GetAllCommandVariableRequest
             {
-                CommandId = TestCommandId
+                CommandName = TestCommandName
             };
 
             // Act / Assert
@@ -381,7 +386,7 @@ namespace Bakana.UnitTests.Services.Commands
                 });
             
             var request = UpdateCommandVariables.Extract;
-            request.CommandId = TestCommandId;
+            request.CommandName = TestCommandName;
 
             // Act
             var response = await Sut.Put(request);
@@ -413,7 +418,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Update_CommandVariable_Should_Throw_With_Invalid_Step_Id()
+        public void Update_CommandVariable_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -424,7 +429,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new UpdateCommandVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -434,7 +439,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Update_CommandVariable_Should_Throw_With_Invalid_Command_Id()
+        public void Update_CommandVariable_Should_Throw_With_Invalid_Command_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -447,7 +452,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new UpdateCommandVariableRequest
             {
-                CommandId = TestCommandId
+                CommandName = TestCommandName
             };
 
             // Act / Assert
@@ -474,7 +479,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new UpdateCommandVariableRequest
             {
-                VariableId = TestCommandVariableId
+                VariableName = TestCommandVariableName
             };
 
             // Act / Assert
@@ -533,7 +538,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Delete_Command_Variable_Should_Throw_With_Invalid_Step_Id()
+        public void Delete_Command_Variable_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -544,7 +549,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new DeleteCommandVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -554,7 +559,7 @@ namespace Bakana.UnitTests.Services.Commands
         }
 
         [Test]
-        public void Delete_Command_Variable_Should_Throw_With_Invalid_Command_Id()
+        public void Delete_Command_Variable_Should_Throw_With_Invalid_Command_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -567,7 +572,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new DeleteCommandVariableRequest
             {
-                CommandId = TestCommandId
+                CommandName = TestCommandName
             };
 
             // Act / Assert
@@ -593,7 +598,7 @@ namespace Bakana.UnitTests.Services.Commands
 
             var request = new DeleteCommandVariableRequest
             {
-                VariableId = TestCommandVariableId
+                VariableName = TestCommandVariableName
             };
 
             // Act / Assert

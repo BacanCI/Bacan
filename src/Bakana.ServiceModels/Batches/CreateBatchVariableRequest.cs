@@ -21,7 +21,7 @@ namespace Bakana.ServiceModels.Batches
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string VariableId { get; set; }
+        public string VariableName { get; set; }
 
         [ApiMember(
             Description = "A description of the Variable",

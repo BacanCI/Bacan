@@ -25,8 +25,8 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            if (await stepRepository.DoesStepExist(request.BatchId, request.StepId))
-                throw Err.StepAlreadyExists(request.StepId);
+            if (await stepRepository.DoesStepExist(request.BatchId, request.StepName))
+                throw Err.StepAlreadyExists(request.StepName);
 
             var step = request.ConvertTo<Step>();
 
@@ -40,8 +40,8 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw Err.StepNotFound(request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
+            if (step == null) throw Err.StepNotFound(request.StepName);
 
             return step.ConvertTo<GetStepResponse>();
         }
@@ -67,7 +67,7 @@ namespace Bakana.ServiceInterface.Steps
             var step = request.ConvertTo<Step>();
 
             var updated = await stepRepository.Update(step);
-            if (!updated) throw Err.StepNotFound(request.StepId);
+            if (!updated) throw Err.StepNotFound(request.StepName);
 
             return new UpdateStepResponse();
         }
@@ -77,8 +77,8 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
-            if (step == null) throw Err.StepNotFound(request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
+            if (step == null) throw Err.StepNotFound(request.StepName);
 
             await stepRepository.Delete(step.Id);
 

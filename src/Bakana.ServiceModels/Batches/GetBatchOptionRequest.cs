@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/option/{OptionId}", HttpMethods.Get, Summary = "Get Batch Option")]
+    [Route("/batch/{BatchId}/option/{OptionName}", HttpMethods.Get, Summary = "Get Batch Option")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Option was not found")]
     public class GetBatchOptionRequest : IReturn<GetBatchOptionResponse>
     {
@@ -20,14 +20,14 @@ namespace Bakana.ServiceModels.Batches
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string OptionId { get; set; }
+        public string OptionName { get; set; }
     }
 
     public class GetBatchOptionResponse : IHasResponseStatus
     {
         [ApiMember(
             Description = "A user-generated identifier associated with the Option")]
-        public string OptionId { get; set; }
+        public string OptionName { get; set; }
 
         [ApiMember(
             Description = "A description of the Option")]

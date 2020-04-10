@@ -25,12 +25,12 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
-            if (await stepRepository.DoesStepArtifactExist(request.BatchId, request.StepId, request.ArtifactId))
-                throw Err.StepArtifactAlreadyExists(request.ArtifactId);
+            if (await stepRepository.DoesStepArtifactExist(request.BatchId, request.StepName, request.ArtifactName))
+                throw Err.StepArtifactAlreadyExists(request.ArtifactName);
 
             var stepArtifact = request.ConvertTo<StepArtifact>();
             stepArtifact.StepId = step.Id;
@@ -45,13 +45,13 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
-            var stepArtifact = await stepRepository.GetStepArtifact(step.Id, request.ArtifactId);
+            var stepArtifact = await stepRepository.GetStepArtifact(step.Id, request.ArtifactName);
             if (stepArtifact == null)
-                throw Err.StepArtifactNotFound(request.ArtifactId);
+                throw Err.StepArtifactNotFound(request.ArtifactName);
 
             return stepArtifact.ConvertTo<GetStepArtifactResponse>();
         }
@@ -61,9 +61,9 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var stepArtifacts = await stepRepository.GetAllStepArtifacts(step.Id);
             var response = new GetAllStepArtifactResponse
@@ -79,14 +79,14 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepArtifact =
-                await stepRepository.GetStepArtifact(step.Id, request.ArtifactId);
+                await stepRepository.GetStepArtifact(step.Id, request.ArtifactName);
             if (existingStepArtifact == null)
-                throw Err.StepArtifactNotFound(request.ArtifactId);
+                throw Err.StepArtifactNotFound(request.ArtifactName);
 
             var stepArtifact = request.ConvertTo<StepArtifact>();
             stepArtifact.StepId = step.Id;
@@ -102,14 +102,14 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepArtifact =
-                await stepRepository.GetStepArtifact(step.Id, request.ArtifactId);
+                await stepRepository.GetStepArtifact(step.Id, request.ArtifactName);
             if (existingStepArtifact == null)
-                throw Err.StepArtifactNotFound(request.ArtifactId);
+                throw Err.StepArtifactNotFound(request.ArtifactName);
 
             await stepRepository.DeleteStepArtifact(existingStepArtifact.Id);
 
@@ -121,17 +121,17 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepArtifact =
-                await stepRepository.GetStepArtifact(step.Id, request.ArtifactId);
+                await stepRepository.GetStepArtifact(step.Id, request.ArtifactName);
             if (existingStepArtifact == null)
-                throw Err.StepArtifactNotFound(request.ArtifactId);
+                throw Err.StepArtifactNotFound(request.ArtifactName);
 
-            if (await stepRepository.DoesStepArtifactOptionExist(request.BatchId, request.StepId, request.ArtifactId, request.OptionId))
-                throw Err.StepArtifactOptionAlreadyExists(request.OptionId);
+            if (await stepRepository.DoesStepArtifactOptionExist(request.BatchId, request.StepName, request.ArtifactName, request.OptionName))
+                throw Err.StepArtifactOptionAlreadyExists(request.OptionName);
             
             var stepArtifactOption = request.ConvertTo<StepArtifactOption>();
             stepArtifactOption.StepArtifactId = existingStepArtifact.Id;
@@ -146,18 +146,18 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepArtifact =
-                await stepRepository.GetStepArtifact(step.Id, request.ArtifactId);
+                await stepRepository.GetStepArtifact(step.Id, request.ArtifactName);
             if (existingStepArtifact == null)
-                throw Err.StepArtifactNotFound(request.ArtifactId);
+                throw Err.StepArtifactNotFound(request.ArtifactName);
 
-            var stepArtifactOption = await stepRepository.GetStepArtifactOption(existingStepArtifact.Id, request.OptionId);
+            var stepArtifactOption = await stepRepository.GetStepArtifactOption(existingStepArtifact.Id, request.OptionName);
             if (stepArtifactOption == null)
-                throw Err.StepArtifactOptionNotFound(request.OptionId);
+                throw Err.StepArtifactOptionNotFound(request.OptionName);
 
             return stepArtifactOption.ConvertTo<GetStepArtifactOptionResponse>();
         }
@@ -167,14 +167,14 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepArtifact =
-                await stepRepository.GetStepArtifact(step.Id, request.ArtifactId);
+                await stepRepository.GetStepArtifact(step.Id, request.ArtifactName);
             if (existingStepArtifact == null)
-                throw Err.StepArtifactNotFound(request.ArtifactId);
+                throw Err.StepArtifactNotFound(request.ArtifactName);
 
             var response = new GetAllStepArtifactOptionResponse
             {
@@ -189,18 +189,18 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepArtifact =
-                await stepRepository.GetStepArtifact(step.Id, request.ArtifactId);
+                await stepRepository.GetStepArtifact(step.Id, request.ArtifactName);
             if (existingStepArtifact == null)
-                throw Err.StepArtifactNotFound(request.ArtifactId);
+                throw Err.StepArtifactNotFound(request.ArtifactName);
 
-            var existingStepArtifactOption = await stepRepository.GetStepArtifactOption(existingStepArtifact.Id, request.OptionId);
+            var existingStepArtifactOption = await stepRepository.GetStepArtifactOption(existingStepArtifact.Id, request.OptionName);
             if (existingStepArtifactOption == null)
-                throw Err.StepArtifactOptionNotFound(request.OptionId);
+                throw Err.StepArtifactOptionNotFound(request.OptionName);
 
             var stepArtifactOption = request.ConvertTo<StepArtifactOption>();
             stepArtifactOption.Id = existingStepArtifactOption.Id;
@@ -216,18 +216,18 @@ namespace Bakana.ServiceInterface.Steps
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var step = await stepRepository.Get(request.BatchId, request.StepId);
+            var step = await stepRepository.Get(request.BatchId, request.StepName);
             if (step == null)
-                throw Err.StepNotFound(request.StepId);
+                throw Err.StepNotFound(request.StepName);
 
             var existingStepArtifact =
-                await stepRepository.GetStepArtifact(step.Id, request.ArtifactId);
+                await stepRepository.GetStepArtifact(step.Id, request.ArtifactName);
             if (existingStepArtifact == null)
-                throw Err.StepArtifactNotFound(request.ArtifactId);
+                throw Err.StepArtifactNotFound(request.ArtifactName);
 
-            var existingStepArtifactOption = await stepRepository.GetStepArtifactOption(existingStepArtifact.Id, request.OptionId);
+            var existingStepArtifactOption = await stepRepository.GetStepArtifactOption(existingStepArtifact.Id, request.OptionName);
             if (existingStepArtifactOption == null)
-                throw Err.StepArtifactOptionNotFound(request.OptionId);
+                throw Err.StepArtifactOptionNotFound(request.OptionName);
 
             await stepRepository.DeleteStepArtifactOption(existingStepArtifactOption.Id);
 

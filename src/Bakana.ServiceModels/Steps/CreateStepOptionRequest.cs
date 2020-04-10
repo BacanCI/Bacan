@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Steps
 {
     [Tag("Step")]
-    [Route("/batch/{BatchId}/step/{StepId}/option", HttpMethods.Post, Summary = "Create new Step Option")]
+    [Route("/batch/{BatchId}/step/{StepName}/option", HttpMethods.Post, Summary = "Create new Step Option")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step was not found")]
     [ApiResponse(HttpStatusCode.Conflict, "The Step Option already exists")]
     public class CreateStepOptionRequest : IReturn<CreateStepOptionResponse>
@@ -21,14 +21,14 @@ namespace Bakana.ServiceModels.Steps
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Option",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string OptionId { get; set; }
+        public string OptionName { get; set; }
 
         [ApiMember(
             Description = "A description of the Option",

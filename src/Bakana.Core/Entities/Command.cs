@@ -3,7 +3,7 @@ using ServiceStack.DataAnnotations;
 
 namespace Bakana.Core.Entities
 {
-    [UniqueConstraint(nameof(StepId), nameof(CommandId))]
+    [UniqueConstraint(nameof(StepId), nameof(Name))]
     public class Command
     {
         [AutoIncrement]
@@ -12,7 +12,7 @@ namespace Bakana.Core.Entities
         [ForeignKey(typeof(Step), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
         public ulong StepId { get; set; }
 
-        public string CommandId { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 

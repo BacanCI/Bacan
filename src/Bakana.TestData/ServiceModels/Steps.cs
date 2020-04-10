@@ -10,28 +10,28 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Variable SourcePath => new Variable()
         {
-            VariableId = "SourcePath",
+            Name = "SourcePath",
             Description = "Path to Source code",
             Value = "./src"
         };
 
         public static Variable Profile => new Variable
         {
-            VariableId = "Profile",
+            Name = "Profile",
             Description = "Build Profile ",
             Value = "PRODUCTION"
         };
         
         public static Variable TestPath => new Variable
         {
-            VariableId = "TestPath",
+            Name = "TestPath",
             Description = "Path to test project",
             Value = "./tests"
         };
         
         public static Variable TestFilter => new Variable
         {
-            VariableId = "TestFilter",
+            Name = "TestFilter",
             Description = "NUnit Test Filter",
             Value = "--category = 'agency'"
         };
@@ -65,14 +65,14 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Option BuildAlways => new Option
         {
-            OptionId = "BuildAlways",
+            Name = "BuildAlways",
             Description = "Build Always",
             Value = "True"
         };
 
         public static Option BuildWhenNoErrors => new Option
         {
-            OptionId = "BuildWhenNoErrors",
+            Name = "BuildWhenNoErrors",
             Description = "Build only when no previous step has errored",
             Value = "True"
         };
@@ -98,14 +98,14 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Option Extract => new Option
         {
-            OptionId = "Extract",
+            Name = "Extract",
             Description = "Extract files",
             Value = "True"
         };
 
         public static Option Compress => new Option
         {
-            OptionId = "Compress",
+            Name = "Compress",
             Description = "Compress files",
             Value = "True"
         };
@@ -131,7 +131,7 @@ namespace Bakana.TestData.ServiceModels
     {
         public static StepArtifact Source => new StepArtifact
         {
-            ArtifactId = "Source",
+            Name = "Source",
             Description = "Source Code",
             FileName = "Source.zip",
             Options = new List<Option>
@@ -142,7 +142,7 @@ namespace Bakana.TestData.ServiceModels
 
         public static StepArtifact Binaries => new StepArtifact
         {
-            ArtifactId = "Binaries",
+            Name = "Binaries",
             Description = "Binaries",
             FileName = "Build.zip",
             OutputArtifact = true,
@@ -154,7 +154,7 @@ namespace Bakana.TestData.ServiceModels
 
         public static StepArtifact TestResults => new StepArtifact
         {
-            ArtifactId = "Results",
+            Name = "Results",
             Description = "Test Results",
             FileName = "Results.zip",
             OutputArtifact = true,
@@ -179,7 +179,7 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Step Build => new Step
         {
-            StepId = "BuildStep",
+            Name = "BuildStep",
             Description = "Build Step",
             Tags = new[] {"Build"},
             Requirements = new[] {"Docker", "Build"},
@@ -206,7 +206,7 @@ namespace Bakana.TestData.ServiceModels
 
         public static Step Test => new Step
         {
-            StepId = "TestStep",
+            Name = "TestStep",
             Description = "Test Step",
             Dependencies = new[] {"BuildStep"},
             Tags = new[] {"TEST"},

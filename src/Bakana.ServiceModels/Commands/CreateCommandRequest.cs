@@ -5,7 +5,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Commands
 {
     [Tag("Command")]
-    [Route("/batch/{BatchId}/step/{StepId}/command", HttpMethods.Post, Summary = "Create new Command")]
+    [Route("/batch/{BatchId}/step/{StepName}/command", HttpMethods.Post, Summary = "Create new Command")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Step was not found")]
     [ApiResponse(HttpStatusCode.Conflict, "The Command already exists")]
     public class CreateCommandRequest : IReturn<CreateCommandResponse>
@@ -22,14 +22,14 @@ namespace Bakana.ServiceModels.Commands
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string StepId { get; set; }
+        public string StepName { get; set; }
 
         [ApiMember(
             Description = "A user-generated identifier associated with the Command",
             DataType = "string",
             ParameterType = "model",
             IsRequired = true)]
-        public string CommandId { get; set; }
+        public string CommandName { get; set; }
 
         [ApiMember(
             Description = "A description of the Command",

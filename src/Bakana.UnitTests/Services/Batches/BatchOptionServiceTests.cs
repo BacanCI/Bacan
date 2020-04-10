@@ -17,7 +17,7 @@ namespace Bakana.UnitTests.Services.Batches
     public class BatchOptionServiceTests : ServiceTestFixtureBase<BatchOptionService>
     {
         private const string TestBatchId = "TestBatch";
-        private const string TestBatchOptionId = "TestBatchOption";
+        private const string TestBatchOptionName = "TestBatchOption";
         
         private IBatchRepository batchRepository;
 
@@ -45,7 +45,7 @@ namespace Bakana.UnitTests.Services.Batches
             response.Should().NotBeNull();
             await batchRepository.Received().CreateOrUpdateBatchOption(Arg.Is<BatchOption>(a =>
                 a.BatchId == request.BatchId &&
-                a.OptionId == request.OptionId &&
+                a.Name == request.OptionName &&
                 a.Description == request.Description));
         }
 
@@ -68,7 +68,7 @@ namespace Bakana.UnitTests.Services.Batches
         }
 
         [Test]
-        public void Create_BatchOption_Should_Throw_With_Existing_Option_Id()
+        public void Create_BatchOption_Should_Throw_With_Existing_Option_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -78,7 +78,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new CreateBatchOptionRequest
             {
-                OptionId = TestBatchOptionId
+                OptionName = TestBatchOptionName
             };
 
             // Act / Assert
@@ -104,7 +104,9 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchOptions.Log);
+            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchOptions.Log, 
+                o => o.ExcludingMissingMembers());
+            response.OptionName.Should().Be(TestData.ServiceModels.BatchOptions.Log.Name);
         }
         
         [Test]
@@ -126,7 +128,7 @@ namespace Bakana.UnitTests.Services.Batches
         }
         
         [Test]
-        public void Get_BatchOption_Should_Throw_With_Invalid_Option_Id()
+        public void Get_BatchOption_Should_Throw_With_Invalid_Option_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -136,7 +138,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new GetBatchOptionRequest
             {
-                OptionId = TestBatchOptionId
+                OptionName = TestBatchOptionName
             };
 
             // Act / Assert
@@ -231,7 +233,7 @@ namespace Bakana.UnitTests.Services.Batches
         }
         
         [Test]
-        public void Update_BatchOption_Should_Throw_With_Invalid_Batch_Option_Id()
+        public void Update_BatchOption_Should_Throw_With_Invalid_Batch_Option_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -242,7 +244,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new UpdateBatchOptionRequest
             {
-                OptionId = TestBatchOptionId
+                OptionName = TestBatchOptionName
             };
 
             // Act / Assert
@@ -297,7 +299,7 @@ namespace Bakana.UnitTests.Services.Batches
         }
 
         [Test]
-        public void Delete_Batch_Option_Should_Throw_With_Invalid_Batch_Option_Id()
+        public void Delete_Batch_Option_Should_Throw_With_Invalid_Batch_Option_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -308,7 +310,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new DeleteBatchOptionRequest
             {
-                OptionId = TestBatchOptionId
+                OptionName = TestBatchOptionName
             };
 
             // Act / Assert

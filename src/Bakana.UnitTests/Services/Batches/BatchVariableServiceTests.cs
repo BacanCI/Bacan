@@ -17,7 +17,7 @@ namespace Bakana.UnitTests.Services.Batches
     public class BatchVariableServiceTests : ServiceTestFixtureBase<BatchVariableService>
     {
         private const string TestBatchId = "TestBatch";
-        private const string TestBatchVariableId = "TestBatchVariable";
+        private const string TestBatchVariableName = "TestBatchVariable";
         
         private IBatchRepository batchRepository;
 
@@ -45,7 +45,7 @@ namespace Bakana.UnitTests.Services.Batches
             response.Should().NotBeNull();
             await batchRepository.Received().CreateOrUpdateBatchVariable(Arg.Is<BatchVariable>(a =>
                 a.BatchId == request.BatchId &&
-                a.VariableId == request.VariableId &&
+                a.Name == request.VariableName &&
                 a.Description == request.Description));
         }
 
@@ -68,7 +68,7 @@ namespace Bakana.UnitTests.Services.Batches
         }
 
         [Test]
-        public void Create_BatchVariable_Should_Throw_With_Existing_Variable_Id()
+        public void Create_BatchVariable_Should_Throw_With_Existing_Variable_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -78,7 +78,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new CreateBatchVariableRequest
             {
-                VariableId = TestBatchVariableId
+                VariableName = TestBatchVariableName
             };
 
             // Act / Assert
@@ -104,7 +104,9 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchVariables.Schedule);
+            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchVariables.Schedule, 
+                o => o.ExcludingMissingMembers());
+            response.VariableName.Should().Be(TestData.ServiceModels.BatchVariables.Schedule.Name);
         }
         
         [Test]
@@ -126,7 +128,7 @@ namespace Bakana.UnitTests.Services.Batches
         }
         
         [Test]
-        public void Get_BatchVariable_Should_Throw_With_Invalid_Variable_Id()
+        public void Get_BatchVariable_Should_Throw_With_Invalid_Variable_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -136,7 +138,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new GetBatchVariableRequest
             {
-                VariableId = TestBatchVariableId
+                VariableName = TestBatchVariableName
             };
 
             // Act / Assert
@@ -231,7 +233,7 @@ namespace Bakana.UnitTests.Services.Batches
         }
         
         [Test]
-        public void Update_BatchVariable_Should_Throw_With_Invalid_Batch_Variable_Id()
+        public void Update_BatchVariable_Should_Throw_With_Invalid_Batch_Variable_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -242,7 +244,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new UpdateBatchVariableRequest
             {
-                VariableId = TestBatchVariableId
+                VariableName = TestBatchVariableName
             };
 
             // Act / Assert
@@ -297,7 +299,7 @@ namespace Bakana.UnitTests.Services.Batches
         }
 
         [Test]
-        public void Delete_Batch_Variable_Should_Throw_With_Invalid_Batch_Variable_Id()
+        public void Delete_Batch_Variable_Should_Throw_With_Invalid_Batch_Variable_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -308,7 +310,7 @@ namespace Bakana.UnitTests.Services.Batches
 
             var request = new DeleteBatchVariableRequest
             {
-                VariableId = TestBatchVariableId
+                VariableName = TestBatchVariableName
             };
 
             // Act / Assert

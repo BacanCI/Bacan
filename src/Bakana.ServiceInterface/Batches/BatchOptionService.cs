@@ -21,8 +21,8 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            if (await batchRepository.DoesBatchOptionExist(request.BatchId, request.OptionId))
-                throw Err.BatchOptionAlreadyExists(request.OptionId);
+            if (await batchRepository.DoesBatchOptionExist(request.BatchId, request.OptionName))
+                throw Err.BatchOptionAlreadyExists(request.OptionName);
 
             var batchOption = request.ConvertTo<BatchOption>();
 
@@ -36,9 +36,9 @@ namespace Bakana.ServiceInterface.Batches
             if (!await batchRepository.DoesBatchExist(request.BatchId)) 
                 throw Err.BatchNotFound(request.BatchId);
 
-            var batchOption = await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
+            var batchOption = await batchRepository.GetBatchOption(request.BatchId, request.OptionName);
             if (batchOption == null)
-                throw Err.BatchOptionNotFound(request.OptionId);
+                throw Err.BatchOptionNotFound(request.OptionName);
 
             return batchOption.ConvertTo<GetBatchOptionResponse>();
         }
@@ -63,9 +63,9 @@ namespace Bakana.ServiceInterface.Batches
                 throw Err.BatchNotFound(request.BatchId);
 
             var existingBatchOption =
-                await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
+                await batchRepository.GetBatchOption(request.BatchId, request.OptionName);
             if (existingBatchOption == null)
-                throw Err.BatchOptionNotFound(request.OptionId);
+                throw Err.BatchOptionNotFound(request.OptionName);
 
             var batchOption = request.ConvertTo<BatchOption>();
             batchOption.Id = existingBatchOption.Id;
@@ -81,9 +81,9 @@ namespace Bakana.ServiceInterface.Batches
                 throw Err.BatchNotFound(request.BatchId);
 
             var existingBatchOption =
-                await batchRepository.GetBatchOption(request.BatchId, request.OptionId);
+                await batchRepository.GetBatchOption(request.BatchId, request.OptionName);
             if (existingBatchOption == null)
-                throw Err.BatchOptionNotFound(request.OptionId);
+                throw Err.BatchOptionNotFound(request.OptionName);
 
             await batchRepository.DeleteBatchOption(existingBatchOption.Id);
 

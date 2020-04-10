@@ -4,7 +4,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/variable/{VariableId}", HttpMethods.Delete, Summary = "Delete Batch Variable")]
+    [Route("/batch/{BatchId}/variable/{VariableName}", HttpMethods.Delete, Summary = "Delete Batch Variable")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Variable was not found")]
     public class DeleteBatchVariableRequest : IReturn<DeleteBatchVariableResponse>
     {
@@ -20,7 +20,7 @@ namespace Bakana.ServiceModels.Batches
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string VariableId { get; set; }
+        public string VariableName { get; set; }
     }
 
     public class DeleteBatchVariableResponse : IHasResponseStatus

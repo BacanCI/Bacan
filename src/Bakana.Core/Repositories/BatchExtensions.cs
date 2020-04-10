@@ -68,19 +68,19 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<BatchOption>(c => c.BatchId == batchId);
         }
 
-        internal static async Task<ulong> GetBatchOptionPkByOptionId(this IDbConnection db, string batchId, string optionId)
+        internal static async Task<ulong> GetBatchOptionPkByOptionName(this IDbConnection db, string batchId, string optionName)
         {
             var q = db
                 .From<BatchOption>()
-                .Where(c => c.OptionId == optionId && c.BatchId == batchId)
+                .Where(c => c.Name == optionName && c.BatchId == batchId)
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
         }
 
-        internal static async Task<bool> DoesBatchOptionExist(this IDbConnection db, string batchId, string optionId)
+        internal static async Task<bool> DoesBatchOptionExist(this IDbConnection db, string batchId, string optionName)
         {
-            return await db.ExistsAsync<BatchOption>(b => b.BatchId == batchId && b.OptionId == optionId);
+            return await db.ExistsAsync<BatchOption>(b => b.BatchId == batchId && b.Name == optionName);
         }
 
         internal static async Task CreateOrUpdateBatchVariables(this IDbConnection db, IEnumerable<BatchVariable> variables)
@@ -103,11 +103,11 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<BatchVariable>(c => c.BatchId == batchId);
         }
 
-        internal static async Task<ulong> GetBatchVariablePkByVariableId(this IDbConnection db, string batchId, string variableId)
+        internal static async Task<ulong> GetBatchVariablePkByVariableName(this IDbConnection db, string batchId, string variableName)
         {
             var q = db
                 .From<BatchVariable>()
-                .Where(c => c.VariableId == variableId && c.BatchId == batchId)
+                .Where(c => c.Name == variableName && c.BatchId == batchId)
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
@@ -115,7 +115,7 @@ namespace Bakana.Core.Repositories
 
         internal static async Task<bool> DoesBatchVariableExist(this IDbConnection db, string batchId, string variableId)
         {
-            return await db.ExistsAsync<BatchVariable>(b => b.BatchId == batchId && b.VariableId == variableId);
+            return await db.ExistsAsync<BatchVariable>(b => b.BatchId == batchId && b.Name == variableId);
         }
 
         internal static async Task CreateOrUpdateBatchArtifacts(this IDbConnection db, IEnumerable<BatchArtifact> artifacts)
@@ -133,11 +133,11 @@ namespace Bakana.Core.Repositories
             return await db.UpdateAsync(artifact);
         }
 
-        internal static async Task<ulong> GetBatchArtifactPkByArtifactId(this IDbConnection db, string batchId, string artifactId)
+        internal static async Task<ulong> GetBatchArtifactPkByArtifactName(this IDbConnection db, string batchId, string artifactName)
         {
             var q = db
                 .From<BatchArtifact>()
-                .Where(c => c.ArtifactId == artifactId && c.BatchId == batchId)
+                .Where(c => c.Name == artifactName && c.BatchId == batchId)
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
@@ -153,9 +153,9 @@ namespace Bakana.Core.Repositories
             return await db.LoadSelectAsync<BatchArtifact>(a => a.BatchId == batchId);
         }
 
-        internal static async Task<bool> DoesBatchArtifactExist(this IDbConnection db, string batchId, string artifactId)
+        internal static async Task<bool> DoesBatchArtifactExist(this IDbConnection db, string batchId, string artifactName)
         {
-            return await db.ExistsAsync<BatchArtifact>(b => b.BatchId == batchId && b.ArtifactId == artifactId);
+            return await db.ExistsAsync<BatchArtifact>(b => b.BatchId == batchId && b.Name == artifactName);
         }
 
         internal static async Task<ulong> CreateOrUpdateBatchArtifactOption(this IDbConnection db, BatchArtifactOption option)
@@ -170,28 +170,28 @@ namespace Bakana.Core.Repositories
             return await db.LoadSingleByIdAsync<BatchArtifactOption>(id);
         }
 
-        internal static async Task<List<BatchArtifactOption>> GetAllBatchArtifactOptions(this IDbConnection db, ulong batchArtifactId)
+        internal static async Task<List<BatchArtifactOption>> GetAllBatchArtifactOptions(this IDbConnection db, ulong batchArtifactName)
         {
-            return await db.LoadSelectAsync<BatchArtifactOption>(c => c.BatchArtifactId == batchArtifactId);
+            return await db.LoadSelectAsync<BatchArtifactOption>(c => c.BatchArtifactId == batchArtifactName);
         }
 
-        internal static async Task<ulong> GetBatchArtifactOptionPkByOptionId(this IDbConnection db, ulong batchArtifactId, string optionId)
+        internal static async Task<ulong> GetBatchArtifactOptionPkByOptionName(this IDbConnection db, ulong batchArtifactName, string optionName)
         {
             var q = db
                 .From<BatchArtifactOption>()
-                .Where(c => c.OptionId == optionId && c.BatchArtifactId == batchArtifactId)
+                .Where(c => c.Name == optionName && c.BatchArtifactId == batchArtifactName)
                 .Select(c => c.Id);
 
             return await db.ScalarAsync<ulong>(q);
         }
 
-        internal static async Task<bool> DoesBatchArtifactOptionExist(this IDbConnection db, string batchId, string artifactId, string optionId)
+        internal static async Task<bool> DoesBatchArtifactOptionExist(this IDbConnection db, string batchId, string artifactName, string optionName)
         {
-            var id = await db.GetBatchArtifactPkByArtifactId(batchId, artifactId);
+            var id = await db.GetBatchArtifactPkByArtifactName(batchId, artifactName);
             var batchArtifact = await db.GetBatchArtifact(id);
 
             if (batchArtifact != null)
-                return await db.ExistsAsync<BatchArtifactOption>(o => o.BatchArtifactId == batchArtifact.Id && o.OptionId == optionId);
+                return await db.ExistsAsync<BatchArtifactOption>(o => o.BatchArtifactId == batchArtifact.Id && o.Name == optionName);
 
             return false;
         }

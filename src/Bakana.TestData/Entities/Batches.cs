@@ -8,14 +8,14 @@ namespace Bakana.TestData.Entities
     {
         public static BatchVariable Schedule => new BatchVariable
         {
-            VariableId = "Schedule",
+            Name = "Schedule",
             Description = "Schedule start",
             Value = "12:30:45"
         };
         
         public static BatchVariable Environment => new BatchVariable
         {
-            VariableId = "Environment",
+            Name = "Environment",
             Description = "Deployment Environment",
             Value = "Production"
         };
@@ -25,14 +25,14 @@ namespace Bakana.TestData.Entities
     {
         public static BatchOption Debug => new BatchOption
         {
-            OptionId = "Debug",
+            Name = "Debug",
             Description = "Debug Mode",
             Value = "True"
         };
         
         public static BatchOption Log => new BatchOption
         {
-            OptionId = "Log",
+            Name = "Log",
             Description = "Verbose Logging",
             Value = "True"
         };
@@ -42,14 +42,14 @@ namespace Bakana.TestData.Entities
     {
         public static BatchArtifactOption Extract => new BatchArtifactOption
         {
-            OptionId = "Extract",
+            Name = "Extract",
             Description = "Extract files",
             Value = "True"
         };
         
         public static BatchArtifactOption Compress => new BatchArtifactOption
         {
-            OptionId = "Compress",
+            Name = "Compress",
             Description = "Compress files",
             Value = "True"
         };
@@ -59,7 +59,7 @@ namespace Bakana.TestData.Entities
     {
         public static BatchArtifact Package => new BatchArtifact
         {
-            ArtifactId = "Package",
+            Name = "Package",
             Description = "First artifact",
             FileName = "package.zip",
             Options = new List<BatchArtifactOption>
@@ -70,7 +70,7 @@ namespace Bakana.TestData.Entities
         
         public static BatchArtifact DbBackup => new BatchArtifact
         {
-            ArtifactId = "DbBackup",
+            Name = "DbBackup",
             Description = "Database Backup",
             FileName = "db.zip",
             Options = new List<BatchArtifactOption>

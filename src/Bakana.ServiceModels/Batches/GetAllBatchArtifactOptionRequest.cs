@@ -5,7 +5,7 @@ using ServiceStack;
 namespace Bakana.ServiceModels.Batches
 {
     [Tag("Batch")]
-    [Route("/batch/{BatchId}/artifact/{ArtifactId}/options", HttpMethods.Get, Summary = "Get all Batch Artifact Options")]
+    [Route("/batch/{BatchId}/artifact/{ArtifactName}/options", HttpMethods.Get, Summary = "Get all Batch Artifact Options")]
     [ApiResponse(HttpStatusCode.NotFound, "The Batch or Batch Artifact was not found")]
     public class GetAllBatchArtifactOptionRequest : IReturn<GetAllBatchArtifactResponse>
     {
@@ -21,7 +21,7 @@ namespace Bakana.ServiceModels.Batches
             DataType = "string",
             ParameterType = "path",
             IsRequired = true)]
-        public string ArtifactId { get; set; }
+        public string ArtifactName { get; set; }
     }
 
     public class GetAllBatchArtifactOptionResponse : IHasResponseStatus

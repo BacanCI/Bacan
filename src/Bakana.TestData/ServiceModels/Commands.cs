@@ -10,35 +10,35 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Variable DemoArg => new Variable
         {
-            VariableId = "DemoArg",
+            Name = "DemoArg",
             Description = "Demo Arg",
             Value = "--demo"
         };
         
         public static Variable HelpArg => new Variable
         {
-            VariableId = "HelpArg",
+            Name = "HelpArg",
             Description = "Help Arg",
             Value = "--help"
         };
 
         public static Variable OverrideArg => new Variable
         {
-            VariableId = "OverrideArg",
+            Name = "OverrideArg",
             Description = "Override Arg",
             Value = "--override"
         };
 
         public static Variable OutArg => new Variable
         {
-            VariableId = "OutArg",
+            Name = "OutArg",
             Description = "Out Arg",
             Value = "--out"
         };
 
         public static Variable ConnectionString => new Variable
         {
-            VariableId = "ConnectionString",
+            Name = "ConnectionString",
             Description = "Connection String",
             Value = "localhost:8000"
         };
@@ -66,28 +66,28 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Option Optional1 => new Option
         {
-            OptionId = "CMDOPT1",
+            Name = "CMDOPT1",
             Description = "Optional1",
             Value = "CMDOPT1VAL"
         };
 
         public static Option Optional2 => new Option
         {
-            OptionId = "CMDOPT2",
+            Name = "CMDOPT2",
             Description = "Optional2",
             Value = "CMDOPT2VAL"
         };
 
         public static Option Debug => new Option
         {
-            OptionId = "Debug",
+            Name = "Debug",
             Description = "Debug Mode",
             Value = "True"
         };
 
         public static Option Production => new Option
         {
-            OptionId = "Production",
+            Name = "Production",
             Description = "Production Mode",
             Value = "True"
         };
@@ -121,7 +121,7 @@ namespace Bakana.TestData.ServiceModels
     {
         public static Command DotNetRestore => new Command
         {
-            CommandId = "RestoreCmd",
+            Name = "RestoreCmd",
             Description = "Dot Net Restore",
             Item = "dot net restore",
             Variables = new List<Variable>
@@ -138,7 +138,7 @@ namespace Bakana.TestData.ServiceModels
 
         public static Command DotNetBuild => new Command
         {
-            CommandId = "BuildCmd",
+            Name = "BuildCmd",
             Description = "Dot Net Build",
             Item = "dot net build",
             Options = new List<Option>
@@ -149,7 +149,7 @@ namespace Bakana.TestData.ServiceModels
 
         public static Command Deploy => new Command
         {
-            CommandId = "DeployCmd",
+            Name = "DeployCmd",
             Description = "Deploy Command",
             Item = "runner -deploy",
             Variables = new List<Variable>
@@ -160,7 +160,7 @@ namespace Bakana.TestData.ServiceModels
         
         public static Command Test => new Command
         {
-            CommandId = "TestCmd",
+            Name = "TestCmd",
             Description = "Test Command",
             Item = "runner -test",
             Variables = new List<Variable>

@@ -17,8 +17,8 @@ namespace Bakana.UnitTests.Services.Steps
     public class StepVariableServiceTests : ServiceTestFixtureBase<StepVariableService>
     {
         private const string TestBatchId = "TestBatch";
-        private const string TestStepId = "TestStep";
-        private const string TestStepVariableId = "TestStepVariable";
+        private const string TestStepName = "TestStep";
+        private const string TestStepVariableName = "TestStepVariable";
         
         private IBatchRepository batchRepository;
         private IStepRepository stepRepository;
@@ -49,7 +49,7 @@ namespace Bakana.UnitTests.Services.Steps
             
             var request = CreateStepVariables.Profile;
             request.BatchId = TestBatchId;
-            request.StepId = TestStepId;
+            request.StepName = TestStepName;
 
             // Act
             var response = await Sut.Post(request);
@@ -58,7 +58,7 @@ namespace Bakana.UnitTests.Services.Steps
             response.Should().NotBeNull();
             await stepRepository.Received().CreateOrUpdateStepVariable(Arg.Is<StepVariable>(a =>
                 a.StepId == 123 &&
-                a.VariableId == request.VariableId &&
+                a.Name == request.VariableName &&
                 a.Description == request.Description));
         }
 
@@ -81,7 +81,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Create_StepVariable_Should_Throw_With_Invalid_Step_Id()
+        public void Create_StepVariable_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -91,7 +91,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -114,7 +114,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepVariableRequest
             {
-                VariableId = TestStepVariableId
+                VariableName = TestStepVariableName
             };
 
             // Act / Assert
@@ -145,7 +145,9 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.StepVariables.SourcePath);
+            response.Should().BeEquivalentTo(TestData.ServiceModels.StepVariables.SourcePath, 
+                o => o.ExcludingMissingMembers());
+            response.VariableName.Should().Be(TestData.ServiceModels.StepVariables.SourcePath.Name);
         }
         
         [Test]
@@ -167,7 +169,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Get_StepVariable_Should_Throw_With_Invalid_Step_Id()
+        public void Get_StepVariable_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -177,7 +179,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetStepVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -200,7 +202,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetStepVariableRequest
             {
-                VariableId = TestStepVariableId
+                VariableName = TestStepVariableName
             };
 
             // Act / Assert
@@ -247,7 +249,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Get_All_StepVariables_Should_Throw_With_Invalid_Step_Id()
+        public void Get_All_StepVariables_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -258,7 +260,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new GetAllStepVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -287,7 +289,7 @@ namespace Bakana.UnitTests.Services.Steps
                 });
             
             var request = UpdateStepVariables.Profile;
-            request.StepId = TestStepId;
+            request.StepName = TestStepName;
 
             // Act
             var response = await Sut.Put(request);
@@ -319,7 +321,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Update_StepVariable_Should_Throw_With_Invalid_Step_Id()
+        public void Update_StepVariable_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -329,7 +331,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -351,7 +353,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepVariableRequest
             {
-                VariableId = TestStepVariableId
+                VariableName = TestStepVariableName
             };
 
             // Act / Assert
@@ -407,7 +409,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
 
         [Test]
-        public void Delete_Step_Variable_Should_Throw_With_Invalid_Step_Id()
+        public void Delete_Step_Variable_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -417,7 +419,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepVariableRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -440,7 +442,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepVariableRequest
             {
-                VariableId = TestStepVariableId
+                VariableName = TestStepVariableName
             };
 
             // Act / Assert

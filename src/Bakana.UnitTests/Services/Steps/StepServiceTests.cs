@@ -15,7 +15,7 @@ namespace Bakana.UnitTests.Services.Steps
     public class StepServiceTests : ServiceTestFixtureBase<StepService>
     {
         private const string TestBatchId = "TestBatch";
-        private const string TestStepId = "TestStep";
+        private const string TestStepName = "TestStep";
 
         private IBatchRepository batchRepository;
         private IStepRepository stepRepository;
@@ -49,7 +49,7 @@ namespace Bakana.UnitTests.Services.Steps
             response.Should().NotBeNull();
             await stepRepository.Received().Create(Arg.Is<Step>(a =>
                 a.BatchId == request.BatchId &&
-                a.StepId == request.StepId &&
+                a.Name == request.StepName &&
                 a.Description == request.Description &&
                 a.Options.Count == request.Options.Count && 
                 a.Variables.Count == request.Variables.Count &&
@@ -76,7 +76,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
         
         [Test]
-        public void Create_Step_Should_Throw_With_Invalid_Step_Id()
+        public void Create_Step_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -87,7 +87,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new CreateStepRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -104,20 +104,22 @@ namespace Bakana.UnitTests.Services.Steps
                 .Returns(true);
             
             var step = TestData.Entities.Steps.Build;
-            step.BatchId = TestStepId;
+            step.BatchId = TestStepName;
             stepRepository.Get(Arg.Any<string>(), Arg.Any<string>()).Returns(step);
             
             var request = new GetStepRequest
             {
                 BatchId = TestBatchId,
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.Steps.Build);
+            response.Should().BeEquivalentTo(TestData.ServiceModels.Steps.Build, 
+                o => o.ExcludingMissingMembers());
+            response.StepName.Should().Be(TestData.ServiceModels.Steps.Build.Name);
         }
         
         [Test]
@@ -139,7 +141,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
         
         [Test]
-        public void Get_Step_Should_Throw_With_Invalid_Step_Id()
+        public void Get_Step_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -149,7 +151,7 @@ namespace Bakana.UnitTests.Services.Steps
             
             var request = new GetStepRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -218,7 +220,7 @@ namespace Bakana.UnitTests.Services.Steps
             response.Should().NotBeNull();
             await stepRepository.Received().Update(Arg.Is<Step>(a =>
                 a.BatchId == request.BatchId &&
-                a.StepId == request.StepId &&
+                a.Name == request.StepName &&
                 a.Description == request.Description));
         }
         
@@ -241,7 +243,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
         
         [Test]
-        public void Update_Step_Should_Throw_With_Invalid_Step_Id()
+        public void Update_Step_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -252,7 +254,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new UpdateStepRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert
@@ -276,7 +278,7 @@ namespace Bakana.UnitTests.Services.Steps
             var request = new DeleteStepRequest
             {
                 BatchId = TestBatchId,
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act
@@ -307,7 +309,7 @@ namespace Bakana.UnitTests.Services.Steps
         }
         
         [Test]
-        public void Delete_Step_Should_Throw_With_Invalid_Step_Id()
+        public void Delete_Step_Should_Throw_With_Invalid_Step_Name()
         {
             // Arrange
             batchRepository.DoesBatchExist(Arg.Any<string>())
@@ -318,7 +320,7 @@ namespace Bakana.UnitTests.Services.Steps
 
             var request = new DeleteStepRequest
             {
-                StepId = TestStepId
+                StepName = TestStepName
             };
 
             // Act / Assert

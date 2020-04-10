@@ -10,9 +10,9 @@ namespace Bakana.Core.Validators
         {
             CascadeMode = CascadeMode.Continue;
 
-            RuleFor(s => s.StepId)
+            RuleFor(s => s.Name)
                 .NotEmpty()
-                .WithMessage("Step id must be specified");
+                .WithMessage("Step Name must be specified");
 
             RuleFor(s => s.Commands)
                 .Must(c => c != null && c.Count > 0)

@@ -26,10 +26,10 @@ namespace Bakana.UnitTests.Validators
         }
 
         [Test]
-        public void Should_Have_Error_When_StepId_Is_Null()
+        public void Should_Have_Error_When_Step_Name_Is_Null()
         {
-            _stepValidator.ShouldHaveValidationErrorFor(s => s.StepId, null as string)
-                .WithErrorMessage("Step id must be specified");
+            _stepValidator.ShouldHaveValidationErrorFor(s => s.Name, null as string)
+                .WithErrorMessage("Step Name must be specified");
         }
 
         [Test]

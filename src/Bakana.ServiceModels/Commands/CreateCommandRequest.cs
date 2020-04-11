@@ -44,7 +44,7 @@ namespace Bakana.ServiceModels.Commands
             ParameterType = "model",
             DataType = "string",
             IsRequired = true)]
-        public string Item { get; set; }
+        public string Run { get; set; }
 
         [ApiMember(
             Description = "Options to assign to Command",

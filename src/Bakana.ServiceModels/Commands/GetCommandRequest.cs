@@ -38,7 +38,7 @@ namespace Bakana.ServiceModels.Commands
 
         public string Description { get; set; }
 
-        public string Item { get; set; }
+        public string Run { get; set; }
 
         public List<Option> Options { get; set; }
 

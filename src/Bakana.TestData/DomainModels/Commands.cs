@@ -79,7 +79,7 @@ namespace Bakana.TestData.DomainModels
         {
             Name = "RestoreCmd",
             Description = "Dot Net Restore",
-            Item = "dot net restore",
+            Run = "dot net restore",
             Variables = new List<Variable>
             {
                 CommandVariables.DemoArg,
@@ -96,7 +96,7 @@ namespace Bakana.TestData.DomainModels
         {
             Name = "BuildCmd",
             Description = "Dot Net Build",
-            Item = "dot net build",
+            Run = "dot net build",
             Options = new List<Option>
             {
                 CommandOptions.Production
@@ -107,7 +107,7 @@ namespace Bakana.TestData.DomainModels
         {
             Name = "DeployCmd",
             Description = "Deploy Command",
-            Item = "runner -deploy",
+            Run = "runner -deploy",
             Variables = new List<Variable>
             {
                 CommandVariables.ConnectionString
@@ -118,7 +118,7 @@ namespace Bakana.TestData.DomainModels
         {
             Name = "TestCmd",
             Description = "Test Command",
-            Item = "runner -test",
+            Run = "runner -test",
             Variables = new List<Variable>
             {
                 CommandVariables.OverrideArg,

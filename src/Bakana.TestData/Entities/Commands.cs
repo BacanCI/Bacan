@@ -79,7 +79,7 @@ namespace Bakana.TestData.Entities
         {
             Name = "RestoreCmd",
             Description = "Dot Net Restore",
-            Item = "dot net restore",
+            Run = "dot net restore",
             State = CommandState.Running,
             Variables = new List<CommandVariable>
             {
@@ -97,7 +97,7 @@ namespace Bakana.TestData.Entities
         {
             Name = "BuildCmd",
             Description = "Dot Net Build",
-            Item = "dot net build",
+            Run = "dot net build",
             Options = new List<CommandOption>
             {
                 CommandOptions.Production
@@ -108,7 +108,7 @@ namespace Bakana.TestData.Entities
         {
             Name = "DeployCmd",
             Description = "Deploy Command",
-            Item = "runner -deploy",
+            Run = "runner -deploy",
             Variables = new List<CommandVariable>
             {
                 CommandVariables.ConnectionString
@@ -119,7 +119,7 @@ namespace Bakana.TestData.Entities
         {
             Name = "TestCmd",
             Description = "Test Command",
-            Item = "runner -test",
+            Run = "runner -test",
             Variables = new List<CommandVariable>
             {
                 CommandVariables.OverrideArg,

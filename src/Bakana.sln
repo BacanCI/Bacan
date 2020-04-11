@@ -28,8 +28,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.TestData", "Bakana.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.CLI", "Bakana.CLI\Bakana.CLI.csproj", "{A7FBAFB9-FF78-4670-8DC6-3B9242239C40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.Loader", "Bakana.Loader\Bakana.Loader.csproj", "{A9367F22-3A42-427F-8548-A991501BCE87}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bakana.DomainModels", "Bakana.DomainModels\Bakana.DomainModels.csproj", "{E0CF3499-A36C-4142-BE90-4F2FF00C67CC}"
 EndProject
 Global
@@ -70,10 +68,6 @@ Global
 		{A7FBAFB9-FF78-4670-8DC6-3B9242239C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7FBAFB9-FF78-4670-8DC6-3B9242239C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7FBAFB9-FF78-4670-8DC6-3B9242239C40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9367F22-3A42-427F-8548-A991501BCE87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9367F22-3A42-427F-8548-A991501BCE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9367F22-3A42-427F-8548-A991501BCE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9367F22-3A42-427F-8548-A991501BCE87}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E0CF3499-A36C-4142-BE90-4F2FF00C67CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E0CF3499-A36C-4142-BE90-4F2FF00C67CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0CF3499-A36C-4142-BE90-4F2FF00C67CC}.Release|Any CPU.ActiveCfg = Release|Any CPU

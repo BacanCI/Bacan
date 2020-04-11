@@ -1,12 +1,16 @@
-﻿using System.IO.Abstractions;
-using Bakana.DomainModels;
-using ServiceStack;
+﻿using System;
+using System.IO.Abstractions;
+using Bakana.Core.Entities;
+using ServiceStack.Text;
 
-namespace Bakana.Loader
+namespace Bakana.Core.IO
 {
     public class JsonBatchFileReader : IBatchFileReader
     {
         private readonly IFileSystem fileSystem;
+
+        public static Func<string, Batch> JsonSerializerFn =
+            JsonSerializer.DeserializeFromString<Batch>;
 
         public JsonBatchFileReader() : this(new FileSystem())
         {
@@ -20,7 +24,7 @@ namespace Bakana.Loader
         public Batch ReadFile(string path)
         {
             var json = fileSystem.File.ReadAllText(path);
-            return json.FromJson<Batch>();
+            return JsonSerializerFn(json); 
         }
     }
 }

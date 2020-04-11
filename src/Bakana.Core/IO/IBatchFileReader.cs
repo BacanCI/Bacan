@@ -1,6 +1,6 @@
-using Bakana.DomainModels;
+using Bakana.Core.Entities;
 
-namespace Bakana.Loader
+namespace Bakana.Core.IO
 {
     public interface IBatchFileReader
     {

@@ -26,7 +26,7 @@ namespace Bakana.ServiceInterface.Mapping
                 return to;
             });
             
-            AutoMapping.RegisterConverter((Bakana.ServiceModels.BatchArtifact from) =>
+            AutoMapping.RegisterConverter((DomainModels.BatchArtifact from) =>
             {
                 var to = from.ConvertTo<BatchArtifact>(true);
                 to.Options = from.Options.ConvertTo<List<BatchArtifactOption>>(true);
@@ -34,7 +34,7 @@ namespace Bakana.ServiceInterface.Mapping
                 return to;
             });
             
-            AutoMapping.RegisterConverter((Bakana.ServiceModels.Step from) =>
+            AutoMapping.RegisterConverter((DomainModels.Step from) =>
             {
                 var to = from.ConvertTo<Step>(true);
                 to.Options = from.Options.ConvertTo<List<StepOption>>(true);
@@ -45,7 +45,7 @@ namespace Bakana.ServiceInterface.Mapping
                 return to;
             });
             
-            AutoMapping.RegisterConverter((Bakana.ServiceModels.Command from) =>
+            AutoMapping.RegisterConverter((DomainModels.Command from) =>
             {
                 var to = from.ConvertTo<Command>(true);
                 to.Options = from.Options.ConvertTo<List<CommandOption>>(true);

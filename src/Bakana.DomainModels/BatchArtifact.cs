@@ -1,4 +1,4 @@
-namespace Bakana.ServiceModels
+namespace Bakana.DomainModels
 {
     public class BatchArtifact : Artifact
     {

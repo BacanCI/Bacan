@@ -4,6 +4,7 @@ using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface.Steps;
 using Bakana.ServiceModels.Steps;
+using Bakana.TestData.ServiceModels;
 using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
@@ -39,7 +40,7 @@ namespace Bakana.UnitTests.Services.Steps
             stepRepository.DoesStepExist(Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            var request = TestData.ServiceModels.CreateSteps.Build;
+            var request = CreateSteps.Build;
             request.BatchId = TestBatchId;
 
             // Act
@@ -117,9 +118,9 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.Steps.Build, 
+            response.Should().BeEquivalentTo(TestData.DomainModels.Steps.Build, 
                 o => o.ExcludingMissingMembers());
-            response.StepName.Should().Be(TestData.ServiceModels.Steps.Build.Name);
+            response.StepName.Should().Be(TestData.DomainModels.Steps.Build.Name);
         }
         
         [Test]
@@ -179,7 +180,7 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Steps.Should().BeEquivalentTo(TestData.ServiceModels.Batches.FullyPopulated.Steps);
+            response.Steps.Should().BeEquivalentTo(TestData.DomainModels.Batches.FullyPopulated.Steps);
         }
         
         [Test]
@@ -210,7 +211,7 @@ namespace Bakana.UnitTests.Services.Steps
             stepRepository.Update(Arg.Any<Step>())
                 .Returns(true);
 
-            var request = TestData.ServiceModels.UpdateSteps.Build;
+            var request = UpdateSteps.Build;
             request.BatchId = TestBatchId;
 
             // Act

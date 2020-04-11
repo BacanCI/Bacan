@@ -51,7 +51,7 @@ namespace Bakana.ServiceInterface.Batches
             var batchOptions = await batchRepository.GetAllBatchOptions(request.BatchId);
             var response = new GetAllBatchOptionResponse
             {
-                Options = batchOptions.ConvertTo<List<ServiceModels.Option>>()
+                Options = batchOptions.ConvertTo<List<DomainModels.Option>>()
             };
 
             return response;

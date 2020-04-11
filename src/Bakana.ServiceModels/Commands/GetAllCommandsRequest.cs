@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using Bakana.DomainModels;
 using Bakana.ServiceModels.Steps;
 using ServiceStack;
 

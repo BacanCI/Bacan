@@ -65,7 +65,7 @@ namespace Bakana.ServiceInterface.Commands
 
             return new GetAllCommandsResponse
             {
-                Commands = step.Commands.ConvertTo<List<ServiceModels.Command>>()
+                Commands = step.Commands.ConvertTo<List<DomainModels.Command>>()
             };
         }
 

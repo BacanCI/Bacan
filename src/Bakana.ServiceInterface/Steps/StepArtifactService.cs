@@ -68,7 +68,7 @@ namespace Bakana.ServiceInterface.Steps
             var stepArtifacts = await stepRepository.GetAllStepArtifacts(step.Id);
             var response = new GetAllStepArtifactResponse
             {
-                Artifacts = stepArtifacts.ConvertTo<List<ServiceModels.StepArtifact>>()
+                Artifacts = stepArtifacts.ConvertTo<List<DomainModels.StepArtifact>>()
             };
 
             return response;
@@ -178,7 +178,7 @@ namespace Bakana.ServiceInterface.Steps
 
             var response = new GetAllStepArtifactOptionResponse
             {
-                Options = existingStepArtifact.Options.ConvertTo<List<ServiceModels.Option>>()
+                Options = existingStepArtifact.Options.ConvertTo<List<DomainModels.Option>>()
             };
 
             return response;

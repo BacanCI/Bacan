@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Bakana.ServiceModels\Bakana.ServiceModels.csproj" />
+      <ProjectReference Include="..\Bakana.DomainModels\Bakana.DomainModels.csproj" />
     </ItemGroup>
 
 </Project>

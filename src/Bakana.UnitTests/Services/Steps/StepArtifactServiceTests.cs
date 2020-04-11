@@ -4,6 +4,7 @@ using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface.Steps;
 using Bakana.ServiceModels.Steps;
+using Bakana.TestData.DomainModels;
 using Bakana.TestData.ServiceModels;
 using FluentAssertions;
 using NSubstitute;
@@ -147,9 +148,9 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.StepArtifacts.Binaries, 
+            response.Should().BeEquivalentTo(TestData.DomainModels.StepArtifacts.Binaries, 
                 o => o.ExcludingMissingMembers());
-            response.ArtifactName.Should().Be(TestData.ServiceModels.StepArtifacts.Binaries.Name);
+            response.ArtifactName.Should().Be(TestData.DomainModels.StepArtifacts.Binaries.Name);
         }
         
         [Test]
@@ -235,7 +236,7 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Artifacts.Should().BeEquivalentTo(TestData.ServiceModels.Steps.Build.Artifacts);
+            response.Artifacts.Should().BeEquivalentTo(TestData.DomainModels.Steps.Build.Artifacts);
         }
         
         [Test]
@@ -712,7 +713,7 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(new GetAllStepArtifactOptionRequest());
 
             // Assert
-            response.Options.Should().BeEquivalentTo(TestData.ServiceModels.StepArtifacts.Binaries.Options);
+            response.Options.Should().BeEquivalentTo(TestData.DomainModels.StepArtifacts.Binaries.Options);
         }
         
         [Test]

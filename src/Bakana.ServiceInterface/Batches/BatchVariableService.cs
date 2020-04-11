@@ -51,7 +51,7 @@ namespace Bakana.ServiceInterface.Batches
             var batchVariables = await batchRepository.GetAllBatchVariables(request.BatchId);
             var response = new GetAllBatchVariableResponse
             {
-                Variables = batchVariables.ConvertTo<List<ServiceModels.Variable>>()
+                Variables = batchVariables.ConvertTo<List<DomainModels.Variable>>()
             };
 
             return response;

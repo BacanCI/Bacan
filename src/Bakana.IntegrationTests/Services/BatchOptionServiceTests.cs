@@ -12,7 +12,7 @@ namespace Bakana.IntegrationTests.Services
     [TestFixture]
     public class BatchOptionServiceTests : ServiceTestFixtureBase<BatchOptionService>
     {
-        protected CreateBatchRequest BatchRequest => Batches.FullyPopulated;
+        protected CreateBatchRequest BatchRequest => CreateBatches.FullyPopulated;
 
         [SetUp]
         public void Setup()

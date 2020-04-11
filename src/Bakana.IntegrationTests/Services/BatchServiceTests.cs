@@ -12,7 +12,7 @@ namespace Bakana.IntegrationTests.Services
         public void It_Should_Create_Batch()
         {
             // Arrange
-            var testBatch = Batches.FullyPopulated;
+            var testBatch = CreateBatches.FullyPopulated;
             
             // Act
             var response = Sut.Post(testBatch);

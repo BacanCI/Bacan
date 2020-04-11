@@ -1,66 +1,67 @@
 using System.Collections.Generic;
-using Bakana.Core.Entities;
+using Bakana.DomainModels;
+using Command = Bakana.DomainModels.Command;
 
-namespace Bakana.TestData.Entities
+namespace Bakana.TestData.DomainModels
 {
     public static class StepVariables
     {
-        public static StepVariable SourcePath => new StepVariable
+        public static Variable SourcePath => new Variable()
         {
             Name = "SourcePath",
             Description = "Path to Source code",
             Value = "./src"
         };
 
-        public static StepVariable Profile => new StepVariable
+        public static Variable Profile => new Variable
         {
             Name = "Profile",
             Description = "Build Profile ",
             Value = "PRODUCTION"
         };
         
-        public static StepVariable TestPath => new StepVariable
+        public static Variable TestPath => new Variable
         {
             Name = "TestPath",
             Description = "Path to test project",
             Value = "./tests"
         };
         
-        public static StepVariable TestFilter => new StepVariable
+        public static Variable TestFilter => new Variable
         {
             Name = "TestFilter",
             Description = "NUnit Test Filter",
             Value = "--category = 'agency'"
         };
     }
-    
+
     public class StepOptions
     {
-        public static StepOption BuildAlways => new StepOption
+        public static Option BuildAlways => new Option
         {
             Name = "BuildAlways",
             Description = "Build Always",
             Value = "True"
         };
 
-        public static StepOption BuildWhenNoErrors => new StepOption
+        public static Option BuildWhenNoErrors => new Option
         {
             Name = "BuildWhenNoErrors",
             Description = "Build only when no previous step has errored",
             Value = "True"
         };
     }
-    
+
     public static class StepArtifactOptions
     {
-        public static StepArtifactOption Extract => new StepArtifactOption
+        public static Option Extract => new Option
         {
             Name = "Extract",
             Description = "Extract files",
             Value = "True"
         };
 
-        public static StepArtifactOption Compress => new StepArtifactOption
+        public static Option Compress => new Option
         {
             Name = "Compress",
             Description = "Compress files",
@@ -75,7 +76,7 @@ namespace Bakana.TestData.Entities
             Name = "Source",
             Description = "Source Code",
             FileName = "Source.zip",
-            Options = new List<StepArtifactOption>
+            Options = new List<Option>
             {
                 StepArtifactOptions.Extract
             },
@@ -87,7 +88,7 @@ namespace Bakana.TestData.Entities
             Description = "Binaries",
             FileName = "Build.zip",
             OutputArtifact = true,
-            Options = new List<StepArtifactOption>
+            Options = new List<Option>
             {
                 StepArtifactOptions.Compress
             },
@@ -115,11 +116,11 @@ namespace Bakana.TestData.Entities
                 StepArtifacts.Source,
                 StepArtifacts.Binaries
             },
-            Options = new List<StepOption>
+            Options = new List<Option>
             {
                 StepOptions.BuildAlways,
             },
-            Variables = new List<StepVariable>
+            Variables = new List<Variable>
             {
                 StepVariables.SourcePath,
                 StepVariables.Profile,
@@ -143,11 +144,11 @@ namespace Bakana.TestData.Entities
                 StepArtifacts.Source,
                 StepArtifacts.TestResults
             },
-            Options = new List<StepOption>
+            Options = new List<Option>
             {
                 StepOptions.BuildAlways
             },
-            Variables = new List<StepVariable>
+            Variables = new List<Variable>
             {
                 StepVariables.TestPath,
                 StepVariables.TestFilter

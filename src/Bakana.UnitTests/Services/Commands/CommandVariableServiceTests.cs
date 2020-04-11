@@ -183,9 +183,9 @@ namespace Bakana.UnitTests.Services.Commands
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.CommandVariables.ConnectionString, 
+            response.Should().BeEquivalentTo(TestData.DomainModels.CommandVariables.ConnectionString, 
                 o => o.ExcludingMissingMembers());
-            response.VariableName.Should().Be(TestData.ServiceModels.CommandVariables.ConnectionString.Name);
+            response.VariableName.Should().Be(TestData.DomainModels.CommandVariables.ConnectionString.Name);
         }
         
         [Test]
@@ -297,7 +297,7 @@ namespace Bakana.UnitTests.Services.Commands
             var response = await Sut.Get(request);
 
             // Assert
-            response.Variables.Should().BeEquivalentTo(TestData.ServiceModels.Commands.Test.Variables);
+            response.Variables.Should().BeEquivalentTo(TestData.DomainModels.Commands.Test.Variables);
         }
         
         [Test]

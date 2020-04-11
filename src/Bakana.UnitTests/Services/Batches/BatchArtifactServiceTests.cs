@@ -4,7 +4,7 @@ using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface.Batches;
 using Bakana.ServiceModels.Batches;
-using Bakana.TestData.ServiceModels;
+using Bakana.TestData.DomainModels;
 using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
@@ -37,7 +37,7 @@ namespace Bakana.UnitTests.Services.Batches
             batchRepository.DoesBatchArtifactExist(Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            var request = CreateBatchArtifacts.Package;
+            var request = TestData.ServiceModels.CreateBatchArtifacts.Package;
 
             // Act
             var response = await Sut.Post(request);
@@ -104,9 +104,9 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchArtifacts.Package, 
+            response.Should().BeEquivalentTo(TestData.DomainModels.BatchArtifacts.Package, 
                 o => o.ExcludingMissingMembers());
-            response.ArtifactName.Should().Be(TestData.ServiceModels.BatchArtifacts.Package.Name);
+            response.ArtifactName.Should().Be(TestData.DomainModels.BatchArtifacts.Package.Name);
         }
         
         [Test]
@@ -164,7 +164,7 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Artifacts.Should().BeEquivalentTo(TestData.ServiceModels.Batches.FullyPopulated.Artifacts);
+            response.Artifacts.Should().BeEquivalentTo(TestData.DomainModels.Batches.FullyPopulated.Artifacts);
         }
         
         [Test]
@@ -200,7 +200,7 @@ namespace Bakana.UnitTests.Services.Batches
             batchRepository.GetBatchArtifact(Arg.Any<string>(), Arg.Any<string>())
                 .Returns(batchArtifact);
             
-            var request = UpdateBatchArtifacts.Package;
+            var request = TestData.ServiceModels.UpdateBatchArtifacts.Package;
             request.BatchId = TestBatchId;
 
             // Act
@@ -334,7 +334,7 @@ namespace Bakana.UnitTests.Services.Batches
             batchRepository.DoesBatchArtifactOptionExist(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            var request = CreateBatchArtifactOptions.Compress;
+            var request = TestData.ServiceModels.CreateBatchArtifactOptions.Compress;
 
             // Act
             var response = await Sut.Post(request);
@@ -509,7 +509,7 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(new GetAllBatchArtifactOptionRequest());
 
             // Assert
-            response.Options.Should().BeEquivalentTo(TestData.ServiceModels.BatchArtifacts.Package.Options);
+            response.Options.Should().BeEquivalentTo(TestData.DomainModels.BatchArtifacts.Package.Options);
         }
         
         [Test]
@@ -572,7 +572,7 @@ namespace Bakana.UnitTests.Services.Batches
             batchRepository.GetBatchArtifactOption(Arg.Any<ulong>(), Arg.Any<string>())
                 .Returns(batchArtifactOption);
 
-            var request = UpdateBatchArtifactOptions.Compress;
+            var request = TestData.ServiceModels.UpdateBatchArtifactOptions.Compress;
             request.BatchId = TestBatchId;
             request.ArtifactName = TestBatchArtifactName;
 

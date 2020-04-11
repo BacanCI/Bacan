@@ -145,9 +145,9 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.StepVariables.SourcePath, 
+            response.Should().BeEquivalentTo(TestData.DomainModels.StepVariables.SourcePath, 
                 o => o.ExcludingMissingMembers());
-            response.VariableName.Should().Be(TestData.ServiceModels.StepVariables.SourcePath.Name);
+            response.VariableName.Should().Be(TestData.DomainModels.StepVariables.SourcePath.Name);
         }
         
         [Test]
@@ -227,7 +227,7 @@ namespace Bakana.UnitTests.Services.Steps
             var response = await Sut.Get(request);
 
             // Assert
-            response.Variables.Should().BeEquivalentTo(TestData.ServiceModels.Steps.Build.Variables);
+            response.Variables.Should().BeEquivalentTo(TestData.DomainModels.Steps.Build.Variables);
         }
         
         [Test]

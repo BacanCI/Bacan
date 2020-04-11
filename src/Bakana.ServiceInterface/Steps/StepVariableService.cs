@@ -67,7 +67,7 @@ namespace Bakana.ServiceInterface.Steps
 
             var response = new GetAllStepVariableResponse
             {
-                Variables = step.Variables.ConvertTo<List<ServiceModels.Variable>>()
+                Variables = step.Variables.ConvertTo<List<DomainModels.Variable>>()
             };
 
             return response;

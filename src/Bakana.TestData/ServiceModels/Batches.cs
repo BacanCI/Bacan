@@ -1,76 +1,41 @@
-using System.Collections.Generic;
-using Bakana.ServiceModels;
 using Bakana.ServiceModels.Batches;
+using Bakana.TestData.DomainModels;
 using ServiceStack;
 
 namespace Bakana.TestData.ServiceModels
 {
-    public static class BatchVariables
-    {
-        public static Variable Schedule => new Variable
-        {
-            Name = "Schedule",
-            Description = "Schedule start",
-            Value = "12:30:45"
-        };
-        
-        public static Variable Environment => new Variable
-        {
-            Name = "Environment",
-            Description = "Deployment Environment",
-            Value = "Production"
-        };
-    }
-
     public static class CreateBatchVariables
     {
         public static CreateBatchVariableRequest Schedule =
             BatchVariables.Schedule.ConvertTo<CreateBatchVariableRequest>();
-        
+    
         public static CreateBatchVariableRequest Environment =
             BatchVariables.Environment.ConvertTo<CreateBatchVariableRequest>();
     }
-        
+    
     public static class UpdateBatchVariables
     {
         public static UpdateBatchVariableRequest Schedule =
             BatchVariables.Schedule.ConvertTo<UpdateBatchVariableRequest>();
-        
+    
         public static UpdateBatchVariableRequest Environment =
             BatchVariables.Environment.ConvertTo<UpdateBatchVariableRequest>();
     }
 
-    public static class BatchOptions
-    {
-        public static Option Debug => new Option
-        {
-            Name = "Debug",
-            Description = "Debug Mode",
-            Value = "True"
-        };
-        
-        public static Option Log => new Option
-        {
-            Name = "Log",
-            Description = "Verbose Logging",
-            Value = "True"
-        };
-    }
-        
     public static class CreateBatchOptions
     {
         public static CreateBatchOptionRequest Debug =
             BatchOptions.Debug.ConvertTo<CreateBatchOptionRequest>();
-        
+    
         public static CreateBatchOptionRequest Log =
             BatchOptions.Log.ConvertTo<CreateBatchOptionRequest>();
     }
-        
+    
     public static class UpdateBatchOptions
     {
         public static UpdateBatchOptionRequest Debug =
             BatchOptions.Debug.ConvertTo<UpdateBatchOptionRequest>();
-        
+    
         public static UpdateBatchOptionRequest Log =
             BatchOptions.Log.ConvertTo<UpdateBatchOptionRequest>();
     }
@@ -93,107 +58,45 @@ namespace Bakana.TestData.ServiceModels
             BatchOptions.Log.ConvertTo<DeleteBatchOptionRequest>();
     }
 
-    public static class BatchArtifactOptions
-    {
-        public static Option Extract => new Option
-        {
-            Name = "Extract",
-            Description = "Extract files",
-            Value = "True"
-        };
-        
-        public static Option Compress => new Option
-        {
-            Name = "Compress",
-            Description = "Compress files",
-            Value = "True"
-        };
-    }
-
     public static class CreateBatchArtifactOptions
     {
         public static CreateBatchArtifactOptionRequest Extract =
             BatchArtifactOptions.Extract.ConvertTo<CreateBatchArtifactOptionRequest>();
-        
+    
         public static CreateBatchArtifactOptionRequest Compress =
             BatchArtifactOptions.Compress.ConvertTo<CreateBatchArtifactOptionRequest>();
     }
-        
+    
     public static class UpdateBatchArtifactOptions
     {
         public static UpdateBatchArtifactOptionRequest Extract =
             BatchArtifactOptions.Extract.ConvertTo<UpdateBatchArtifactOptionRequest>();
-        
+    
         public static UpdateBatchArtifactOptionRequest Compress =
             BatchArtifactOptions.Compress.ConvertTo<UpdateBatchArtifactOptionRequest>();
-    }
-
-    public static class BatchArtifacts
-    {
-        public static BatchArtifact Package => new BatchArtifact
-        {
-            Name = "Package",
-            Description = "First artifact",
-            FileName = "package.zip",
-            Options = new List<Option>
-            {
-                BatchArtifactOptions.Extract
-            }
-        };
-        
-        public static BatchArtifact DbBackup => new BatchArtifact
-        {
-            Name = "DbBackup",
-            Description = "Database Backup",
-            FileName = "db.zip",
-            Options = new List<Option>
-            {
-                BatchArtifactOptions.Extract
-            }
-        };
     }
 
     public static class CreateBatchArtifacts
     {
         public static CreateBatchArtifactRequest Package => BatchArtifacts.Package.ConvertTo<CreateBatchArtifactRequest>();
-        
+    
         public static CreateBatchArtifactRequest DbBackup => BatchArtifacts.DbBackup.ConvertTo<CreateBatchArtifactRequest>();
     }
-    
+
     public static class UpdateBatchArtifacts
     {
         public static UpdateBatchArtifactRequest Package => BatchArtifacts.Package.ConvertTo<UpdateBatchArtifactRequest>();
-        
+    
         public static UpdateBatchArtifactRequest DbBackup => BatchArtifacts.DbBackup.ConvertTo<UpdateBatchArtifactRequest>();
     }
 
-    public static class Batches
+    public static class CreateBatches
     {
-        public static CreateBatchRequest FullyPopulated => new CreateBatchRequest
-        {
-            Description = "First",
-            Artifacts = new List<BatchArtifact>
-            {
-                BatchArtifacts.Package
-            },
-            Variables = new List<Variable>
-            {
-                BatchVariables.Schedule
-            },
-            Options = new List<Option>
-            {
-                BatchOptions.Debug
-            },
-            Steps = new List<Step>
-            {
-                Steps.Build,
-                Steps.Test
-            }
-        };
+        public static CreateBatchRequest FullyPopulated => TestData.DomainModels.Batches.FullyPopulated.ConvertTo<CreateBatchRequest>();
     }
 
     public static class UpdateBatches
     {
-        public static UpdateBatchRequest FullyPopulated => Batches.FullyPopulated.ConvertTo<UpdateBatchRequest>();
+        public static UpdateBatchRequest FullyPopulated => TestData.DomainModels.Batches.FullyPopulated.ConvertTo<UpdateBatchRequest>();
     }
 }

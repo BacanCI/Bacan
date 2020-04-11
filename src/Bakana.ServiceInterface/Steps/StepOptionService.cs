@@ -67,7 +67,7 @@ namespace Bakana.ServiceInterface.Steps
 
             var response = new GetAllStepOptionResponse
             {
-                Options = step.Options.ConvertTo<List<ServiceModels.Option>>()
+                Options = step.Options.ConvertTo<List<DomainModels.Option>>()
             };
 
             return response;

@@ -79,7 +79,7 @@ namespace Bakana.ServiceInterface.Commands
 
             var response = new GetAllCommandVariableResponse
             {
-                Variables = command.Variables.ConvertTo<List<ServiceModels.Variable>>()
+                Variables = command.Variables.ConvertTo<List<DomainModels.Variable>>()
             };
 
             return response;

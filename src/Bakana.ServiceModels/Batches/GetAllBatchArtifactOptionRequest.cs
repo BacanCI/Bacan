@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using Bakana.DomainModels;
 using ServiceStack;
 
 namespace Bakana.ServiceModels.Batches

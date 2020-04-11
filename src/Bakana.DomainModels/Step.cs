@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Bakana.ServiceModels
+namespace Bakana.DomainModels
 {
     public class Step
     {

@@ -4,7 +4,6 @@ using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface.Batches;
 using Bakana.ServiceModels.Batches;
-using Bakana.TestData.ServiceModels;
 using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
@@ -36,7 +35,7 @@ namespace Bakana.UnitTests.Services.Batches
             batchRepository.DoesBatchOptionExist(Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            var request = CreateBatchOptions.Debug;
+            var request = TestData.ServiceModels.CreateBatchOptions.Debug;
 
             // Act
             var response = await Sut.Post(request);
@@ -104,9 +103,9 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchOptions.Log, 
+            response.Should().BeEquivalentTo(TestData.DomainModels.BatchOptions.Log, 
                 o => o.ExcludingMissingMembers());
-            response.OptionName.Should().Be(TestData.ServiceModels.BatchOptions.Log.Name);
+            response.OptionName.Should().Be(TestData.DomainModels.BatchOptions.Log.Name);
         }
         
         [Test]
@@ -164,7 +163,7 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Options.Should().BeEquivalentTo(TestData.ServiceModels.Batches.FullyPopulated.Options);
+            response.Options.Should().BeEquivalentTo(TestData.DomainModels.Batches.FullyPopulated.Options);
         }
         
         [Test]
@@ -200,7 +199,7 @@ namespace Bakana.UnitTests.Services.Batches
             batchRepository.GetBatchOption(Arg.Any<string>(), Arg.Any<string>())
                 .Returns(batchOption);
             
-            var request = UpdateBatchOptions.Debug;
+            var request = TestData.ServiceModels.UpdateBatchOptions.Debug;
             request.BatchId = TestBatchId;
 
             // Act

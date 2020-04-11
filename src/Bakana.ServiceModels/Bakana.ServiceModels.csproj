@@ -9,4 +9,8 @@
         <PackageReference Include="ServiceStack.Text" Version="5.8.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Bakana.DomainModels\Bakana.DomainModels.csproj" />
+    </ItemGroup>
+
 </Project>

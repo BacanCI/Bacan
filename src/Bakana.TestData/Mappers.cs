@@ -1,11 +1,11 @@
-using Bakana.ServiceModels;
+using Bakana.Core.Entities;
 using Bakana.ServiceModels.Batches;
 using Bakana.ServiceModels.Commands;
 using Bakana.ServiceModels.Steps;
 using ServiceStack;
-using Command = Bakana.ServiceModels.Command;
-using Option = Bakana.ServiceModels.Option;
-using Variable = Bakana.ServiceModels.Variable;
+using Command = Bakana.DomainModels.Command;
+using Option = Bakana.DomainModels.Option;
+using Variable = Bakana.DomainModels.Variable;
 
 namespace Bakana.TestData
 {

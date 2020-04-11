@@ -4,6 +4,7 @@ using Bakana.Core.Entities;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface.Commands;
 using Bakana.ServiceModels.Commands;
+using Bakana.TestData.ServiceModels;
 using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
@@ -51,7 +52,7 @@ namespace Bakana.UnitTests.Services.Commands
             commandRepository.DoesCommandExist(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(false);
 
-            var request = TestData.ServiceModels.CreateCommands.Test;
+            var request = CreateCommands.Test;
             request.BatchId = TestBatchId;
 
             // Act
@@ -155,9 +156,9 @@ namespace Bakana.UnitTests.Services.Commands
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.Commands.DotNetRestore, 
+            response.Should().BeEquivalentTo(TestData.DomainModels.Commands.DotNetRestore, 
                 o => o.ExcludingMissingMembers());
-            response.CommandName.Should().Be(TestData.ServiceModels.Commands.DotNetRestore.Name);
+            response.CommandName.Should().Be(TestData.DomainModels.Commands.DotNetRestore.Name);
         }
         
         [Test]
@@ -243,7 +244,7 @@ namespace Bakana.UnitTests.Services.Commands
             var response = await Sut.Get(request);
 
             // Assert
-            response.Commands.Should().BeEquivalentTo(TestData.ServiceModels.Steps.Build.Commands);
+            response.Commands.Should().BeEquivalentTo(TestData.DomainModels.Steps.Build.Commands);
         }
         
         [Test]
@@ -301,7 +302,7 @@ namespace Bakana.UnitTests.Services.Commands
             commandRepository.Update(Arg.Any<Command>())
                 .Returns(true);
 
-            var request = TestData.ServiceModels.UpdateCommands.Deploy;
+            var request = UpdateCommands.Deploy;
             request.BatchId = TestBatchId;
             request.StepName = TestStepName;
 

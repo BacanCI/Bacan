@@ -79,7 +79,7 @@ namespace Bakana.ServiceInterface.Commands
 
             var response = new GetAllCommandOptionResponse
             {
-                Options = command.Options.ConvertTo<List<ServiceModels.Option>>()
+                Options = command.Options.ConvertTo<List<DomainModels.Option>>()
             };
 
             return response;

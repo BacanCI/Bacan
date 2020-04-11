@@ -38,7 +38,7 @@ namespace Bakana.UnitTests.Services.Batches
             // Arrange
             shortIdGenerator.Generate().Returns(TestBatchId);
 
-            var request = TestData.ServiceModels.Batches.FullyPopulated;
+            var request = CreateBatches.FullyPopulated;
 
             // Act
             var response = await Sut.Post(request);
@@ -72,7 +72,7 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.Batches.FullyPopulated);
+            response.Should().BeEquivalentTo(TestData.DomainModels.Batches.FullyPopulated);
         }
         
         [Test]

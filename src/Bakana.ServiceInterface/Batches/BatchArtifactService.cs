@@ -51,7 +51,7 @@ namespace Bakana.ServiceInterface.Batches
             var batchArtifacts = await batchRepository.GetAllBatchArtifacts(request.BatchId);
             var response = new GetAllBatchArtifactResponse
             {
-                Artifacts = batchArtifacts.ConvertTo<List<ServiceModels.BatchArtifact>>()
+                Artifacts = batchArtifacts.ConvertTo<List<DomainModels.BatchArtifact>>()
             };
 
             return response;
@@ -137,7 +137,7 @@ namespace Bakana.ServiceInterface.Batches
 
             var response = new GetAllBatchArtifactOptionResponse
             {
-                Options = batchArtifact.Options.ConvertTo<List<ServiceModels.Option>>()
+                Options = batchArtifact.Options.ConvertTo<List<DomainModels.Option>>()
             };
 
             return response;

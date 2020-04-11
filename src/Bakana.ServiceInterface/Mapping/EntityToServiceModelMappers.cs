@@ -16,18 +16,18 @@ namespace Bakana.ServiceInterface.Mapping
             {
                 var to = from.ConvertTo<GetBatchResponse>(true);
                 to.BatchId = from.Id;
-                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
-                to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
-                to.Artifacts = from.Artifacts.ConvertTo<List<ServiceModels.BatchArtifact>>(true);
-                to.Steps = from.Steps.ConvertTo<List<ServiceModels.Step>>(true);
+                to.Options = from.Options.ConvertTo<List<DomainModels.Option>>(true);
+                to.Variables = from.Variables.ConvertTo<List<DomainModels.Variable>>(true);
+                to.Artifacts = from.Artifacts.ConvertTo<List<DomainModels.BatchArtifact>>(true);
+                to.Steps = from.Steps.ConvertTo<List<DomainModels.Step>>(true);
 
                 return to;
             });
 
             AutoMapping.RegisterConverter((BatchArtifact from) =>
             {
-                var to = from.ConvertTo<ServiceModels.BatchArtifact>(true);
-                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
+                var to = from.ConvertTo<DomainModels.BatchArtifact>(true);
+                to.Options = from.Options.ConvertTo<List<DomainModels.Option>>(true);
 
                 return to;
             });
@@ -36,18 +36,18 @@ namespace Bakana.ServiceInterface.Mapping
             {
                 var to = from.ConvertTo<GetBatchArtifactResponse>(true);
                 to.ArtifactName = from.Name;
-                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
+                to.Options = from.Options.ConvertTo<List<DomainModels.Option>>(true);
 
                 return to;
             });
 
             AutoMapping.RegisterConverter((Step from) =>
             {
-                var to = from.ConvertTo<ServiceModels.Step>(true);
-                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
-                to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
-                to.Artifacts = from.Artifacts.ConvertTo<List<ServiceModels.StepArtifact>>(true);
-                to.Commands = from.Commands.ConvertTo<List<ServiceModels.Command>>(true);
+                var to = from.ConvertTo<DomainModels.Step>(true);
+                to.Options = from.Options.ConvertTo<List<DomainModels.Option>>(true);
+                to.Variables = from.Variables.ConvertTo<List<DomainModels.Variable>>(true);
+                to.Artifacts = from.Artifacts.ConvertTo<List<DomainModels.StepArtifact>>(true);
+                to.Commands = from.Commands.ConvertTo<List<DomainModels.Command>>(true);
 
                 return to;
             });
@@ -56,19 +56,19 @@ namespace Bakana.ServiceInterface.Mapping
             {
                 var to = from.ConvertTo<GetStepResponse>(true);
                 to.StepName = from.Name;
-                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
-                to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
-                to.Artifacts = from.Artifacts.ConvertTo<List<ServiceModels.StepArtifact>>(true);
-                to.Commands = from.Commands.ConvertTo<List<ServiceModels.Command>>(true);
+                to.Options = from.Options.ConvertTo<List<DomainModels.Option>>(true);
+                to.Variables = from.Variables.ConvertTo<List<DomainModels.Variable>>(true);
+                to.Artifacts = from.Artifacts.ConvertTo<List<DomainModels.StepArtifact>>(true);
+                to.Commands = from.Commands.ConvertTo<List<DomainModels.Command>>(true);
 
                 return to;
             });
 
             AutoMapping.RegisterConverter((Command from) =>
             {
-                var to = from.ConvertTo<ServiceModels.Command>(true);
-                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
-                to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
+                var to = from.ConvertTo<DomainModels.Command>(true);
+                to.Options = from.Options.ConvertTo<List<DomainModels.Option>>(true);
+                to.Variables = from.Variables.ConvertTo<List<DomainModels.Variable>>(true);
 
                 return to;
             });
@@ -77,8 +77,8 @@ namespace Bakana.ServiceInterface.Mapping
             {
                 var to = from.ConvertTo<GetCommandResponse>(true);
                 to.CommandName = from.Name;
-                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
-                to.Variables = from.Variables.ConvertTo<List<ServiceModels.Variable>>(true);
+                to.Options = from.Options.ConvertTo<List<DomainModels.Option>>(true);
+                to.Variables = from.Variables.ConvertTo<List<DomainModels.Variable>>(true);
 
                 return to;
             });
@@ -87,7 +87,7 @@ namespace Bakana.ServiceInterface.Mapping
             {
                 var to = from.ConvertTo<GetStepArtifactResponse>(true);
                 to.ArtifactName = from.Name;
-                to.Options = from.Options.ConvertTo<List<ServiceModels.Option>>(true);
+                to.Options = from.Options.ConvertTo<List<DomainModels.Option>>(true);
 
                 return to;
             });

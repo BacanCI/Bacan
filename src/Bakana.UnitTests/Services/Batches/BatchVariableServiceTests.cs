@@ -104,9 +104,9 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Should().BeEquivalentTo(TestData.ServiceModels.BatchVariables.Schedule, 
+            response.Should().BeEquivalentTo(TestData.DomainModels.BatchVariables.Schedule, 
                 o => o.ExcludingMissingMembers());
-            response.VariableName.Should().Be(TestData.ServiceModels.BatchVariables.Schedule.Name);
+            response.VariableName.Should().Be(TestData.DomainModels.BatchVariables.Schedule.Name);
         }
         
         [Test]
@@ -164,7 +164,7 @@ namespace Bakana.UnitTests.Services.Batches
             var response = await Sut.Get(request);
 
             // Assert
-            response.Variables.Should().BeEquivalentTo(TestData.ServiceModels.Batches.FullyPopulated.Variables);
+            response.Variables.Should().BeEquivalentTo(TestData.DomainModels.Batches.FullyPopulated.Variables);
         }
         
         [Test]

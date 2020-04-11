@@ -55,7 +55,7 @@ namespace Bakana.ServiceInterface.Steps
 
             return new GetAllStepsResponse
             {
-                Steps = steps.ConvertTo<List<ServiceModels.Step>>()
+                Steps = steps.ConvertTo<List<DomainModels.Step>>()
             };
         }
 

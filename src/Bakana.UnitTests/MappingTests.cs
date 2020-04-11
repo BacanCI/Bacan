@@ -26,7 +26,7 @@ namespace Bakana.UnitTests
         public void It_Should_Map_CreateBatchRequest_To_Batch()
         {
             // Arrange
-            var fullyPopulatedRequest = TestData.ServiceModels.Batches.FullyPopulated;
+            var fullyPopulatedRequest = TestData.ServiceModels.CreateBatches.FullyPopulated;
             
             // Act
             var mappedBatch = fullyPopulatedRequest.ConvertTo<Batch>();

@@ -1,5 +1,4 @@
-using System.Threading.Tasks;
-using Bakana.Core.Entities;
+using Bakana.DomainModels;
 
 namespace Bakana.Core.IO
 {

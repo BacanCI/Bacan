@@ -1,4 +1,4 @@
-using Bakana.Core.Entities;
+using Bakana.DomainModels;
 
 namespace Bakana.Core.IO
 {

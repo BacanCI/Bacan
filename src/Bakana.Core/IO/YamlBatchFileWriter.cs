@@ -1,6 +1,6 @@
 using System;
 using System.IO.Abstractions;
-using Bakana.Core.Entities;
+using Bakana.DomainModels;
 using YamlDotNet.Serialization;
 
 namespace Bakana.Core.IO

@@ -13,4 +13,8 @@
         <PackageReference Include="YamlDotNet" Version="8.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Bakana.DomainModels\Bakana.DomainModels.csproj" />
+    </ItemGroup>
+
 </Project>

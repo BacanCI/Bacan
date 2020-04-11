@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bakana.Loader\Bakana.Loader.csproj" />
+    <ProjectReference Include="..\Bakana.Core\Bakana.Core.csproj" />
   </ItemGroup>
 
 </Project>

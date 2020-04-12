@@ -1,4 +1,4 @@
-namespace Bakana
+namespace Bakana.Options
 {
     public enum BatchFileFormat
     {

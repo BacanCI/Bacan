@@ -5,16 +5,12 @@ namespace Bakana.Operations
 {
     public class Set : OperationBase<SetOptions>
     {
-        public Set(SetOptions options) : base(options)
-        {
-        }
-
-        protected override Task Validate(SetOptions options)
+        protected override Task Validate()
         {
             return Task.CompletedTask;
         }
 
-        protected override Task<int> Run(SetOptions options)
+        protected override Task<int> Run()
         {
             return Task.FromResult(10);
         }

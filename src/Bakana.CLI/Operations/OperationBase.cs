@@ -2,23 +2,19 @@ using System.Threading.Tasks;
 
 namespace Bakana.Operations
 {
-    public abstract class OperationBase<T> : IOperation
+    public abstract class OperationBase<T> : IOperation<T>
     {
-        protected T Options { get; }
-
-        protected OperationBase(T options)
+        protected T Options { get; private set; }
+        
+        public async Task<int> Run(T options)
         {
             Options = options;
-        }
-        
-        public async Task<int> Run()
-        {
-            await Validate(Options);
-            return await Run(Options);
+            await Validate();
+            return await Run();
         }
 
-        protected abstract Task Validate(T options);
+        protected abstract Task Validate();
 
-        protected abstract Task<int> Run(T options);
+        protected abstract Task<int> Run();
     }
 }

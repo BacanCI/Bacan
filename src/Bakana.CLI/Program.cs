@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Bakana.Operations;
-using Bakana.Options;
-using CommandLine;
-using CommandLine.Text;
+using Autofac;
+using Bakana.AutofacModules;
 
 namespace Bakana
 {
@@ -22,43 +19,24 @@ namespace Bakana
                 "def.zip"
             };
 
-            var result = await Parser.Default
-                .ParseArguments<InitOptions, InfoOptions, SetOptions, LoadOptions, BatchOptions, ProducerOptions, WorkerOptions>(args)
-                .MapResult(
-                    (InitOptions options) => new Init(options).Run(), 
-                    (InfoOptions options) => new Info(options).Run(), 
-                    (SetOptions options) => new Set(options).Run(),
-                    (LoadOptions options) => new Load(options).Run(),
-                    (BatchOptions options) => new Batch(options).Run(),
-                    (ProducerOptions options) => new Producer(options).Run(),
-                    (WorkerOptions options) => new Worker(options).Run(),
-                    errs => Task.FromResult(1));
+            using var container = GetContainer();
+            var runner = container.Resolve<IConsoleRunner>();
+                
+            var result = await runner.Run(args); 
 
             Environment.ExitCode = result;
         }
-    }
 
-    public static class CmdLineExtensions
-    {
-        public static ParserResult<T> ThrowOnParseError<T>(this ParserResult<T> result)
+        private static IContainer GetContainer()
         {
-            if (!(result is NotParsed<T>))
-            {
-                // Case with no errors needs to be detected explicitly, otherwise the .Select line will throw an InvalidCastException
-                return result;
-            }
+            var builder = new ContainerBuilder();
 
-            var builder = SentenceBuilder.Create();
-            var errorMessages = HelpText.RenderParsingErrorsTextAsLines(result, builder.FormatError, builder.FormatMutuallyExclusiveSetErrors, 1);
+            builder.RegisterModule<OperationsModule>();
 
-            var excList = errorMessages.Select(msg => new ArgumentException(msg)).ToList();
+            builder.RegisterType<ConsoleRunner>()
+                .AsImplementedInterfaces();
 
-            if (excList.Any())
-            {
-                throw new AggregateException(excList);
-            }
-
-            return result;
-        }        
+            return builder.Build();
+        }
     }
 }

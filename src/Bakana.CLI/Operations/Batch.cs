@@ -5,16 +5,12 @@ namespace Bakana.Operations
 {
     public class Batch : OperationBase<BatchOptions>
     {
-        public Batch(BatchOptions options) : base(options)
-        {
-        }
-
-        protected override Task Validate(BatchOptions options)
+        protected override Task Validate()
         {
             return Task.CompletedTask;
         }
 
-        protected override Task<int> Run(BatchOptions options)
+        protected override Task<int> Run()
         {
             return Task.FromResult(10);
         }

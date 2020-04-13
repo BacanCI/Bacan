@@ -5,16 +5,12 @@ namespace Bakana.Operations
 {
     public class Worker : OperationBase<WorkerOptions>
     {
-        public Worker(WorkerOptions options) : base(options)
-        {
-        }
-
-        protected override Task Validate(WorkerOptions options)
+        protected override Task Validate()
         {
             return Task.CompletedTask;
         }
 
-        protected override Task<int> Run(WorkerOptions options)
+        protected override Task<int> Run()
         {
             return Task.FromResult(10);
         }

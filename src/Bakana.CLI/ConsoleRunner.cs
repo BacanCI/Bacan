@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Bakana.Operations;
 using Bakana.Options;
@@ -8,6 +10,7 @@ namespace Bakana
     public interface IConsoleRunner
     {
         Task<int> Run(string[] args);
+        IList<Error> Errors { get; }
     }
 
     public class ConsoleRunner : IConsoleRunner
@@ -31,9 +34,15 @@ namespace Bakana
                     (BatchOptions options) => operationFactory.Create<BatchOptions>().Run(options),
                     (ProducerOptions options) => operationFactory.Create<ProducerOptions>().Run(options),
                     (WorkerOptions options) => operationFactory.Create<WorkerOptions>().Run(options),
-                    errs => Task.FromResult(1));
+                    errs =>
+                    {
+                        Errors = errs.ToList();
+                        return Task.FromResult(ExitCodes.InvalidArguments);
+                    });
 
             return result;
         }
+
+        public IList<Error> Errors { get; private set; }
     }
 }

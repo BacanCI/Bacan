@@ -1,11 +1,13 @@
 using Bakana.Core;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface.Mapping;
+using Bakana.ServiceInterface.Validators;
 using Funq;
 using NUnit.Framework;
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using ServiceStack.Validation;
 
 namespace Bakana.IntegrationTests.Services
 {
@@ -50,8 +52,10 @@ namespace Bakana.IntegrationTests.Services
                 container.AddSingleton<IBatchRepository, BatchRepository>();
                 container.AddSingleton<IStepRepository, StepRepository>();
                 container.AddSingleton<ICommandRepository, CommandRepository>();
+
+                container.RegisterValidators(typeof(CreateBatchArtifactOptionRequestValidator).Assembly);
             }
-            
+
             public override void OnAfterInit()
             {
                 base.OnAfterInit();

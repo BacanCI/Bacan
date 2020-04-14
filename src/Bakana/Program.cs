@@ -1,16 +1,18 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Bakana.Core;
 using Bakana.Core.Repositories;
 using Bakana.ServiceInterface.Batches;
 using Bakana.ServiceInterface.Mapping;
+using Bakana.ServiceInterface.Validators;
 using Funq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
 using ServiceStack.Api.OpenApi;
+using ServiceStack.Validation;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Bakana
 {
@@ -58,6 +60,9 @@ namespace Bakana
 
         public override void Configure(Container container)
         {
+            container.RegisterValidators(typeof(CreateBatchArtifactOptionRequestValidator).Assembly);
+
+            Plugins.Add(new ValidationFeature());
             Plugins.Add(new OpenApiFeature());
         }
 

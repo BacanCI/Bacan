@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bakana.Core.Entities;
 using Bakana.Core.Validators;
 using FluentAssertions;
+using FluentValidation;
+using FluentValidation.Results;
 using FluentValidation.TestHelper;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Bakana.UnitTests.Validators
@@ -15,7 +19,9 @@ namespace Bakana.UnitTests.Validators
         [SetUp]
         public void SetUp()
         {
-            _stepsValidator = new StepsValidator();
+            var fn = Substitute.For<Func<StepValidatorContext, IValidator<Step>>>();
+            fn(Arg.Any<StepValidatorContext>()).Validate(Arg.Any<ValidationContext>()).Returns(new ValidationResult());
+            _stepsValidator = new StepsValidator(fn);
         }
 
         [Test]

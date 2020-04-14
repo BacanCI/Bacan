@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bakana.Core.Entities;
 using FluentValidation;
@@ -7,9 +8,18 @@ namespace Bakana.Core.Validators
 {
     public class StepsValidator : AbstractValidator<IList<Step>>
     {
-        public StepsValidator()
+        public StepsValidator(Func<StepValidatorContext, IValidator<Step>> stepValidatorFn)
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
+            RuleForEach(steps => steps)
+                .SetValidator(c =>
+                {
+                    var context = new StepValidatorContext
+                    {
+                        StepIds = c.Select(x => x.Name).ToList()
+                    };
+                    return stepValidatorFn(context);
+                });
 
             RuleFor(steps => steps)
                 .Custom((steps, context) =>

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Bakana.Core.Entities;
 using Bakana.Core.Validators;
+using FluentValidation;
 using FluentValidation.TestHelper;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Bakana.UnitTests.Validators
@@ -14,7 +16,8 @@ namespace Bakana.UnitTests.Validators
         [SetUp]
         public void SetUp()
         {
-            _batchValidator = new BatchValidator();
+            var stepsValidator = Substitute.For<IValidator<IList<Step>>>();
+            _batchValidator = new BatchValidator(stepsValidator);
         }
 
         [Test]

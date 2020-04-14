@@ -5,16 +5,12 @@ namespace Bakana.Operations
 {
     public class Producer : OperationBase<ProducerOptions>
     {
-        public Producer(ProducerOptions options) : base(options)
-        {
-        }
-
-        protected override Task Validate(ProducerOptions options)
+        protected override Task Validate()
         {
             return Task.CompletedTask;
         }
 
-        protected override Task<int> Run(ProducerOptions options)
+        protected override Task<int> Run()
         {
             return Task.FromResult(10);
         }

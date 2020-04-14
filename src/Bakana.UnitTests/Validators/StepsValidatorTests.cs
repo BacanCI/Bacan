@@ -77,5 +77,37 @@ namespace Bakana.UnitTests.Validators
 
             result.Errors.Should().Contain(e => e.ErrorMessage == "Steps cannot have cyclic dependencies");
         }
+
+        [Test]
+        public void Should_Not_Have_Errors_When_All_Steps_Can_Be_Executed()
+        {
+            var steps = new List<Step>
+            {
+                new Step
+                {
+                    Name = "Step1",
+                    Dependencies = new []{"Step4"}
+                },
+                new Step
+                {
+                    Name = "Step2",
+                    Dependencies = new []{"Step3"}
+                },
+                new Step
+                {
+                    Name = "Step3",
+                    Dependencies = new []{"Step4"}
+                },
+                new Step
+                {
+                    Name = "Step4"
+                }
+
+            };
+
+            var result = _stepsValidator.TestValidate(steps);
+
+            result.Errors.Should().BeNullOrEmpty();
+        }
     }
 }

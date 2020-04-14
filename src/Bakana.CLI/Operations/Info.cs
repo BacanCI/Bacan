@@ -5,16 +5,12 @@ namespace Bakana.Operations
 {
     public class Info : OperationBase<InfoOptions>
     {
-        public Info(InfoOptions options) : base(options)
-        {
-        }
-
-        protected override Task Validate(InfoOptions options)
+        protected override Task Validate()
         {
             return Task.CompletedTask;
         }
 
-        protected override Task<int> Run(InfoOptions options)
+        protected override Task<int> Run()
         {
             return Task.FromResult(10);
         }

@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Bakana.CLI\Bakana.CLI.csproj" />
       <ProjectReference Include="..\Bakana.Core\Bakana.Core.csproj" />
       <ProjectReference Include="..\Bakana.ServiceInterface\Bakana.ServiceInterface.csproj" />
       <ProjectReference Include="..\Bakana.ServiceModels\Bakana.ServiceModels.csproj" />
@@ -12,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Autofac" Version="4.9.4" />
         <PackageReference Include="FluentAssertions" Version="5.10.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
         <PackageReference Include="NSubstitute" Version="4.2.1" />

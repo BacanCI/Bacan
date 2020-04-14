@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 
 namespace Bakana.Operations
 {
-    public interface IOperation
+    public interface IOperation<T>
     {
-        Task<int> Run();
+        Task<int> Run(T options);
     }
 }

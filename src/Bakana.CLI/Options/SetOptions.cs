@@ -2,7 +2,7 @@ using CommandLine;
 
 namespace Bakana.Options
 {
-    [Verb("set", Hidden = true, HelpText = "Sets Bakana settings")]
+    [Verb("set", HelpText = "Sets Bakana settings")]
     public class SetOptions
     {
         [Value(0, MetaName = "Settings key",

@@ -2,7 +2,7 @@ using CommandLine;
 
 namespace Bakana.Options
 {
-    [Verb("load", Hidden = true, HelpText = "Loads a batch file")]
+    [Verb("load", HelpText = "Loads a batch file")]
     public class LoadOptions
     {
         [Value(0, MetaName = "Batch filename",

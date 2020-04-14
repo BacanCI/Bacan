@@ -10,6 +10,7 @@ namespace Bakana.UnitTests.Operations.Arguments
     {
         protected IContainer Container { get; private set; }
         protected MockOperation<T> MockOperation { get; private set; }
+        protected IConsoleRunner Runner { get; private set; }
         
         protected static string[] GetArgs(string cliArguments)
         {
@@ -20,9 +21,7 @@ namespace Bakana.UnitTests.Operations.Arguments
         {
             var args = GetArgs(cliArguments);
 
-            var runner = Container.Resolve<IConsoleRunner>();
-
-            var result = await runner.Run(args);
+            var result = await Runner.Run(args);
             
             result.Should().Be(expectedExitCode);
 
@@ -44,6 +43,7 @@ namespace Bakana.UnitTests.Operations.Arguments
             Container = builder.Build();
 
             MockOperation = Container.Resolve<MockOperation<T>>();
+            Runner = Container.Resolve<IConsoleRunner>();
         }
 
         [TearDown]

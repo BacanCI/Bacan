@@ -2,7 +2,7 @@ using CommandLine;
 
 namespace Bakana.Options
 {
-    [Verb("worker", Hidden = true, HelpText = "Performs operations on the Worker")]
+    [Verb("worker", HelpText = "Performs operations on the Worker")]
     public class WorkerOptions
     {
         [Value(0, MetaName = "Operation",

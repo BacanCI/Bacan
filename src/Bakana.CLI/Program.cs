@@ -9,15 +9,15 @@ namespace Bakana
     {
         static async Task Main(string[] args)
         {
-            args = new[]
-            {
-                "batch",
-                "123",
-                "Upload",
-                "abc.zip",
-                "--name",
-                "def.zip"
-            };
+            // args = new[]
+            // {
+            //     "batch",
+            //     "123",
+            //     "Upload",
+            //     "abc.zip",
+            //     "--name",
+            //     "def.zip"
+            // };
 
             using var container = GetContainer();
             var runner = container.Resolve<IConsoleRunner>();

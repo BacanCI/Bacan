@@ -2,7 +2,7 @@ using CommandLine;
 
 namespace Bakana.Options
 {
-    [Verb("batch", Hidden = true, HelpText = "Performs operations on the batch")]
+    [Verb("batch", HelpText = "Performs operations on the batch")]
     public class BatchOptions
     {
         [Value(0, MetaName = "Batch id",

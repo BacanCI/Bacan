@@ -25,6 +25,14 @@ namespace Bakana.Options
 
         [Option('p', "path",
             HelpText = "Full download path")]
-        public string Path { get; set; }    
+        public string Path { get; set; }
+        
+        [Option('i', "includeFilter",
+            HelpText = "Comma separated list of tags names to determine list of tagged steps to include")]
+        public string IncludeFilter { get; set; }    
+
+        [Option('e', "excludeFilter",
+            HelpText = "Comma separated list of tags names to determine list of tagged steps to exclude")]
+        public string ExcludeFilter { get; set; }    
     }
 }

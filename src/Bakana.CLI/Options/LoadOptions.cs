@@ -20,6 +20,14 @@ namespace Bakana.Options
         
         [Option('t', "track",
             HelpText = "Tracks and waits for batch completion. Should be combined with 's|start")]
-        public bool Track { get; set; }    
+        public bool Track { get; set; }
+        
+        [Option('i', "includeFilter",
+            HelpText = "Comma separated list of tags names to determine list of tagged steps to include. Should be combined with 's|start'")]
+        public string IncludeFilter { get; set; }    
+
+        [Option('e', "excludeFilter",
+            HelpText = "Comma separated list of tags names to determine list of tagged steps to exclude. Should be combined with 's|start'")]
+        public string ExcludeFilter { get; set; }    
     }
 }

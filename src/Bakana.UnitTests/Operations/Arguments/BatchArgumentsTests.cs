@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Autofac;
 using Bakana.Options;
 using CommandLine;
 using FluentAssertions;
@@ -29,6 +28,15 @@ namespace Bakana.UnitTests.Operations.Arguments
                     Operation = BatchOperation.Upload,
                 }
             },
+            new object[] { "batch 123 Upload abc.zip -n def.zip", ExitCodes.Success, 
+                new BatchOptions
+                {
+                    BatchId = "123",
+                    Operation = BatchOperation.Upload,
+                    FileName = "abc.zip",
+                    Name = "def.zip"
+                }
+            },
             new object[] { "batch 123 Upload abc.zip --name def.zip", ExitCodes.Success, 
                 new BatchOptions
                 {
@@ -45,6 +53,15 @@ namespace Bakana.UnitTests.Operations.Arguments
                     Operation = BatchOperation.Download,
                 }
             },
+            new object[] { @"batch 123 download def.zip -p c:\temp\ghi.zip", ExitCodes.Success, 
+                new BatchOptions
+                {
+                    BatchId = "123",
+                    Operation = BatchOperation.Download,
+                    FileName = "def.zip",
+                    Path = @"c:\temp\ghi.zip"
+                }
+            },
             new object[] { @"batch 123 download def.zip --path c:\temp\ghi.zip", ExitCodes.Success, 
                 new BatchOptions
                 {
@@ -52,6 +69,38 @@ namespace Bakana.UnitTests.Operations.Arguments
                     Operation = BatchOperation.Download,
                     FileName = "def.zip",
                     Path = @"c:\temp\ghi.zip"
+                }
+            },
+            new object[] { "batch 123 start -i A,B,C", ExitCodes.Success, 
+                new BatchOptions
+                {
+                    BatchId = "123",
+                    Operation = BatchOperation.Start,
+                    IncludeFilter = "A,B,C"
+                }
+            },
+            new object[] { "batch 123 start --includeFilter A,B,C", ExitCodes.Success, 
+                new BatchOptions
+                {
+                    BatchId = "123",
+                    Operation = BatchOperation.Start,
+                    IncludeFilter = "A,B,C"
+                }
+            },
+            new object[] { "batch 123 start -e D,E,F", ExitCodes.Success, 
+                new BatchOptions
+                {
+                    BatchId = "123",
+                    Operation = BatchOperation.Start,
+                    ExcludeFilter = "D,E,F"
+                }
+            },
+            new object[] { "batch 123 start --excludeFilter D,E,F", ExitCodes.Success, 
+                new BatchOptions
+                {
+                    BatchId = "123",
+                    Operation = BatchOperation.Start,
+                    ExcludeFilter = "D,E,F"
                 }
             },
             new object[] { @"batch 123 cancel", ExitCodes.Success, 

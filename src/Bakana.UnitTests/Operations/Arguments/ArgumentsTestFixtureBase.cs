@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Autofac;
 using Bakana.Operations;
@@ -25,7 +26,14 @@ namespace Bakana.UnitTests.Operations.Arguments
             
             result.Should().Be(expectedExitCode);
 
-            MockOperation.Options.Should().BeEquivalentTo(expectedOptions);
+            try
+            {
+                MockOperation.Options.Should().BeEquivalentTo(expectedOptions, o => o);
+            }
+            catch (InvalidOperationException e) // HACK: Equivalency check doesn't tolerate empty objects
+            {
+                if (!e.Message.Contains("No members were found for comparison")) throw;
+            }
         }
 
         [SetUp]

@@ -13,12 +13,15 @@ using ServiceStack.Validation;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Autofac;
+using Bakana.AutofacModules;
+using IContainer = Autofac.IContainer;
 
 namespace Bakana
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
@@ -26,8 +29,32 @@ namespace Bakana
                 .UseModularStartup<Startup>()
                 .UseUrls(Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? "http://localhost:5000/")
                 .Build();
+            
+            await host.StartAsync();
+            
+            Console.WriteLine("Press Enter");
+            Console.ReadLine();
 
-            host.Run();
+            using var container = GetContainer();
+            var runner = container.Resolve<IConsoleRunner>();
+                
+            var result = await runner.Run(args); 
+            
+            Environment.ExitCode = result;
+            
+            await host.StopAsync();
+        }
+        
+        private static IContainer GetContainer()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<OperationsModule>();
+
+            builder.RegisterType<ConsoleRunner>()
+                .AsImplementedInterfaces();
+
+            return builder.Build();
         }
     }
 

@@ -12,6 +12,7 @@ namespace Bakana.Operations
 
         protected override Task<int> Run()
         {
+            var options = this.Options;
             return Task.FromResult(10);
         }
     }

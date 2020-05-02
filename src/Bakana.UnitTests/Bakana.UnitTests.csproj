@@ -5,9 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Bakana.CLI\Bakana.CLI.csproj" />
-      <ProjectReference Include="..\Bakana.Core\Bakana.Core.csproj" />
-      <ProjectReference Include="..\Bakana.ServiceInterface\Bakana.ServiceInterface.csproj" />
+      <ProjectReference Include="..\Bakana\Bakana.csproj" />
       <ProjectReference Include="..\Bakana.ServiceModels\Bakana.ServiceModels.csproj" />
       <ProjectReference Include="..\Bakana.TestData\Bakana.TestData.csproj" />
     </ItemGroup>

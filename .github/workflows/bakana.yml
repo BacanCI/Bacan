@@ -29,6 +29,6 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
       working-directory: ./src
     - name: Nuget Pack Bakana
-      run: dotnet pack ./src/BakanaBakana.csproj --output nuget-packages --configuration Release
+      run: dotnet pack ./src/Bakana/Bakana.csproj --output nuget-packages --configuration Release
     - name: Publish Bakana to Nuget
       run: dotnet nuget push ./nuget-packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
